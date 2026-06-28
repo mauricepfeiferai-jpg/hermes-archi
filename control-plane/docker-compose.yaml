@@ -1,0 +1,97 @@
+# Pfeifer Core4 — local dev orchestration
+# Brings up Hermes, Jarvis, OpenClaw-adapter and Harvey.
+# Ollama is expected to run on the host (port 11434).
+
+version: "3.9"
+
+x-common: &common
+  image: python:3.11-slim
+  working_dir: /app
+  volumes:
+    - ./:/app/control-plane
+    - ./..:/app/repo
+    - hermes-data:/var/lib/hermes
+    - jarvis-data:/var/lib/jarvis
+    - harvey-usage:/root/.openclaw/legal_usage
+  env_file:
+    - .env
+  environment:
+    OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+    PYTHONUNBUFFERED: "1"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+services:
+  hermes:
+    <<: *common
+    container_name: pfeifer-hermes
+    command: >
+      bash -c "
+        pip install --quiet -r control-plane/requirements.txt &&
+        python control-plane/hermes/runtime/main.py
+      "
+    ports:
+      - "127.0.0.1:18790:18790"
+    environment:
+      HERMES_PORT: "18790"
+      HERMES_KG_DB: /var/lib/hermes/knowledge_graph.db
+
+  openclaw:
+    <<: *common
+    container_name: pfeifer-openclaw
+    depends_on:
+      - hermes
+    command: >
+      bash -c "
+        pip install --quiet -r control-plane/requirements.txt &&
+        python control-plane/openclaw/runtime/main.py
+      "
+    ports:
+      - "127.0.0.1:18789:18789"
+    environment:
+      OPENCLAW_PORT: "18789"
+      HERMES_URL: http://hermes:18790
+      OPENCLAW_URL: http://openclaw:18789
+      OPENCLAW_CONFIG: /app/repo/.openclaw/openclaw.json
+      OPENCLAW_WORKSPACE: /app/repo/openclaw/workspace/skills
+
+  harvey:
+    <<: *common
+    container_name: pfeifer-harvey
+    depends_on:
+      - hermes
+    command: >
+      bash -c "
+        pip install --quiet -r control-plane/requirements.txt &&
+        python control-plane/harvey/runtime/main.py
+      "
+    ports:
+      - "127.0.0.1:18792:18792"
+    environment:
+      HARVEY_PORT: "18792"
+      HERMES_URL: http://hermes:18790
+      HARVEY_URL: http://harvey:18792
+
+  jarvis:
+    <<: *common
+    container_name: pfeifer-jarvis
+    depends_on:
+      - hermes
+      - openclaw
+      - harvey
+    command: >
+      bash -c "
+        pip install --quiet -r control-plane/requirements.txt &&
+        python control-plane/jarvis/runtime/main.py
+      "
+    ports:
+      - "127.0.0.1:18791:18791"
+    environment:
+      JARVIS_PORT: "18791"
+      HERMES_URL: http://hermes:18790
+      JARVIS_URL: http://jarvis:18791
+
+volumes:
+  hermes-data:
+  jarvis-data:
+  harvey-usage:

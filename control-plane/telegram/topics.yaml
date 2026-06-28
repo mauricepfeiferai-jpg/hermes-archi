@@ -1,0 +1,67 @@
+# Core4 Telegram Forum Topics
+# Set these IDs after creating/renaming topics in the Telegram group.
+# Copy values into integrations/telegram/.env as TELEGRAM_TOPIC_* vars.
+
+topics:
+  - id: null          # fill in after setup
+    env_var: TELEGRAM_TOPIC_JARVIS
+    emoji: "🧠"
+    name: "Jarvis — Personal"
+    agent: jarvis
+    agent_url: "http://127.0.0.1:18791"
+    mode: conversation  # bridges to /chat
+    description: >
+      Personal Chief of Staff. Chat, goals, status, memory.
+      Jarvis classifies intent and delegates to OpenClaw/Harvey via Hermes bus.
+
+  - id: null
+    env_var: TELEGRAM_TOPIC_HERMES
+    emoji: "📡"
+    name: "Hermes — System Status"
+    agent: hermes
+    agent_url: "http://127.0.0.1:18790"
+    mode: auto_only     # silent on user messages; only posts system alerts
+    description: >
+      Auto-only channel. Hermes posts health checks, goal updates, CI alerts.
+      Users can send /status to query bus state; all other messages ignored.
+
+  - id: null
+    env_var: TELEGRAM_TOPIC_OPENCLAW
+    emoji: "🦅"
+    name: "OpenClaw — Execution"
+    agent: openclaw
+    agent_url: "http://127.0.0.1:18789"
+    mode: task          # routes via Hermes /dispatch to openclaw
+    description: >
+      Execution engine. Content creation, code gen, YouTube, browser actions.
+      Messages dispatched to OpenClaw via Hermes bus.
+
+  - id: null
+    env_var: TELEGRAM_TOPIC_HARVEY
+    emoji: "⚖️"
+    name: "Harvey — Legal & Sales"
+    agent: harvey
+    agent_url: "http://127.0.0.1:18792"
+    mode: specialist    # legal review + sales + stripe
+    description: >
+      Legal reviews (PDF/DOCX/TXT), sales pipeline, Stripe events, trading signals.
+      Free tier: 2 reviews. Premium via /subscribe.
+
+# Startup instructions (manual, one-time):
+#
+# 1. Open the Telegram group (Inner Circle Pfeifer Profit Squad)
+# 2. Enable "Topics" in group settings if not already active
+# 3. Create/rename 4 topics:
+#      🧠 Jarvis — Personal
+#      📡 Hermes — System Status
+#      🦅 OpenClaw — Execution
+#      ⚖️ Harvey — Legal & Sales
+# 4. Get each topic's thread ID:
+#      Right-click the topic name → Copy Link → extract the last number
+#      e.g. t.me/c/1234567890/42  → thread_id = 42
+# 5. Set env vars in integrations/telegram/.env:
+#      TELEGRAM_TOPIC_JARVIS=<id>
+#      TELEGRAM_TOPIC_HERMES=<id>
+#      TELEGRAM_TOPIC_OPENCLAW=<id>
+#      TELEGRAM_TOPIC_HARVEY=<id>
+# 6. Restart the bot: npm run bot (or systemd restart)
