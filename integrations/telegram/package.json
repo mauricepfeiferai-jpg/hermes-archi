@@ -1,0 +1,20 @@
+{
+  "name": "hermes-archi-telegram",
+  "version": "1.0.0",
+  "description": "Telegram bot integration (TypeScript)",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/src/bot.js",
+    "dev": "tsx src/bot.ts"
+  },
+  "dependencies": {
+    "axios": "^1.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0"
+  }
+}

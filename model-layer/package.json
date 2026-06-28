@@ -1,0 +1,24 @@
+{
+  "name": "hermes-archi-model-layer",
+  "version": "1.0.0",
+  "description": "Model routing, tool detection, and orchestration layer",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/model_server.js"
+  },
+  "dependencies": {
+    "ai": "^3.4.0",
+    "@ai-sdk/anthropic": "^0.0.50",
+    "@ai-sdk/google": "^0.0.50",
+    "ollama-ai-provider-v2": "^0.1.0",
+    "exa-js": "^1.5.0",
+    "axios": "^1.7.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.0.0"
+  }
+}
