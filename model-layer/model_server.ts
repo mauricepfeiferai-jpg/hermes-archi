@@ -32,11 +32,6 @@ export function getModelForTask(complexity: ModelComplexity = "high"): string {
     return baseModel;
   }
 
-  // Ollama models (local/cloud-proxied) have no cheaper variant — use as-is
-  if (baseModel.startsWith("ollama/") || process.env.OLLAMA_URL) {
-    return baseModel;
-  }
-
   // LOW complexity - automatically downgrade expensive models to cheaper variants
   // If already using a cheap model, keep it
   const downgrades: Record<string, string> = {
@@ -62,6 +57,95 @@ export function getModelForTask(complexity: ModelComplexity = "high"): string {
   return downgrades[baseModel] || baseModel;
 }
 
+/**
+ * Check if the current model supports tool/function calling.
+ * Uses a blocklist for known non-tool models AND runtime detection.
+ * Models accessed via Ollama that are known not to support tools
+ * (e.g. deepseek-r1, reasoning-only models) return false.
+ */
+export function modelSupportsTools(modelName?: string): boolean {
+  const model = modelName || process.env.MODEL || "gpt-4.1-2025-04-14";
+  const ollamaUrl = process.env.OLLAMA_URL;
+
+  // If not using Ollama, all supported providers (OpenAI, Anthropic, Google) support tools
+  if (!ollamaUrl) {
+    return true;
+  }
+
+  // Ollama models that do NOT support tool calling
+  const noToolPatterns = [
+    /deepseek-r1/i,       // DeepSeek R1 reasoning models
+    /deepseek-coder/i,    // DeepSeek Coder (older versions)
+    /phi-2/i,             // Microsoft Phi-2
+    /codellama/i,         // Code Llama
+    /starcoder/i,         // StarCoder
+    /falcon/i,            // Falcon models
+    /orca-mini/i,         // Orca Mini
+    /tinyllama/i,         // TinyLlama
+    /stablelm/i,          // StableLM
+    /vicuna/i,            // Vicuna
+    /wizardcoder/i,       // WizardCoder
+  ];
+
+  return !noToolPatterns.some((pattern) => pattern.test(model));
+}
+
+/**
+ * Check if an error is the "does not support tools" error from Ollama.
+ * This catches ALL models that don't support tools, even ones not in the blocklist.
+ */
+export function isToolsNotSupportedError(error: unknown): boolean {
+  if (!error) return false;
+  const message = error instanceof Error ? error.message : String(error);
+  return message.includes("does not support tools") ||
+    message.includes("does not support tool") ||
+    (message.includes("400") && message.includes("tools"));
+}
+
+/**
+ * Wrapper for generateText that automatically retries without tools
+ * if the model doesn't support tool calling.
+ * Uses both static blocklist check AND runtime error detection.
+ */
+export async function safeGenerateText(options: Parameters<typeof generateText>[0]) {
+  // Pre-check: strip tools if model is known not to support them
+  const modelId = (options.model as any)?.modelId as string | undefined;
+  if (!modelSupportsTools(modelId) && options.tools) {
+    const { tools: _tools, toolChoice: _toolChoice, ...optionsWithoutTools } = options as any;
+    return await generateText(optionsWithoutTools);
+  }
+
+  try {
+    return await generateText(options);
+  } catch (error) {
+    if (isToolsNotSupportedError(error) && options.tools) {
+      logger.warn(`Model does not support tools, retrying without tools: ${error}`);
+      const { tools: _tools, toolChoice: _toolChoice, ...optionsWithoutTools } = options as any;
+      return await generateText(optionsWithoutTools);
+    }
+    throw error;
+  }
+}
+
+/**
+ * Wrapper for streamText that automatically falls back to no-tools mode
+ * if the model doesn't support tool calling.
+ * Extracts the model name from the options to check tool support accurately.
+ */
+export function safeStreamText(options: Parameters<typeof streamText>[0]) {
+  // Extract model name from options for accurate tool support check
+  const modelId = (options.model as any)?.modelId as string | undefined;
+  const supportsTools = modelSupportsTools(modelId);
+
+  // If we already know the model doesn't support tools, skip them
+  if (!supportsTools) {
+    const { tools: _tools, toolChoice: _toolChoice, stopWhen: _stopWhen, ...optionsWithoutTools } = options as any;
+    return streamText(optionsWithoutTools);
+  }
+
+  return streamText(options);
+}
+
 export const getModel = (takeModel?: string) => {
   let model = takeModel;
 
@@ -71,174 +155,45 @@ export const getModel = (takeModel?: string) => {
   const ollamaUrl = process.env.OLLAMA_URL;
   model = model || process.env.MODEL || "gpt-4.1-2025-04-14";
 
-  // Handle ollama/modelname format (used by OpenClaw gateway)
-  if (model.startsWith("ollama/")) {
-    const ollamaModelName = model.slice("ollama/".length);
-    const baseURL = ollamaUrl || "http://localhost:11434";
-    const ollama = createOllama({ baseURL });
-    return ollama(ollamaModelName);
-  }
-
   let modelInstance;
+  let modelTemperature = Number(process.env.MODEL_TEMPERATURE) || 1;
 
-  // Use Ollama when OLLAMA_URL is configured
+  // First check if Ollama URL exists and use Ollama
   if (ollamaUrl) {
-    const ollama = createOllama({ baseURL: ollamaUrl });
-    modelInstance = ollama(model);
-    return modelInstance;
-  }
-
-  // Cloud providers
-  if (model.includes("claude")) {
-    if (!anthropicKey) {
-      throw new Error("No Anthropic API key found. Set ANTHROPIC_API_KEY");
-    }
-    modelInstance = anthropic(model);
-  } else if (model.includes("gemini")) {
-    if (!googleKey) {
-      throw new Error("No Google API key found. Set GOOGLE_GENERATIVE_AI_API_KEY");
-    }
-    modelInstance = google(model);
+    const ollama = createOllama({
+      baseURL: ollamaUrl,
+    });
+    modelInstance = ollama(model || "llama2"); // Default to llama2 if no model specified
   } else {
-    if (!openaiKey) {
-      throw new Error("No OpenAI API key found. Set OPENAI_API_KEY");
+    // If no Ollama, check other models
+
+    if (model.includes("claude")) {
+      if (!anthropicKey) {
+        throw new Error("No Anthropic API key found. Set ANTHROPIC_API_KEY");
+      }
+      modelInstance = anthropic(model);
+      modelTemperature = 0.5;
+    } else if (model.includes("gemini")) {
+      if (!googleKey) {
+        throw new Error("No Google API key found. Set GOOGLE_API_KEY");
+      }
+      modelInstance = google(model);
+    } else {
+      if (!openaiKey) {
+        throw new Error("No OpenAI API key found. Set OPENAI_API_KEY");
+      }
+      modelInstance = openai.responses(model);
     }
-    modelInstance = openai.responses(model);
   }
 
   return modelInstance;
 };
-
-/**
- * Returns the ordered list of models to try: [primary, ...fallbacks].
- * Primary comes from getModelForTask(complexity), fallbacks from MODEL_FALLBACKS env var.
- */
-export function getModelList(complexity: ModelComplexity = "high"): string[] {
-  const primary = getModelForTask(complexity);
-  const fallbacksRaw = process.env.MODEL_FALLBACKS ?? "";
-  const fallbacks = fallbacksRaw
-    .split(",")
-    .map((m) => m.trim())
-    .filter(Boolean);
-  const seen = new Set<string>();
-  return [primary, ...fallbacks].filter((m) => {
-    if (seen.has(m)) return false;
-    seen.add(m);
-    return true;
-  });
-}
-
-/**
- * Safely instantiate a model. Returns null if provider is not configured
- * (missing API key etc.) instead of throwing.
- */
-function tryGetModel(modelName: string): ReturnType<typeof getModel> | null {
-  try {
-    return getModel(modelName);
-  } catch (err) {
-    logger.warn(`[model-rotation] cannot init "${modelName}": ${err}`);
-    return null;
-  }
-}
-
-/**
- * Quick reachability check for Ollama: returns true if the Ollama server
- * responds within 3 seconds. Does NOT check for a specific model name
- * because cloud-proxy models (e.g. glm-4.7:cloud) are always listed
- * even when they require an outbound connection.
- */
-async function isOllamaReachable(baseURL: string): Promise<boolean> {
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3000);
-    const res = await fetch(`${baseURL}/api/tags`, {
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-    return res.ok;
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Resolves the first model from `models` that can actually be used right now:
- * - provider config present (API key / Ollama URL)
- * - for Ollama models: server is reachable (3s timeout)
- * Returns `{ modelName, modelInstance }` or throws if all models are exhausted.
- */
-async function resolveWorkingModel(
-  models: string[],
-  label: string,
-): Promise<{ modelName: string; modelInstance: NonNullable<ReturnType<typeof getModel>> }> {
-  let ollamaReachable: boolean | null = null; // cache the ping result
-
-  for (const modelName of models) {
-    const instance = tryGetModel(modelName);
-    if (!instance) continue;
-
-    if (modelName.startsWith("ollama/")) {
-      const baseURL = process.env.OLLAMA_URL || "http://localhost:11434";
-      if (ollamaReachable === null) {
-        ollamaReachable = await isOllamaReachable(baseURL);
-      }
-      if (!ollamaReachable) {
-        logger.warn(`[model-rotation] Ollama unreachable, skipping "${modelName}"`);
-        continue;
-      }
-    }
-
-    logger.info(`[model-rotation] "${modelName}" selected for ${label}`);
-    return { modelName, modelInstance: instance };
-  }
-
-  throw new Error(
-    `[model-rotation] all models exhausted for ${label}: ${models.join(", ")}`,
-  );
-}
-
-/**
- * Convenience wrapper: resolves the first working model for a given complexity
- * and returns it as a LanguageModel ready for streamText / generateText.
- * Use this instead of bare `getModel()` to benefit from MODEL_FALLBACKS rotation.
- */
-export async function getWorkingModel(
-  complexity: ModelComplexity = "high",
-  label = "call",
-): Promise<{ modelName: string; model: ReturnType<typeof getModel> }> {
-  const models = getModelList(complexity);
-  const { modelName, modelInstance } = await resolveWorkingModel(models, label);
-  return { modelName, model: modelInstance };
-}
 
 export interface TokenUsage {
   promptTokens?: number;
   completionTokens?: number;
   totalTokens?: number;
   cachedInputTokens?: number;
-}
-
-function buildOpenAIProviderOptions(
-  model: string,
-  cacheKey?: string,
-  reasoningEffort?: "low" | "medium" | "high",
-): Record<string, any> {
-  if (!model.includes("gpt")) return {};
-
-  const openaiOptions: OpenAIResponsesProviderOptions = {
-    promptCacheKey: cacheKey || `ingestion-high`,
-  };
-
-  if (model.startsWith("gpt-5")) {
-    if (model.includes("mini")) {
-      openaiOptions.reasoningEffort = "low";
-    } else {
-      openaiOptions.promptCacheRetention = "24h";
-      openaiOptions.reasoningEffort = reasoningEffort ?? "none";
-    }
-  }
-
-  return { providerOptions: { openai: openaiOptions } };
 }
 
 export async function makeModelCall(
@@ -250,23 +205,46 @@ export async function makeModelCall(
   cacheKey?: string,
   reasoningEffort?: "low" | "medium" | "high",
 ) {
-  const models = getModelList(complexity);
+  let model = getModelForTask(complexity);
+  logger.info(`complexity: ${complexity}, model: ${model}`);
 
-  // ── Streaming path ────────────────────────────────────────────────────────
-  // Resolve the first usable model upfront (Ollama ping included), then
-  // hand the stream back. Mid-stream failures cannot be recovered from, but
-  // at least config/connectivity errors are caught before the stream starts.
+  const modelInstance = getModel(model);
+  const generateTextOptions: any = {};
+
+  // Add OpenAI provider options for prompt caching and disable web search
+  if (model.includes("gpt")) {
+    const openaiOptions: OpenAIResponsesProviderOptions = {
+      promptCacheKey: cacheKey || `ingestion-${complexity}`,
+    };
+
+    // 24h retention and reasoning options only available for non-mini gpt-5 models
+    if (model.startsWith("gpt-5")) {
+      if (model.includes("mini")) {
+        openaiOptions.reasoningEffort = "low";
+      } else {
+        openaiOptions.promptCacheRetention = "24h";
+        openaiOptions.reasoningEffort = "none";
+        if (reasoningEffort) {
+          openaiOptions.reasoningEffort = reasoningEffort;
+        }
+      }
+    }
+
+    generateTextOptions.providerOptions = {
+      openai: openaiOptions,
+    };
+  }
+
+  if (!modelInstance) {
+    throw new Error(`Unsupported model type: ${model}`);
+  }
+
   if (stream) {
-    const { modelName, modelInstance } = await resolveWorkingModel(
-      models,
-      `stream/${complexity}`,
-    );
-    const extraOptions = buildOpenAIProviderOptions(modelName, cacheKey, reasoningEffort);
     return streamText({
       model: modelInstance,
       messages,
       ...options,
-      ...extraOptions,
+      ...generateTextOptions,
       onFinish: async ({ text, usage }) => {
         const tokenUsage = usage
           ? {
@@ -275,57 +253,42 @@ export async function makeModelCall(
               totalTokens: usage.totalTokens,
             }
           : undefined;
+
         if (tokenUsage) {
           logger.log(
-            `[${complexity.toUpperCase()}] ${modelName} - Tokens: ${tokenUsage.totalTokens} (prompt: ${tokenUsage.promptTokens}, completion: ${tokenUsage.completionTokens})`,
+            `[${complexity.toUpperCase()}] ${model} - Tokens: ${tokenUsage.totalTokens} (prompt: ${tokenUsage.promptTokens}, completion: ${tokenUsage.completionTokens})`,
           );
         }
-        onFinish(text, modelName, tokenUsage);
+
+        onFinish(text, model, tokenUsage);
       },
     });
   }
 
-  // ── Non-streaming path — full try/catch rotation ──────────────────────────
-  let lastError: unknown;
+  const { text, usage } = await generateText({
+    model: modelInstance,
+    messages,
+    ...generateTextOptions,
+  });
 
-  for (const modelName of models) {
-    const modelInstance = tryGetModel(modelName);
-    if (!modelInstance) continue;
-
-    const extraOptions = buildOpenAIProviderOptions(modelName, cacheKey, reasoningEffort);
-
-    try {
-      logger.info(`[model-rotation] trying "${modelName}" (${complexity})`);
-      const { text, usage } = await generateText({
-        model: modelInstance,
-        messages,
-        ...extraOptions,
-      });
-
-      const tokenUsage = usage
-        ? {
-            promptTokens: usage.inputTokens,
-            completionTokens: usage.outputTokens,
-            totalTokens: usage.totalTokens,
-            cachedInputTokens: usage.cachedInputTokens,
-          }
-        : undefined;
-
-      if (tokenUsage) {
-        logger.log(
-          `[${complexity.toUpperCase()}] ${modelName} - Tokens: ${tokenUsage.totalTokens} (prompt: ${tokenUsage.promptTokens}, completion: ${tokenUsage.completionTokens}, cached: ${tokenUsage.cachedInputTokens})`,
-        );
+  const tokenUsage = usage
+    ? {
+        promptTokens: usage.inputTokens,
+        completionTokens: usage.outputTokens,
+        totalTokens: usage.totalTokens,
+        cachedInputTokens: usage.cachedInputTokens,
       }
+    : undefined;
 
-      onFinish(text, modelName, tokenUsage);
-      return text;
-    } catch (err) {
-      lastError = err;
-      logger.warn(`[model-rotation] "${modelName}" failed: ${err} — trying next`);
-    }
+  if (tokenUsage) {
+    logger.log(
+      `[${complexity.toUpperCase()}] ${model} - Tokens: ${tokenUsage.totalTokens} (prompt: ${tokenUsage.promptTokens}, completion: ${tokenUsage.completionTokens}, cached: ${tokenUsage.cachedInputTokens})`,
+    );
   }
 
-  throw lastError ?? new Error(`All models failed: ${models.join(", ")}`);
+  onFinish(text, model, tokenUsage);
+
+  return text;
 }
 
 /**
@@ -339,66 +302,64 @@ export async function makeStructuredModelCall<T extends z.ZodType>(
   cacheKey?: string,
   temperature?: number,
 ): Promise<{ object: z.infer<T>; usage: TokenUsage | undefined }> {
-  const models = getModelList(complexity);
-  let lastError: unknown;
+  const model = getModelForTask(complexity);
+  logger.info(`[Structured] complexity: ${complexity}, model: ${model}`);
 
-  for (const modelName of models) {
-    const modelInstance = tryGetModel(modelName);
-    if (!modelInstance) continue;
+  const modelInstance = getModel(model);
+  const generateObjectOptions: any = {};
 
-    const generateObjectOptions: any = {};
-    if (temperature !== undefined) {
-      generateObjectOptions.temperature = temperature;
-    }
-
-    if (modelName.includes("gpt")) {
-      const openaiOptions: OpenAIResponsesProviderOptions = {
-        promptCacheKey: cacheKey || `structured-${complexity}`,
-        strictJsonSchema: false,
-      };
-      if (modelName.startsWith("gpt-5")) {
-        if (modelName.includes("mini")) {
-          openaiOptions.reasoningEffort = "low";
-        } else {
-          openaiOptions.promptCacheRetention = "24h";
-          openaiOptions.reasoningEffort = "none";
-        }
-      }
-      generateObjectOptions.providerOptions = { openai: openaiOptions };
-    }
-
-    try {
-      logger.info(`[model-rotation] [Structured] trying "${modelName}" (${complexity})`);
-      const { object, usage } = await generateObject({
-        model: modelInstance,
-        schema,
-        messages,
-        ...generateObjectOptions,
-      });
-
-      const tokenUsage = usage
-        ? {
-            promptTokens: usage.inputTokens,
-            completionTokens: usage.outputTokens,
-            totalTokens: usage.totalTokens,
-            cachedInputTokens: usage.cachedInputTokens,
-          }
-        : undefined;
-
-      if (tokenUsage) {
-        logger.log(
-          `[Structured/${complexity.toUpperCase()}] ${modelName} - Tokens: ${tokenUsage.totalTokens} (prompt: ${tokenUsage.promptTokens}, completion: ${tokenUsage.completionTokens}, cached: ${tokenUsage.cachedInputTokens})`,
-        );
-      }
-
-      return { object: object as any, usage: tokenUsage };
-    } catch (err) {
-      lastError = err;
-      logger.warn(`[model-rotation] [Structured] "${modelName}" failed: ${err} — trying next`);
-    }
+  if (temperature !== undefined) {
+    generateObjectOptions.temperature = temperature;
   }
 
-  throw lastError ?? new Error(`All models failed (structured): ${models.join(", ")}`);
+  // Add OpenAI provider options for prompt caching
+  if (model.includes("gpt")) {
+    const openaiOptions: OpenAIResponsesProviderOptions = {
+      promptCacheKey: cacheKey || `structured-${complexity}`,
+      strictJsonSchema: false,
+    };
+
+    if (model.startsWith("gpt-5")) {
+      if (model.includes("mini")) {
+        openaiOptions.reasoningEffort = "low";
+      } else {
+        openaiOptions.promptCacheRetention = "24h";
+        openaiOptions.reasoningEffort = "none";
+      }
+    }
+
+    generateObjectOptions.providerOptions = {
+      openai: openaiOptions,
+    };
+  }
+
+  if (!modelInstance) {
+    throw new Error(`Unsupported model type: ${model}`);
+  }
+
+  const { object, usage } = await generateObject({
+    model: modelInstance,
+    schema,
+    messages,
+    ...generateObjectOptions,
+  });
+
+  const tokenUsage = usage
+    ? {
+        promptTokens: usage.inputTokens,
+        completionTokens: usage.outputTokens,
+        totalTokens: usage.totalTokens,
+        cachedInputTokens: usage.cachedInputTokens,
+      }
+    : undefined;
+
+  if (tokenUsage) {
+    logger.log(
+      `[Structured/${complexity.toUpperCase()}] ${model} - Tokens: ${tokenUsage.totalTokens} (prompt: ${tokenUsage.promptTokens}, completion: ${tokenUsage.completionTokens}, cached: ${tokenUsage.cachedInputTokens})`,
+    );
+  }
+
+  return { object: object as any, usage: tokenUsage };
 }
 
 /**
@@ -411,9 +372,6 @@ export function isProprietaryModel(
 ): boolean {
   const model = modelName || getModelForTask(complexity);
   if (!model) return false;
-
-  // Ollama models (local or cloud-proxied via ollama/) are never proprietary
-  if (model.startsWith("ollama/") || process.env.OLLAMA_URL) return false;
 
   // Proprietary model patterns
   const proprietaryPatterns = [

@@ -14,7 +14,7 @@ import {
 } from "./explorers";
 import { logger } from "../logger.service";
 import { IntegrationLoader } from "~/utils/mcp/integration-loader";
-import { getWorkingModel } from "~/lib/model.server";
+import { getModel, getModelForTask, modelSupportsTools, safeStreamText } from "~/lib/model.server";
 
 export type OrchestratorMode = "read" | "write";
 
@@ -305,14 +305,15 @@ export async function runOrchestrator(
     });
   }
 
-  const { model: modelInstance } = await getWorkingModel("high", "orchestrator");
+  const model = getModelForTask("high");
+  const modelInstance = getModel(model);
+  const supportsTools = modelSupportsTools(model);
 
-  const stream = streamText({
+  const stream = safeStreamText({
     model: modelInstance as LanguageModel,
     system: getOrchestratorPrompt(integrationsList, mode),
     messages: [{ role: "user", content: userMessage }],
-    tools,
-    stopWhen: stepCountIs(10),
+    ...(supportsTools ? { tools, stopWhen: stepCountIs(10) } : {}),
     abortSignal,
   });
 
