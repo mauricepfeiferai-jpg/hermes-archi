@@ -134,7 +134,7 @@ def main():
     args = parser.parse_args()
 
     out_path = Path(args.out)
-    use_hermes = os.environ.get("HERMES_PATH") or os.system("which hermes > /dev/null 2>&1") == 0
+    use_hermes = os.environ.get("HERMES_USE") == "1" or os.environ.get("HERMES_USE") == "true"
 
     if use_hermes:
         hermes_dispatch(args.agent, args.task, out_path, args.date)

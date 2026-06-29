@@ -84,7 +84,8 @@ By default it writes a structured stub output so you can test the system immedia
 To enable real Hermes dispatch:
 
 ```bash
-export HERMES_PATH=/Users/maurice/.local/bin/hermes
+export HERMES_USE=1
+# Optional: export HERMES_PATH=/Users/maurice/.local/bin/hermes
 bash ops/cron/10-writer-content.sh
 ```
 
