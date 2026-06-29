@@ -1,6 +1,8 @@
 # Hermes-Archi
 
 ## Latest Additions (2026-06-29)
+- **docs/gold-nuggets/GOLD_AI_EMPIRE_SHIPPING_MANIFEST_2026-06-29.md** — Ship everything / monetize everything manifest.
+- **products/one-person-ai-agent-company/go-to-market/execution/DASHBOARD.md** — Active shipping sprint dashboard.
 - **products/one-person-ai-agent-company/go-to-market/** — 14-day launch plan, cold outreach templates, lead magnet plan.
 - **products/one-person-ai-agent-company/** — Productized landing page, pricing, sales copy for the viral One-Person AI Agent Company template.
 

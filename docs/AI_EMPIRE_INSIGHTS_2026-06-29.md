@@ -62,3 +62,8 @@ HERMES_TASK_VIDEO_FALLBACK=sora-2
 
 - Marc Lou First-Customer Strategien als Gold Nugget gespeichert.
 - 14-Tage-Launch-Plan, Cold-Outreach-Templates und Lead-Magnet-Plan fuer One-Person AI Agent Company erstellt.
+
+## Shipping Manifest
+
+- Paradigmenwechsel: Ship everything, test everything, monetize everything.
+- Execution Dashboard fuer Sprint 2026-W27 erstellt.
