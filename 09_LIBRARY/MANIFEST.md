@@ -14,3 +14,4 @@
 | 10 | system_prompts_leaks | https://github.com/asgeirtj/system_prompts_leaks.git | TBD | cloned |  11M |
 | 11 | MinerU | https://github.com/opendatalab/MinerU.git | TBD | cloned |  38M |
 | 12 | ai-website-cloner-template | https://github.com/JCodesMore/ai-website-cloner-template.git | TBD | cloned | 2.5M |
+| 13 | herdrA | https://github.com/ogulcancelik/herdrA.git | TBD | cloned | - |
