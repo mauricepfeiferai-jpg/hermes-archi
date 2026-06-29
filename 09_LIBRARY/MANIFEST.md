@@ -16,3 +16,4 @@
 | 12 | ai-website-cloner-template | https://github.com/JCodesMore/ai-website-cloner-template.git | TBD | cloned | 2.5M |
 | 13 | herdrA | https://github.com/ogulcancelik/herdrA.git | TBD | cloned | - |
 | 14 | MoneyPrinterTurbo | https://github.com/harry0703/MoneyPrinterTurbo.git | TBD | cloned | 346M |
+| 15 | last30days-skill | https://github.com/mvanhorn/last30days-skill.git | TBD | cloned |  37M |
