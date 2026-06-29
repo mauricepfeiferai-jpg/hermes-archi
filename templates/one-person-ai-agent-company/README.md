@@ -2,6 +2,14 @@
 
 Run a company with 7 AI agents, 10 cron jobs, and 0 employees.
 
+## Dashboard
+
+Open `dashboard/index.html` in your browser to see the live status of your agent company.
+
+Run `python3 dashboard/generate_data.py` after a cron cycle to populate real output data.
+
+![Dashboard Preview](dashboard/dashboard-preview.png)
+
 ## Structure
 
 ```
@@ -13,7 +21,8 @@ ai-company/
 ├── writer/         # Content engine
 ├── sales/          # Pipeline + outbound
 ├── ops/            # Backups, cron, system health
-└── loop/           # Review / retro / self-improve
+├── loop/           # Review / retro / self-improve
+└── dashboard/      # Visual status UI
 ```
 
 ## Quick Start
@@ -42,7 +51,13 @@ ai-company/
    bash loop/run_loop.sh
    ```
 
-4. Review outputs in `*/outputs/`.
+4. Generate dashboard data:
+   ```bash
+   python3 dashboard/generate_data.py
+   open dashboard/index.html
+   ```
+
+5. Review outputs in `*/outputs/` and the dashboard.
 
 ## Default Schedule
 
@@ -67,6 +82,12 @@ ai-company/
 - Claude Code non-interactive mode
 - Kimi / OpenAI / local model endpoints
 
+## Cost Control
+
+- Stub mode: free, runs instantly, good for testing the loop
+- Hermes mode: uses your configured model; run one script manually before enabling all 10 cron jobs
+- Recommended: keep 06:00–20:30 schedule, review first week of real outputs before scaling
+
 ## Approval Gate
 
 Any destructive or production action must write to `*/outputs/approval_needed_*.md`. Window 1 / human reviews before execution.
@@ -74,31 +95,3 @@ Any destructive or production action must write to `*/outputs/approval_needed_*.
 ## BMA Service Business Variant
 
 See `variants/bma-service-company/` for roles adapted to German fire-safety contractors: project manager, compliance officer, field engineer, customer success.
-
-## Hermes Wiring
-
-The template includes a dispatcher script at `ops/cron/run_agent.py`.
-
-By default it writes a structured stub output so you can test the system immediately without spending API credits.
-
-To enable real Hermes dispatch:
-
-```bash
-export HERMES_USE=1
-# Optional: export HERMES_PATH=/Users/maurice/.local/bin/hermes
-bash ops/cron/10-writer-content.sh
-```
-
-Each cron script passes the agent role, task, date, and output path to `run_agent.py`. The dispatcher calls:
-
-```bash
-hermes --yolo --safe-mode -z "<prompt with full context>"
-```
-
-If Hermes is unavailable or slow, the dispatcher falls back to the stub.
-
-## Cost Control
-
-- Stub mode: free, runs instantly, good for testing the loop
-- Hermes mode: uses your configured model; run one script manually before enabling all 10 cron jobs
-- Recommended: keep 06:00–20:30 schedule, review first week of real outputs before scaling

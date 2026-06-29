@@ -1,0 +1,77 @@
+{
+  "generated_at": "2026-06-29T22:38:04.268111",
+  "agents": [
+    "ceo",
+    "cto",
+    "engineer",
+    "researcher",
+    "writer",
+    "sales",
+    "ops",
+    "loop"
+  ],
+  "outputs": [
+    {
+      "agent": "ceo",
+      "file": "daily_goals_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "ceo/outputs/daily_goals_2026-06-29.md"
+    },
+    {
+      "agent": "cto",
+      "file": "tech_health_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "cto/outputs/tech_health_2026-06-29.md"
+    },
+    {
+      "agent": "engineer",
+      "file": "daily_ship_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "engineer/outputs/daily_ship_2026-06-29.md"
+    },
+    {
+      "agent": "researcher",
+      "file": "daily_brief_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "researcher/outputs/daily_brief_2026-06-29.md"
+    },
+    {
+      "agent": "writer",
+      "file": "daily_content_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "writer/outputs/daily_content_2026-06-29.md"
+    },
+    {
+      "agent": "sales",
+      "file": "pipeline_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "sales/outputs/pipeline_2026-06-29.md"
+    },
+    {
+      "agent": "sales",
+      "file": "outbound_draft_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "sales/outputs/outbound_draft_2026-06-29.md"
+    },
+    {
+      "agent": "ops",
+      "file": "health_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "ops/outputs/health_2026-06-29.md"
+    },
+    {
+      "agent": "loop",
+      "file": "patch_proposal_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "loop/outputs/patch_proposal_2026-06-29.md"
+    },
+    {
+      "agent": "loop",
+      "file": "daily_review_2026-06-29.md",
+      "date": "2026-06-29",
+      "path": "loop/outputs/daily_review_2026-06-29.md"
+    }
+  ],
+  "lessons": 0,
+  "backup": "2026-06-29"
+}

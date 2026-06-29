@@ -1,0 +1,28 @@
+name: Agent Spec
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  spec:
+    if: github.event.label.name == 'ready-to-spec'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run Spec Agent
+        run: |
+          echo "Writing spec for issue ${{ github.event.issue.number }}"
+          # bash ops/cron/13-spec-agent.sh ${{ github.event.issue.number }}
+
+      - name: Commit spec files
+        run: |
+          git config user.name "AI Agent"
+          git config user.email "agent@aiempire.de"
+          git add specs/
+          git diff --cached --quiet || git commit -m "spec: agent spec for issue #${{ github.event.issue.number }}"

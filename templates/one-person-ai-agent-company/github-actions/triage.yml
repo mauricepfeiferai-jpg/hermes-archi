@@ -1,0 +1,28 @@
+name: Agent Triage
+
+on:
+  issues:
+    types: [opened, reopened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run Triage Agent
+        run: |
+          # Placeholder: replace with Hermes / cloud agent invocation
+          echo "Running triage on issue ${{ github.event.issue.number }}"
+          # bash ops/cron/14-triage-agent.sh ${{ github.event.issue.number }}
+
+      - name: Apply label based on output
+        run: |
+          # Placeholder: read label from triage output
+          gh issue edit ${{ github.event.issue.number }} --add-label "needs-info"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

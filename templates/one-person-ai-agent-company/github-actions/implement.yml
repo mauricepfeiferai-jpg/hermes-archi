@@ -1,0 +1,28 @@
+name: Agent Implementation
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  implement:
+    if: github.event.label.name == 'ready-to-implement'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run Implementation Agent
+        run: |
+          echo "Implementing issue ${{ github.event.issue.number }}"
+          # bash ops/cron/15-implement-agent.sh ${{ github.event.issue.number }}
+
+      - name: Create draft PR
+        run: |
+          gh pr create --draft --title "Agent implementation for #${{ github.event.issue.number }}" --body "Automated implementation by AI Agent."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
