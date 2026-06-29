@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>7 AI Agents. 10 Cron Jobs. 0 Employees. | AI Empire</title>
-    <meta name="description" content="Run a one-person company with AI agents. No payroll. No standups. Get the operating system template.">
+    <meta name="description" content="Run a one-person company with AI agents. No payroll. No standups. Includes dashboard UI, YouTube operator, spec-driven cloud factory.">
     <meta property="og:title" content="7 AI Agents. 10 Cron Jobs. 0 Employees.">
-    <meta property="og:description" content="Run a one-person company with AI agents. No payroll. No standups.">
+    <meta property="og:description" content="Run a one-person company with AI agents. Dashboard UI, YouTube operator, spec-driven cloud factory included.">
     <meta property="og:image" content="https://coruscating-daffodil-e6bc5f.netlify.app/assets/og-image.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
-        .container { max-width: 680px; margin: 0 auto; padding: 60px 20px; }
+        .container { max-width: 720px; margin: 0 auto; padding: 60px 20px; }
         h1 { font-size: 48px; line-height: 1.1; margin-bottom: 20px; font-weight: 800; }
         h2 { font-size: 28px; margin: 50px 0 20px; font-weight: 700; }
         .subhead { font-size: 20px; color: #aaa; margin-bottom: 40px; }
         .btn { display: inline-block; background: #00d4ff; color: #000; padding: 18px 40px; font-size: 18px; font-weight: 700; text-decoration: none; border-radius: 8px; margin: 20px 0; }
         .btn:hover { background: #33ddff; }
+        .btn-outline { display: inline-block; border: 1px solid #00d4ff; color: #00d4ff; padding: 14px 28px; font-size: 14px; font-weight: 700; text-decoration: none; border-radius: 8px; margin: 10px 0; }
         .price { font-size: 48px; font-weight: 800; color: #00d4ff; margin: 30px 0 10px; }
         .pricing-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
         .pricing-table td, .pricing-table th { padding: 16px; border: 1px solid #333; text-align: left; }
@@ -31,6 +32,7 @@
         .comparison { width: 100%; border-collapse: collapse; margin: 30px 0; }
         .comparison td, .comparison th { padding: 14px; border: 1px solid #333; text-align: left; }
         .comparison th { background: #111; }
+        .screenshot { width: 100%; border-radius: 12px; border: 1px solid #222; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -39,21 +41,31 @@
         
         <h1>7 AI Agents. 10 Cron Jobs. 0 Employees.</h1>
         <p class="subhead">Run a one-person company where every role is a folder, every job is a markdown file, and every agent reviews, retros, and self-improves in the loop.</p>
+        
         <a href="https://mauricepfeifer6.gumroad.com/l/one-person-ai-agent-company" class="btn">Get the Template — $149</a>
         
         <h2>The Problem</h2>
         <p>Solo founders and small service businesses drown in operational work before they can scale. They hire too early, burn cash, or give up before product-market fit.</p>
         
+        
+        <blockquote style="border-left: 4px solid #00d4ff; padding-left: 20px; margin: 40px 0; color: #ccc; font-style: italic;">
+            "By 2026 the engineer who dismisses LLMs loses to the junior who configured one right."
+            <br><span style="color: #888; font-size: 14px; font-style: normal;">— Dario Amodei, CEO Anthropic</span>
+        </blockquote>
+
         <h2>The Solution</h2>
         <p>The <strong>One-Person AI Agent Company Template</strong> gives you the operating system to run a full company alone:</p>
         <ul>
-            <li><span class="check">✓</span> 7 role folders with pre-written agent job descriptions</li>
-            <li><span class="check">✓</span> 10 cron job templates for daily, weekly, monthly rhythms</li>
+            <li><span class="check">✓</span> 7 agent roles with full job descriptions</li>
+            <li><span class="check">✓</span> 10 executable cron scripts with crontab</li>
             <li><span class="check">✓</span> Review / retro / self-improve loop templates</li>
-            <li><span class="check">✓</span> Hermes skill wiring — plug into the runtime in one command</li>
+            <li><span class="check">✓</span> Hermes skill wiring via dispatcher script</li>
             <li><span class="check">✓</span> BMA service-business variant for German contractors</li>
+            <li><span class="check">✓</span> <strong>NEW:</strong> Dashboard UI with agent status + outputs</li>
+            <li><span class="check">✓</span> <strong>NEW:</span> YouTube Operator Agent with full prompt system</li>
+            <li><span class="check">✓</span> <strong>NEW:</span> Spec Agent + Triage/Implement GitHub Actions</li>
         </ul>
-        
+
         <div class="folder">
 ai-company/<br>
 ├── ceo/<br>
@@ -63,14 +75,21 @@ ai-company/<br>
 ├── writer/<br>
 ├── sales/<br>
 ├── ops/<br>
-└── loop/
+├── loop/<br>
+├── spec_agent/<br>
+├── youtube_operator/<br>
+└── dashboard/
         </div>
-        
+
+        <h2>Dashboard UI</h2>
+        <p>See every agent, cron job, recent output, and loop status in one dark-themed dashboard.</p>
+        <img src="https://coruscating-daffodil-e6bc5f.netlify.app/assets/dashboard-preview.png" alt="AI Agent Company Dashboard" class="screenshot">
+
         <h2>The Numbers</h2>
         <ul>
             <li><span class="check">✓</span> 0 employees on payroll</li>
-            <li><span class="check">✓</span> 7 specialized agents</li>
-            <li><span class="check">✓</span> 10 automated cron jobs</li>
+            <li><span class="check">✓</span> 8 specialized agent roles (incl. Loop, Spec, YouTube)</li>
+            <li><span class="check">✓</span> 10+ cron jobs</li>
             <li><span class="check">✓</span> 1 weekend setup</li>
             <li><span class="check">✓</span> 87% cheaper AI stack possible</li>
         </ul>
@@ -84,7 +103,7 @@ ai-company/<br>
             <tr><td>Monthly cost</td><td>€3,000–€6,000</td><td>€0 payroll</td></tr>
             <tr><td>Setup time</td><td>Months</td><td>1 weekend</td></tr>
             <tr><td>Scale risk</td><td>High</td><td>Low</td></tr>
-            <tr><td>Documentation</td><td>None</td><td>Full runbook</td></tr>
+            <tr><td>Documentation</td><td>None</td><td>Full runbook + dashboard</td></tr>
         </table>
         
         <h2 id="buy">Pricing</h2>
@@ -92,13 +111,15 @@ ai-company/<br>
             <tr><th>Starter</th><th>Professional</th><th>Founder</th></tr>
             <tr>
                 <td><strong>$49</strong><br>7 roles + cron jobs</td>
-                <td><strong>$149</strong><br>+ Hermes wiring + BMA variant + setup video</td>
+                <td><strong>$149</strong><br>+ Dashboard + YouTube + Spec Agent + GitHub Actions</td>
                 <td><strong>$499</strong><br>+ 1:1 onboarding + 30 days support</td>
             </tr>
         </table>
         <div class="price">$149</div>
         <p>One-time payment. No subscription. No hidden fees.</p>
         <a href="https://mauricepfeifer6.gumroad.com/l/one-person-ai-agent-company" class="btn">Get the Template — $149</a>
+        <br>
+        <a href="https://coruscating-daffodil-e6bc5f.netlify.app/dashboard/" class="btn-outline">Preview Dashboard</a>
         
         <div class="footer">
             <p>"Build a company that runs itself."</p>

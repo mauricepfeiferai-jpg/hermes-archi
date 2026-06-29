@@ -2,6 +2,12 @@
 
 Run a company with 7 AI agents, 10 cron jobs, and 0 employees.
 
+## The Real Product: The Morning Queue
+
+The hardest problem is not building skills. It is getting the person who isn't AI-native to run the right skill at the right moment.
+
+This template solves that with a **morning action queue**: every day the CEO Agent ranks what matters, then routes each agent to the exact skill/script they should run. You open the dashboard and work the queue.
+
 ## Dashboard
 
 Open `dashboard/index.html` in your browser to see the live status of your agent company.
@@ -14,15 +20,17 @@ Run `python3 dashboard/generate_data.py` after a cron cycle to populate real out
 
 ```
 ai-company/
-├── ceo/            # Direction, priorities, decisions
-├── cto/            # Tech health, architecture, upgrades
-├── engineer/       # Ship backlog items with tests
-├── researcher/     # Market scan + daily brief
-├── writer/         # Content engine
-├── sales/          # Pipeline + outbound
-├── ops/            # Backups, cron, system health
-├── loop/           # Review / retro / self-improve
-└── dashboard/      # Visual status UI
+├── ceo/               # Direction + morning action queue
+├── cto/               # Tech health
+├── engineer/          # Ship backlog
+├── researcher/        # Market scan
+├── writer/            # Content engine
+├── sales/             # Pipeline + outbound
+├── ops/               # Backups, cron, system health
+├── loop/              # Review / retro / self-improve
+├── spec_agent/        # Specs for complex tasks
+├── youtube_operator/  # YouTube channel operating system
+└── dashboard/         # Visual status UI
 ```
 
 ## Quick Start
@@ -33,12 +41,7 @@ ai-company/
    cd ~/my-ai-company
    ```
 
-2. Install the crontab:
-   ```bash
-   cat ops/cron/crontab.txt | crontab -
-   ```
-
-3. Run one manual cycle to verify:
+2. Run one manual cycle to verify:
    ```bash
    bash ops/cron/06-ceo-daily-goals.sh
    bash ops/cron/07-cto-tech-health.sh
@@ -51,19 +54,24 @@ ai-company/
    bash loop/run_loop.sh
    ```
 
-4. Generate dashboard data:
+3. Generate dashboard data:
    ```bash
    python3 dashboard/generate_data.py
    open dashboard/index.html
    ```
 
-5. Review outputs in `*/outputs/` and the dashboard.
+4. Install the crontab when ready:
+   ```bash
+   cat ops/cron/crontab.txt | crontab -
+   ```
+
+5. Review the morning queue in `ceo/outputs/morning_queue_YYYY-MM-DD.md`.
 
 ## Default Schedule
 
 | Time | Agent | Job |
 |---|---|---|
-| 06:00 | CEO | Daily goals |
+| 06:00 | CEO | Daily goals + morning queue |
 | 06:15 | CTO | Tech health |
 | 07:00 | Engineer | Ship backlog |
 | 08:00 | Researcher | Trend scan |
@@ -82,16 +90,23 @@ ai-company/
 - Claude Code non-interactive mode
 - Kimi / OpenAI / local model endpoints
 
-## Cost Control
-
-- Stub mode: free, runs instantly, good for testing the loop
-- Hermes mode: uses your configured model; run one script manually before enabling all 10 cron jobs
-- Recommended: keep 06:00–20:30 schedule, review first week of real outputs before scaling
+Enable real dispatch:
+```bash
+export HERMES_USE=1
+bash ops/cron/10-writer-content.sh
+```
 
 ## Approval Gate
 
 Any destructive or production action must write to `*/outputs/approval_needed_*.md`. Window 1 / human reviews before execution.
 
-## BMA Service Business Variant
+## Variants
 
-See `variants/bma-service-company/` for roles adapted to German fire-safety contractors: project manager, compliance officer, field engineer, customer success.
+- **BMA Service Business** — `variants/bma-service-company/` for German fire-safety contractors
+- **Cloud Software Factory** — `github-actions/` for Triage → Spec → Implement on GitHub
+
+## Cost Control
+
+- Stub mode: free, runs instantly, good for testing the loop
+- Hermes mode: uses your configured model; run one script manually before enabling all 10 cron jobs
+- Recommended: keep 06:00–20:30 schedule, review first week of real outputs before scaling
