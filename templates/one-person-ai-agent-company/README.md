@@ -110,3 +110,14 @@ Any destructive or production action must write to `*/outputs/approval_needed_*.
 - Stub mode: free, runs instantly, good for testing the loop
 - Hermes mode: uses your configured model; run one script manually before enabling all 10 cron jobs
 - Recommended: keep 06:00–20:30 schedule, review first week of real outputs before scaling
+
+## The 4 Loops That Make It Work
+
+This template implements the four loops that senior Claude Code users run:
+
+1. **Edit/Test Loop** — every change verified by a hook or check (`ops/cron/run_agent.py`, scripts pass `bash -n`, Python passes `py_compile`)
+2. **Goal Loop** — CEO Agent sets daily goals and the system works until outputs exist
+3. **Verification Loop** — multiple agents review each other's outputs before finalization
+4. **Memory Loop** — daily review + retro writes lessons into `loop/lessons.json` and updates rules
+
+Running all four is what separates hobbyists from operators.
