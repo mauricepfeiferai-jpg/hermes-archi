@@ -1,5 +1,18 @@
 # Hermes-Archi
 
+## Latest Additions (2026-06-29)
+- **skills/orchestration/git-workflow-ai/** — Git workflow for AI workspaces (three repos, daily rhythm, rollback/prune/eval versioning).
+
+
+- **docs/gold-nuggets/** — AI Empire Gold Nuggets from this session.
+- **docs/AI_EMPIRE_INSIGHTS_2026-06-29.md** — Integration summary.
+- **templates/one-person-ai-agent-company/** — Solo AI agent company starter.
+- **skills/orchestration/swarm-fan-out/** — Hermes multi-subagent orchestration skill.
+- **control-plane/hermes/config/model-policy.env.template** — Chinese-stack task routing template.
+
+See the insights doc for the full list of next steps.
+
+
 Consolidated system from Hermes Core Extract + Archimedes Core Extract.
 
 ## Structure

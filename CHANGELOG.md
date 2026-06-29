@@ -1,3 +1,9 @@
+## 2026-06-29 19:15 — Git Workflow for AI Workspaces
+
+- Added `docs/gold-nuggets/GOLD_GITHUB_AI_WORKSPACE_MEMORY_THREE_REPOS_2026-06-29.md`.
+- Added Hermes skill `skills/orchestration/git-workflow-ai/` with daily rhythm, rollback, CLAUDE.md pruning, autoresearch logging, eval versioning templates.
+- Updated `README.md` and `docs/AI_EMPIRE_INSIGHTS_2026-06-29.md`.
+
 # Changelog
 
 ## 2026-06-29 19:11 — AI Empire Gold Nuggets + Templates

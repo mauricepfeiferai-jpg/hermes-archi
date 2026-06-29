@@ -5,6 +5,7 @@ Dokumentation der in dieser Session extrahierten Gold Nuggets und ihrer Integrat
 ## Gold Nuggets
 
 | Nugget | Datei | Bedeutung |
+| GitHub AI Workspace Memory | [gold-nuggets/GOLD_GITHUB_AI_WORKSPACE_MEMORY_THREE_REPOS_2026-06-29.md](gold-nuggets/GOLD_GITHUB_AI_WORKSPACE_MEMORY_THREE_REPOS_2026-06-29.md) | Drei Repos als AI-Gedächtnis |
 |---|---|---|
 | Multi-Subagent Fan-Out | [gold-nuggets/GOLD_HERMES_MULTI_SUBAGENT_FAN_OUT_2026-06-29.md](gold-nuggets/GOLD_HERMES_MULTI_SUBAGENT_FAN_OUT_2026-06-29.md) | Parallele Agenten → Cross-Verify → Merge |
 | Chinese AI Stack 87% Cost Cut | [gold-nuggets/GOLD_AI_STACK_CHINESE_MODELS_87_PERCENT_COST_CUT_2026-06-29.md](gold-nuggets/GOLD_AI_STACK_CHINESE_MODELS_87_PERCENT_COST_CUT_2026-06-29.md) | Task-basiertes Routing auf chinesische Primaries |
@@ -42,7 +43,8 @@ HERMES_TASK_VIDEO_FALLBACK=sora-2
 
 ## Nächste Schritte (im Projekt)
 
-1. `control-plane/hermes/runtime/main.py` um Swarm-Run-Orchestration erweitern.
+1. Drei-Repo-Struktur für AI Empire definieren (Private Workspace, Shared Tools, Per-Project).
+2. `control-plane/hermes/runtime/main.py` um Swarm-Run-Orchestration erweitern.
 2. `model-layer/orchestrator.ts` um task-basiertes Chinese-Primary-Routing erweitern.
 3. `control-plane/hermes/cron/` um 10 Company-Cron-Jobs als Templates anlegen.
 4. Review/Retro/Loop-Integration mit `self-improvement-100x-loop` verbinden.
