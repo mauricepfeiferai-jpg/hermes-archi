@@ -1,3 +1,16 @@
+## 2026-06-29 20:14 — Build The Thing That Builds Things
+
+- Added `products/ai-empire-product-factory/` — AI Empire Product Factory.
+- Defined factory agents: Strategist, Copywriter, Pricing, Web Builder, GTM, Retro.
+- Added product templates and `scripts/build_product.py` scaffold.
+- Gold Nugget saved.
+
+## 2026-06-29 20:13 — Spotify Loop Insight + Testimonials
+
+- Added `docs/gold-nuggets/GOLD_SPOTIFY_LOOP_BEATS_MODEL_2026-06-29.md`.
+- Added Spotify testimonial to Self-Improvement 100x Loop and Karpathy Agent OS product pages.
+- Updated HTML landing pages with external validation.
+
 ## 2026-06-29 20:11 — Live HTML Product Pages
 
 - Added `website/products/` with HTML landing pages for all 6 AI Empire products.

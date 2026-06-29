@@ -34,6 +34,8 @@ Self-Improvement 100x Loop gives you:
 
 ## PROOF
 
+"Once we implemented loops in our workflow, our agent success rate went from 20-30% to 80%." — Niklas Gustavsson, Spotify Chief Architect
+
 Core rule: "A failure is not processed until the system has a better chance of preventing it next time."
 
 ## PRICING

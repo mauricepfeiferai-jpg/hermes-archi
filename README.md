@@ -1,6 +1,8 @@
 # Hermes-Archi
 
 ## Latest Additions (2026-06-29)
+- **products/ai-empire-product-factory/** — The thing that builds things. Turns Gold Nuggets into shippable product packages.
+
 - **website/products/** — Live HTML landing pages for all 6 AI Empire products.
 - **docs/ai-empire-products/** — GitHub Pages-ready mirror.
 - **products/hermes-swarm-fan-out/** — Launch 5 sub-agents from one prompt.

@@ -76,3 +76,7 @@ HERMES_TASK_VIDEO_FALLBACK=sora-2
 - Self-Improvement 100x Loop
 - Karpathy Agent OS Starter Kit (early access)
 All with PRODUCT.md, landing pages, pricing, checkout templates.
+
+## Product Factory
+
+- `products/ai-empire-product-factory/` — Meta-system that turns Gold Nuggets into shippable products.
