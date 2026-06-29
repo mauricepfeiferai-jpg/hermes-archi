@@ -1,13 +1,42 @@
-# Daily Review
+# Daily Review Template
 
 ## Date
+YYYY-MM-DD
 
-## Agents that ran
+## What Was Planned
+- 
+- 
+- 
 
-## Outputs produced
+## What Got Done
+- 
+- 
+- 
 
-## Quality gate results
+## What Failed / Missed
+- 
+- 
 
-## Conflicts / blockers
+## Root Cause Classification
+| Failure | Root Cause | Evidence |
+|---|---|---|
+| | goal clarity / tool error / rule gap / missing gate / data quality | |
 
-## Decisions needed
+## Impact
+- Revenue: none / low / medium / high
+- Ship speed: none / low / medium / high
+- System quality: none / low / medium / high
+
+## Patch Proposed
+- Rule: 
+- Gate: 
+- Template: 
+- Test: 
+
+## Approval Needed?
+- [ ] Yes — rule/skill/infra change
+- [ ] No — log lesson only
+
+## Lesson Logged
+- ID: 
+- File: `loop/lessons.json`

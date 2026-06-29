@@ -1,13 +1,31 @@
-# Daily Retro
+# Weekly Retro Template
 
-## What went well?
+## Week
+YYYY-Www
 
-## What blocked?
+## Wins
+- 
+- 
 
-## What repeated?
+## Losses
+- 
+- 
 
-## Root cause classification
+## Repeat Failure Rate
+- Same failure count: 
+- Total failure count: 
+- Rate: __%
 
-## Improvement patch
+## System Changes Made
+- 
+- 
 
-## Rule update needed?
+## What to Stop / Start / Continue
+- Stop: 
+- Start: 
+- Continue: 
+
+## Next Week Focus
+- 
+- 
+- 
