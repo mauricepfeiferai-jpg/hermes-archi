@@ -25,3 +25,21 @@
 - [ ] Short-form video: screen recording of folder structure
 - [ ] Repurpose thread into newsletter / blog post
 - [ ] Add first testimonial when available
+
+---
+
+## Posting Log
+
+### 2026-06-29 — Initial Launch
+- [ ] X thread posted (Tweets 1-6)
+- [ ] LinkedIn post published
+- [ ] First LinkedIn comment with link added
+- [ ] 10 cold LinkedIn DMs sent
+- [ ] 3 communities seeded
+
+### Metrics (fill after 24h)
+- X impressions: ___
+- X link clicks: ___
+- LinkedIn impressions: ___
+- LinkedIn link clicks: ___
+- Netlify site visits: ___
