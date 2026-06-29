@@ -1,6 +1,12 @@
 # Hermes-Archi
 
 ## Latest Additions (2026-06-29)
+- **products/hermes-swarm-fan-out/** — Launch 5 sub-agents from one prompt.
+- **products/chinese-ai-stack-migration/** — Cut AI costs by 87% playbook.
+- **products/git-workflow-ai/** — Version control for AI workspaces.
+- **products/self-improvement-100x-loop/** — Error once, improve forever.
+- **products/karpathy-agent-os-starter-kit/** — Installable AI discipline (early access).
+
 - **docs/gold-nuggets/GOLD_AI_EMPIRE_SHIPPING_MANIFEST_2026-06-29.md** — Ship everything / monetize everything manifest.
 - **products/one-person-ai-agent-company/go-to-market/execution/DASHBOARD.md** — Active shipping sprint dashboard.
 - **products/one-person-ai-agent-company/go-to-market/** — 14-day launch plan, cold outreach templates, lead magnet plan.

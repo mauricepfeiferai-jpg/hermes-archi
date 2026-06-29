@@ -67,3 +67,12 @@ HERMES_TASK_VIDEO_FALLBACK=sora-2
 
 - Paradigmenwechsel: Ship everything, test everything, monetize everything.
 - Execution Dashboard fuer Sprint 2026-W27 erstellt.
+
+## 5 Viral Products Packaged
+
+- Hermes Swarm Fan-Out Skill
+- Chinese AI Stack Migration Playbook
+- Git Workflow for AI Workspaces
+- Self-Improvement 100x Loop
+- Karpathy Agent OS Starter Kit (early access)
+All with PRODUCT.md, landing pages, pricing, checkout templates.

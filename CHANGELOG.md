@@ -1,3 +1,13 @@
+## 2026-06-29 20:03 — Package 5 Viral Products
+
+- Added product packages for:
+  - Hermes Swarm Fan-Out Skill
+  - Chinese AI Stack Migration Playbook
+  - Git Workflow for AI Workspaces
+  - Self-Improvement 100x Loop
+  - Karpathy Agent OS Starter Kit (early access)
+- Each includes PRODUCT.md, landing page, sales page, pricing, checkout, template symlink.
+
 ## 2026-06-29 19:59 — AI Empire Shipping Manifest + Execution Dashboard
 
 - Added `docs/gold-nuggets/GOLD_AI_EMPIRE_SHIPPING_MANIFEST_2026-06-29.md`.
