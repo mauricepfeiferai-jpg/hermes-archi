@@ -86,3 +86,9 @@ All with PRODUCT.md, landing pages, pricing, checkout templates.
 - Agent Reach staged for security review.
 - Integration skill + plan created.
 - Next: isolated evaluation in dedicated venv.
+
+## Production Mode
+
+- Production runbook created for One-Person AI Agent Company Template.
+- 100x window loop monitor defined for 5 tmux windows.
+- Status: GOING LIVE.

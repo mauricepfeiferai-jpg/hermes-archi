@@ -1,6 +1,9 @@
 # Hermes-Archi
 
 ## Latest Additions (2026-06-29)
+- **products/shipping-queue/PRODUCTION_RUNBOOK.md** — Step-by-step plan to go live with One-Person AI Agent Company Template.
+- **products/ai-empire-product-factory/agents/window_loop_monitor.md** — 100x first-principles monitor for 5 tmux windows.
+
 - **skills/integrations/agent-reach/** — Integration skill + security gates for Agent Reach.
 - **integrations/agent-reach/INTEGRATION_PLAN.md** — Phased integration plan.
 - **09_LIBRARY/github/agent-reach** — Staged upstream Agent Reach repo.

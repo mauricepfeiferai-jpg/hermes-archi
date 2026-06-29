@@ -18,3 +18,7 @@
 - 3-tier popcorn pricing where applicable.
 - Each product gets a landing page + OG image + buy button.
 - 7-day test per product. Kill or double-down.
+
+## Status
+
+One-Person AI Agent Company Template: GOING LIVE NOW
