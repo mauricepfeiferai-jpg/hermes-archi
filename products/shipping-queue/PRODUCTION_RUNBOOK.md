@@ -260,3 +260,28 @@ bash loop/run_loop.sh
 - [ ] Replace placeholder Gumroad link in landing page
 - [ ] Post X thread + LinkedIn post
 
+
+---
+
+## Status Update — 2026-06-29 22:32 — GO LIVE APPROVED
+
+### Completed
+- Full smoke test passed
+- Deliverable zip regenerated and clean (26KB, outputs excluded)
+- `GO_LIVE_PACKAGE.md` created with soft-launch and hard-launch copy
+- Memory files updated
+- Landing page remains live: https://coruscating-daffodil-e6bc5f.netlify.app/one-person-ai-agent-company.html
+
+### Pending User Choice
+**Soft Launch (A)** — post now, collect "DM me" replies, no broken buy link.  
+**Hard Launch (B)** — create Gumroad product first, then post with real link.
+
+### I Cannot Do Automatically
+- Post on X/LinkedIn (no API credentials configured)
+- Create Gumroad product (requires login + upload)
+- Collect payments
+
+### I Will Do Next
+After Maurice chooses A or B:
+- A: finalize posts, commit/push, wait for user to copy-paste and post manually
+- B: wait for Gumroad link, update landing page, redeploy, then provide final posts
