@@ -15,3 +15,4 @@
 | 11 | MinerU | https://github.com/opendatalab/MinerU.git | TBD | cloned |  38M |
 | 12 | ai-website-cloner-template | https://github.com/JCodesMore/ai-website-cloner-template.git | TBD | cloned | 2.5M |
 | 13 | herdrA | https://github.com/ogulcancelik/herdrA.git | TBD | cloned | - |
+| 14 | MoneyPrinterTurbo | https://github.com/harry0703/MoneyPrinterTurbo.git | TBD | cloned | 346M |
