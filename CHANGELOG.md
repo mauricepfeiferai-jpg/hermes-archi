@@ -1,3 +1,8 @@
+## 2026-06-29 19:40 — Productize One-Person AI Agent Company
+
+- Added `products/one-person-ai-agent-company/` with PRODUCT.md, landing page, sales page, pricing, checkout, and template symlink.
+- Updated `README.md` with product link.
+
 ## 2026-06-29 19:15 — Git Workflow for AI Workspaces
 
 - Added `docs/gold-nuggets/GOLD_GITHUB_AI_WORKSPACE_MEMORY_THREE_REPOS_2026-06-29.md`.

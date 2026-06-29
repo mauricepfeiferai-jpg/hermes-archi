@@ -53,3 +53,7 @@ HERMES_TASK_VIDEO_FALLBACK=sora-2
 ## Letzte Aktualisierung
 
 2026-06-29 19:12
+
+## Productized Template
+
+- `products/one-person-ai-agent-company/` — Landing page, pricing, sales copy for the top-scoring viral product.
