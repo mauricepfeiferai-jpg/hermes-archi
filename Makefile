@@ -13,10 +13,13 @@ help:
 install: install-python install-ts
 
 install-python:
+	@echo "→ Setting up Python venv at .venv/ ..."
+	@python3 -m venv .venv
 	@echo "→ Installing control-plane Python deps..."
-	pip install -r control-plane/requirements.txt
+	.venv/bin/pip install -r control-plane/requirements.txt
 	@echo "→ Installing trading Python deps..."
-	pip install -r trading/requirements.txt
+	.venv/bin/pip install -r trading/requirements.txt
+	@echo "✓ Python deps installed. Activate with: source .venv/bin/activate"
 
 install-ts:
 	@echo "→ Installing model-layer TS deps..."

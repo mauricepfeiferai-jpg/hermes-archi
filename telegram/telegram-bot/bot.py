@@ -13,6 +13,7 @@ from datetime import datetime
 
 import redis.asyncio as redis
 from aiogram import Bot, Dispatcher, F
+from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 from aiogram.enums import ParseMode
@@ -31,7 +32,7 @@ logger = logging.getLogger("empire-bot")
 
 
 async def main():
-    bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher()
 
     # Redis connection

@@ -24,6 +24,7 @@ import sys
 import time
 from pathlib import Path
 
+import pydantic
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -45,6 +46,7 @@ import goals as goals_mod  # noqa: E402
 import kg as kg_mod  # noqa: E402
 import router as router_mod  # noqa: E402
 import verifier as verifier_mod  # noqa: E402
+from skill_writer import SkillWriter  # noqa: E402
 
 logging.basicConfig(
     level=os.getenv("LOG_LEVEL", "INFO"),
@@ -62,6 +64,7 @@ router = router_mod.Router()
 kg = kg_mod.KGClient()
 goal_store = goals_mod.GoalStore()
 verifier = verifier_mod.Verifier(kg=kg)
+skill_writer = SkillWriter()
 
 
 @app.on_event("startup")
@@ -217,6 +220,25 @@ async def verify_goal(goal_id: str) -> dict:
 @app.get("/trace/{trace_id}")
 async def trace(trace_id: str) -> dict:
     return await kg.get_trace(trace_id)
+
+
+# ── Self-improvement loop ────────────────────────────────────────────────────
+
+class LearnRequest(pydantic.BaseModel):
+    skill: str
+    lesson: str
+    agent: str = "unknown"
+
+
+@app.post("/learn")
+async def learn(req: LearnRequest) -> dict:
+    """Any Core4 agent can POST a lesson here to improve a skill for future runs."""
+    return skill_writer.write_lesson(req.skill, req.lesson, req.agent)
+
+
+@app.get("/skills")
+async def list_skills() -> dict:
+    return {"skills": skill_writer.list_skills()}
 
 
 if __name__ == "__main__":
