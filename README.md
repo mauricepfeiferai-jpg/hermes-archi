@@ -1,6 +1,10 @@
 # Hermes-Archi
 
 ## Latest Additions (2026-06-29)
+- **skills/integrations/agent-reach/** — Integration skill + security gates for Agent Reach.
+- **integrations/agent-reach/INTEGRATION_PLAN.md** — Phased integration plan.
+- **09_LIBRARY/github/agent-reach** — Staged upstream Agent Reach repo.
+
 - **products/ai-empire-product-factory/** — The thing that builds things. Turns Gold Nuggets into shippable product packages.
 
 - **website/products/** — Live HTML landing pages for all 6 AI Empire products.

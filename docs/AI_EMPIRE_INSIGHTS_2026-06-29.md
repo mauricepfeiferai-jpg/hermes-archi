@@ -80,3 +80,9 @@ All with PRODUCT.md, landing pages, pricing, checkout templates.
 ## Product Factory
 
 - `products/ai-empire-product-factory/` — Meta-system that turns Gold Nuggets into shippable products.
+
+## Agent Reach Integration
+
+- Agent Reach staged for security review.
+- Integration skill + plan created.
+- Next: isolated evaluation in dedicated venv.
