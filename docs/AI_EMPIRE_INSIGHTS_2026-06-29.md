@@ -57,3 +57,8 @@ HERMES_TASK_VIDEO_FALLBACK=sora-2
 ## Productized Template
 
 - `products/one-person-ai-agent-company/` — Landing page, pricing, sales copy for the top-scoring viral product.
+
+## Go-to-Market
+
+- Marc Lou First-Customer Strategien als Gold Nugget gespeichert.
+- 14-Tage-Launch-Plan, Cold-Outreach-Templates und Lead-Magnet-Plan fuer One-Person AI Agent Company erstellt.

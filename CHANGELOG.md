@@ -1,3 +1,8 @@
+## 2026-06-29 19:56 — Go-to-Market Plan for One-Person AI Agent Company
+
+- Added `docs/gold-nuggets/GOLD_FIRST_CUSTOMER_4_STRATEGIES_MARC_LOU_2026-06-29.md`.
+- Added `products/one-person-ai-agent-company/go-to-market/` with 14-day launch plan, cold outreach templates, lead magnet plan.
+
 ## 2026-06-29 19:40 — Productize One-Person AI Agent Company
 
 - Added `products/one-person-ai-agent-company/` with PRODUCT.md, landing page, sales page, pricing, checkout, and template symlink.

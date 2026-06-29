@@ -9,6 +9,8 @@ This folder contains the productized version of the AI Empire One-Person AI Agen
 - `sales-page/SALES_PAGE.md` — sales page copy + FAQ
 - `pricing/PRICING.md` — popcorn pricing
 - `checkout/CHECKOUT.md` — checkout flow
+
+- `go-to-market/` — 14-day launch plan, cold outreach templates, lead magnet plan.
 - `templates/` — link to actual template files (from `hermes-archi/templates/one-person-ai-agent-company/`)
 - `assets/` — OG image, screenshots, demo assets
 
