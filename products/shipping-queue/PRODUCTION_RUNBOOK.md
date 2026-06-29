@@ -226,3 +226,37 @@ Upload `releases/one-person-ai-agent-company-template.zip` to Gumroad as $149 Pr
 ### Still Blocking Full Launch
 - Gumroad product listing needs real buy link
 - Once Gumroad link exists, update `website/products/one-person-ai-agent-company.html` CTA buttons
+
+---
+
+## Status Update — 2026-06-29 22:18
+
+### Template Is Now Runnable
+- 7 agent roles with full job descriptions
+- 10 executable cron scripts with crontab
+- Daily review + retro + self-improve loop
+- Hermes CLI wiring via `ops/cron/run_agent.py` (stub + fallback)
+- BMA service-business variant for German fire-safety contractors
+- Manual test cycle completed successfully
+- Deliverable zip updated to 25KB
+
+### Verified Commands
+```bash
+bash ops/cron/06-ceo-daily-goals.sh
+bash ops/cron/07-cto-tech-health.sh
+bash ops/cron/08-engineer-ship.sh
+bash ops/cron/19-ops-backup-health.sh
+bash loop/run_loop.sh
+```
+
+### Updated Deliverables
+- `releases/one-person-ai-agent-company-template.zip` — 25KB
+- Netlify site redeployed with latest assets
+- GitHub repo pushed to main
+
+### Still To Do Before Selling
+- [ ] Create Gumroad product
+- [ ] Upload deliverable zip to Gumroad
+- [ ] Replace placeholder Gumroad link in landing page
+- [ ] Post X thread + LinkedIn post
+
