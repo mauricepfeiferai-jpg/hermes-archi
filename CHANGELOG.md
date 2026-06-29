@@ -1,3 +1,9 @@
+## 2026-06-29 20:11 — Live HTML Product Pages
+
+- Added `website/products/` with HTML landing pages for all 6 AI Empire products.
+- Added `docs/ai-empire-products/` GitHub Pages mirror.
+- Each page has black/white/one-accent design, clear CTA, one-time pricing, Gumroad payment link.
+
 ## 2026-06-29 20:03 — Package 5 Viral Products
 
 - Added product packages for:

@@ -1,6 +1,8 @@
 # Hermes-Archi
 
 ## Latest Additions (2026-06-29)
+- **website/products/** — Live HTML landing pages for all 6 AI Empire products.
+- **docs/ai-empire-products/** — GitHub Pages-ready mirror.
 - **products/hermes-swarm-fan-out/** — Launch 5 sub-agents from one prompt.
 - **products/chinese-ai-stack-migration/** — Cut AI costs by 87% playbook.
 - **products/git-workflow-ai/** — Version control for AI workspaces.
