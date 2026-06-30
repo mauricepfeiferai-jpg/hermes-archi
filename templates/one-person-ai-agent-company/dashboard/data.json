@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T20:59:41.420204Z",
+  "generated_at": "2026-06-30T20:59:53.351839Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
@@ -25,10 +25,10 @@
   "dopamine_score": 290.45,
   "dopamine_streak": 4,
   "dopamine_threshold": 26.77,
-  "neural_events": 121,
-  "lessons": 6,
+  "neural_events": 136,
+  "lessons": 7,
   "status": "LIVE",
-  "last_commit": "4b9aae1",
+  "last_commit": "d55ac10",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",
@@ -39,10 +39,10 @@
       "ratio": 4.25
     }
   ],
-  "hil_gate_checks": 1,
+  "hil_gate_checks": 6,
   "hil_red_blocks": 1,
   "hil_yellow": 0,
-  "hil_green": 5,
+  "hil_green": 10,
   "x_trends_24h": 24,
   "x_latest_titles": [
     "Autonomous Coding Agents",
