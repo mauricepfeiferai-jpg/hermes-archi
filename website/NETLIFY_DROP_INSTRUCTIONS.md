@@ -7,23 +7,24 @@
    `/tmp/ai-empire-products-drop.zip`
 3. Netlify will instantly deploy it and give you a URL like:
    `https://xxx-yyy-zzz.netlify.app`
-4. The main page will be: `https://xxx-yyy-zzz.netlify.app/index.html`
+4. The main page will be: `https://xxx-yyy-zzz.netlify.app/products/index.html`
 5. Custom domain can be added later in Netlify site settings.
 
 ## Files in the zip
 
-- `index.html` — AI Empire Products overview (6 products)
-- `one-person-ai-agent-company.html`
-- `hermes-swarm-fan-out.html`
-- `chinese-ai-stack-migration.html`
-- `git-workflow-ai.html`
-- `self-improvement-100x-loop.html`
-- `karpathy-agent-os-starter-kit.html`
-- `assets/` — placeholder for OG images / screenshots
+- `products/index.html` — AI Empire Products overview (6 products)
+- `products/one-person-ai-agent-company.html` — PayPal CTA live
+- `products/hermes-swarm-fan-out.html`
+- `products/chinese-ai-stack-migration.html`
+- `products/git-workflow-ai.html`
+- `products/self-improvement-100x-loop.html`
+- `products/karpathy-agent-os-starter-kit.html`
+- `assets/dashboard-preview.png`
 
 ## Next Steps After Drop
 
 1. Copy the Netlify URL.
-2. Update Gumroad / payment links on each page.
-3. Share the URL on X/Twitter and LinkedIn.
-4. Optional: connect custom domain.
+2. Test the One-Person AI Agent Company product page.
+3. Click the PayPal button.
+4. Verify payment flow.
+5. Share the URL on X/Twitter and LinkedIn.
