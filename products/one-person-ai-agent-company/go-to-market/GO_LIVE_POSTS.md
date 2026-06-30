@@ -3,7 +3,8 @@
 **Product:** One-Person AI Agent Company Template
 **Price:** $149 one-time
 **Payment:** PayPal → https://paypal.me/mauricepfeifer?amount=149&currency=USD
-**Landing Page:** (Netlify URL after drop)
+Landing page → https://mauricepfeiferai-jpg.github.io/hermes-archi/products/one-person-ai-agent-company.html
+**Landing Page:** https://mauricepfeiferai-jpg.github.io/hermes-archi/products/one-person-ai-agent-company.html
 **Deliverable:** `releases/one-person-ai-agent-company-template.zip`
 
 ---
@@ -62,6 +63,7 @@ I packaged the whole thing.
 $149 one-time. No subscription.
 
 PayPal → https://paypal.me/mauricepfeifer?amount=149&currency=USD
+Landing page → https://mauricepfeiferai-jpg.github.io/hermes-archi/products/one-person-ai-agent-company.html
 
 DM me after payment and I'll send the ZIP immediately.
 
@@ -101,6 +103,8 @@ If you're a solo founder or service business owner drowning in operational work 
 $149 one-time via PayPal:
 https://paypal.me/mauricepfeifer?amount=149&currency=USD
 
+Landing page: https://mauricepfeiferai-jpg.github.io/hermes-archi/products/one-person-ai-agent-company.html
+
 Comment "AI" and I'll send the template.
 
 ---
@@ -130,6 +134,6 @@ Worth a look? https://paypal.me/mauricepfeifer?amount=149&currency=USD
 
 1. Drag `/tmp/ai-empire-products-drop.zip` to https://app.netlify.com/drop
 2. Copy the live Netlify URL
-3. Replace `[NETLIFY_URL]` in posts above
+3. Replace `https://mauricepfeiferai-jpg.github.io/hermes-archi/products/one-person-ai-agent-company.html` in posts above
 4. Post on X/Twitter and LinkedIn
 5. Answer DMs, collect PayPal payments, send ZIP via e-mail
