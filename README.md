@@ -109,3 +109,12 @@ Für komplexe strategische, finanzielle, rechtliche oder persönliche Fragen bie
 Ziel: Annahmen zerstören, Grundwahrheiten extrahieren, aus null neu bauen.
 
 Siehe `PHILOSOPHY.md` für den architektonischen Kontext.
+
+---
+
+## X-to-Wisdom Engine
+
+Hermes verarbeitet X-Posts nicht als Content, sondern als Rohmaterial für Systemkapital.
+Jede X-URL wird nach First Principles geprüft und in Knowledge Cards, Regeln, Loops, Experimente oder Business-Chancen übersetzt.
+
+Kanonisches Modul: `control-plane/hermes/HERMES_X_FIRST_PRINCIPLES_ENGINE.md`

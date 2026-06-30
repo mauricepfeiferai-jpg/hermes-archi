@@ -161,3 +161,15 @@ Kurzform:
 4. Was würde man bei null bauen?
 5. Welche Entscheidungen gehören zu Maurice?
 6. Welche Regel lernt Hermes?
+
+---
+
+## X-to-Wisdom Engine
+
+X ist nicht Feed. X ist Rohstoffstrom.
+Jeder gute Post ist komprimierte Erfahrung aus dem Loop eines anderen Menschen.
+Hermes dekomprimiert diese Erfahrung, prüft sie nach First Principles und übersetzt sie in Maurice' eigene Loops.
+
+Kanonisches Modul: `control-plane/hermes/HERMES_X_FIRST_PRINCIPLES_ENGINE.md`
+
+Andere scrollen X. Maurice lässt Hermes X in Systemkapital verwandeln.

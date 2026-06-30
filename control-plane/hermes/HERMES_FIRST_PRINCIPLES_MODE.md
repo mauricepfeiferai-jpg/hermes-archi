@@ -93,3 +93,20 @@ Nimm jedes große Thema und zwinge Hermes zu diesem Format:
 - `control-plane/hermes/HERMES_BRIEF.md` — strukturiertes Briefing
 - `control-plane/hermes/decision_card.py` — Decision Card Generator
 - `control-plane/hermes/learning_agent.py` — Regeln aus Entscheidungen extrahieren
+
+---
+
+## Spezialfall: X-Posts
+
+Für X-URLs und -Posts gibt es eine dedizierte Engine:
+`control-plane/hermes/HERMES_X_FIRST_PRINCIPLES_ENGINE.md`
+
+X-Posts werden nicht zusammengefasst, sondern in Systemkapital verwandelt:
+- Claim Extraction
+- Assumption Breakdown
+- First-Principles Reduction
+- Signal-vs-Hype
+- Maurice Transfer
+- Asset Generation
+- Score 1–10
+- System Learning

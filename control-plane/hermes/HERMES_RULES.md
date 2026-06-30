@@ -357,3 +357,9 @@ Entscheidungsfähigkeit skalieren.
 Dieser Abschnitt wird automatisch vom Learning Agent aus Decision Cards ergänzt.
 
 - **RED** — Jegliche öffentliche Veröffentlichung (Post/Tweet/Artikel) ist RED-Gate: Maurice muss vorher entscheiden. *(gelernt aus DC_20260630_b939dd83)*
+
+- **UNKNOWN** — Bei 'Soll Maurice 2027 sein erstes $10k primär mit Richterakte Ex': None-Gate anwenden. Risiken prüfen, Decision Card erstellen. *(gelernt aus DC_20260630_44c0df13)*
+
+- **YELLOW** — Bei Monetarisierungsfragen priorisiere den Pfad, der Maurice' echte Domain-Expertise und höchsten Kundenschmerz nutzt (Richterakte/BMA-Premium), bevor generische digitale Produkte ohne Publikum bevorzugt werden. Templates sind sekundärer/Lead-Pfad. *(gelernt aus DC_20260630_44c0df13)*
+
+- **YELLOW** — Neue Regel für Hermes: *(gelernt aus FP_20260630_10K_2027.md)*

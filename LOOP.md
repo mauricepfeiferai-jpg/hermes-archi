@@ -90,3 +90,27 @@ Vor jedem neuen L2/L3 Loop wird folgendes geprüft:
 6. Welche Regel lernt Hermes?
 
 Modul: `control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md`
+
+---
+
+## X-to-Wisdom Loop
+
+```
+X-URL/Text rein
+↓
+Claim + Annahmen extrahieren
+↓
+First Principles reduzieren
+↓
+Signal vs. Hype testen
+↓
+Transfer auf Maurice prüfen
+↓
+Asset generieren (Knowledge Card / Rule / Loop / Experiment / Decision Card / Content Seed / Product Signal / Reject Note)
+↓
+Maurice reviewed Ableitung
+↓
+Hermes schreibt Regel ins System
+```
+
+Modul: `control-plane/hermes/HERMES_X_FIRST_PRINCIPLES_ENGINE.md`

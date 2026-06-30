@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Learning Agent: extract rules from Decision Cards and update HERMES_RULES.md."""
+"""Learning Agent: extract rules from Decision Cards and First-Principles analyses, update HERMES_RULES.md."""
 import json, re
 from pathlib import Path
 from datetime import datetime, timezone
@@ -33,52 +33,108 @@ def extract_decision_id(path: Path) -> str:
     return m.group(0) if m else path.name
 
 
-def parse_decision_card(path: Path) -> dict:
-    text = path.read_text()
+def parse_sections(text: str) -> dict:
+    """Parse markdown sections into dict."""
     sections = {}
     current = None
     for line in text.splitlines():
-        if line.startswith("## "):
-            current = line[3:].strip()
+        if line.startswith("## ") or line.startswith("### "):
+            current = line.strip("# ").strip()
             sections[current] = []
         elif current:
             sections[current].append(line)
     return {k: "\n".join(v).strip() for k, v in sections.items()}
 
 
-def infer_rule(card: dict) -> dict:
-    """Infer a simple rule from a decision card."""
-    goal = card.get("Ziel", "")
-    decision_section = card.get("Entscheidung", "")
+def extract_learning_rule(text: str) -> str | None:
+    """Extract Learning Rule from First-Principles analyses."""
+    # Look for section 7. Learning Rule or similar
+    sections = parse_sections(text)
+    for key in sections:
+        if "learning rule" in key.lower() or "gelernte regel" in key.lower() or "learned" in key.lower():
+            content = sections[key]
+            # Find blockquote or first bullet
+            for line in content.splitlines():
+                line = line.strip()
+                if line.startswith(">"):
+                    return line.strip("> ").strip()
+                if line.startswith("-") or line.startswith("*"):
+                    return line.strip("- *").strip()
+            # Return first non-empty line
+            for line in content.splitlines():
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    return line
+    return None
 
-    # Determine selected option from checkboxes
-    selected = None
-    if "[x] GREEN" in decision_section:
-        selected = "GREEN"
-    elif "[x] YELLOW" in decision_section:
-        selected = "YELLOW"
-    elif "[x] RED" in decision_section:
-        selected = "RED"
 
-    # Extract rule heuristically
-    rule = {
-        "trigger": goal[:120],
-        "gate": selected or "UNKNOWN",
-        "rule": f"Bei '{goal[:60]}': {selected}-Gate anwenden. Risiken prüfen, Decision Card erstellen."
-    }
+def extract_gate_from_decision_card(text: str) -> str:
+    """Extract selected option from Decision Card checkboxes."""
+    # Look for checked option
+    if re.search(r"\[x\]\s*Option\s*A", text, re.I):
+        return "YELLOW"  # strategy decisions are typically YELLOW
+    if re.search(r"\[x\]\s*Option\s*B", text, re.I):
+        return "YELLOW"
+    if re.search(r"\[x\]\s*Option\s*C", text, re.I):
+        return "YELLOW"
+    if re.search(r"\[x\]\s*GREEN", text, re.I):
+        return "GREEN"
+    if re.search(r"\[x\]\s*YELLOW", text, re.I):
+        return "YELLOW"
+    if re.search(r"\[x\]\s*RED", text, re.I):
+        return "RED"
+    return "YELLOW"
+
+
+def infer_rule(path: Path, text: str) -> dict:
+    """Infer a rule from a decision card or FP analysis."""
+    card_id = extract_decision_id(path)
+
+    # Try to extract learning rule from First-Principles analyses
+    learning_rule = extract_learning_rule(text)
+    if learning_rule:
+        return {
+            "source": card_id,
+            "gate": "YELLOW",
+            "trigger": "First-Principles Entscheidung",
+            "rule": learning_rule,
+            "learned_at": now_iso()
+        }
+
+    # Fallback: parse Decision Card sections
+    sections = parse_sections(text)
+    goal = sections.get("Ziel", sections.get("Goal", path.name))
+    recommendation = sections.get("Empfehlung", "")
+    gate = extract_gate_from_decision_card(text)
+
+    # Heuristic rule construction
+    rule_text = f"Bei '{goal[:80]}': {gate}-Gate anwenden. Risiken prüfen, Decision Card erstellen."
+
+    if recommendation:
+        rule_text = recommendation[:180] + " (" + gate + "-Gate)"
 
     # Special simple heuristics for common cases
-    if "post" in goal.lower() or "veröffentlich" in goal.lower() or "tweet" in goal.lower():
-        rule["rule"] = "Jegliche öffentliche Veröffentlichung (Post/Tweet/Artikel) ist RED-Gate: Maurice muss vorher entscheiden."
-        rule["gate"] = "RED"
-    elif "e-mail" in goal.lower() or "email" in goal.lower() or "senden" in goal.lower():
-        rule["rule"] = "Externe Kommunikation (E-Mail an Kunden/Partner) ist YELLOW-Gate: Entwurf vorbereiten, Maurice freigeben lassen."
-        rule["gate"] = "YELLOW"
-    elif "lösch" in goal.lower() or "delete" in goal.lower():
-        rule["rule"] = "Löschaktionen auf Daten/Accounts/Production sind RED-Gate: nie autonom."
-        rule["gate"] = "RED"
+    t = text.lower()
+    if any(w in t for w in ["post", "veröffentlich", "publish", "tweet"]):
+        rule_text = "Jegliche öffentliche Veröffentlichung (Post/Tweet/Artikel) ist RED-Gate: Maurice muss vorher entscheiden."
+        gate = "RED"
+    elif any(w in t for w in ["e-mail", "email", "senden", "send"]):
+        rule_text = "Externe Kommunikation (E-Mail an Kunden/Partner) ist YELLOW-Gate: Entwurf vorbereiten, Maurice freigeben lassen."
+        gate = "YELLOW"
+    elif any(w in t for w in ["lösch", "delet"]):
+        rule_text = "Löschaktionen auf Daten/Accounts/Production sind RED-Gate: nie autonom."
+        gate = "RED"
+    elif "monetarisier" in t or "10k" in t or "$" in t:
+        rule_text = "Bei Monetarisierungsfragen priorisiere den Pfad, der Maurice' echte Domain-Expertise und höchsten Kundenschmerz nutzt, bevor generische digitale Produkte ohne Publikum bevorzugt werden."
+        gate = "YELLOW"
 
-    return rule
+    return {
+        "source": card_id,
+        "gate": gate,
+        "trigger": goal[:120],
+        "rule": rule_text,
+        "learned_at": now_iso()
+    }
 
 
 def load_learned_rules() -> list:
@@ -109,43 +165,45 @@ def append_rule_to_rules_md(rule: dict):
 
     # Avoid duplicate rules
     if entry.strip() in text:
-        return
+        return False
 
     text += entry + "\n"
     RULES_FILE.write_text(text)
+    return True
 
 
 def main():
     rules = load_learned_rules()
     initial_count = len(rules)
     processed = 0
+    appended = 0
 
     if not DECISIONS_DIR.exists():
         print("No decisions directory yet.")
         return
 
-    for card_path in DECISIONS_DIR.glob("DC_*.md"):
+    for card_path in DECISIONS_DIR.glob("*.md"):
         card_id = extract_decision_id(card_path)
         if any(r.get("source") == card_id for r in rules):
             continue  # already learned
 
-        card = parse_decision_card(card_path)
-        rule = infer_rule(card)
-        rule["source"] = card_id
-        rule["learned_at"] = now_iso()
+        text = card_path.read_text()
+        rule = infer_rule(card_path, text)
 
         rules.append(rule)
-        append_rule_to_rules_md(rule)
+        if append_rule_to_rules_md(rule):
+            appended += 1
         processed += 1
 
     save_learned_rules(rules)
 
     emit("learning_agent.rules.updated", {
         "new_rules": processed,
-        "total_rules": len(rules)
+        "total_rules": len(rules),
+        "appended_to_rules_md": appended
     })
 
-    print(f"Learning Agent: processed {processed} new decision cards, total rules={len(rules)}")
+    print(f"Learning Agent: processed {processed} new decision cards, appended {appended} rules, total={len(rules)}")
 
 
 if __name__ == "__main__":

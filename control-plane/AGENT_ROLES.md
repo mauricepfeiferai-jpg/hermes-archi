@@ -219,3 +219,20 @@ Zusätzlich zu den klassischen Agentenrollen gibt es im 1000x-Modus folgende Spe
 Der wichtigste Agent ist der **Learning Agent**, weil er aus jeder Entscheidung Systemkapital macht.
 
 Siehe `PHILOSOPHY.md` und `control-plane/hermes/HERMES_RULES.md`.
+
+---
+
+## X-to-Wisdom Agenten-Rollen
+
+| Rolle | Aufgabe |
+|-------|---------|
+| **X_INGEST_AGENT** | Nimmt X-URL/Text/Thread/Kontext auf |
+| **CLAIM_EXTRACTOR** | Findet die zentrale These |
+| **FIRST_PRINCIPLES_CRITIC** | Zerstört Annahmen, extrahiert Grundwahrheiten |
+| **MAURICE_TRANSFER_AGENT** | Prüft Relevanz für Maurice' Ziele |
+| **LOOP_ARCHITECT** | Baut konkrete Hermes-Loops |
+| **CONTENT_REACTOR** | Eigener Post in Maurice' Stimme |
+| **BUSINESS_SCOUT** | Produkt-/Service-/Geld-Chancen |
+| **MEMORY_AGENT** | Regeln, Knowledge Cards, Anti-Regeln |
+
+Der wichtigste Agent: **MAURICE_TRANSFER_AGENT**.

@@ -240,3 +240,13 @@ Die Architektur enthält einen First-Principles-Modus, der bei komplexen Aufgabe
 - Decision Card + Learning Rule
 
 Quelle: `control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md`
+
+---
+
+## X-to-Wisdom Layer
+
+Die Architektur enthält eine X-Ingestion- und Veredelungsschicht.
+X-Posts werden nicht konsumiert, sondern durch First Principles in Systembausteine übersetzt:
+Knowledge Cards, Hermes Rules, Loop Upgrades, Experiments, Decision Cards, Content Seeds, Product Signals, Reject Notes.
+
+Quelle: `control-plane/hermes/HERMES_X_FIRST_PRINCIPLES_ENGINE.md`
