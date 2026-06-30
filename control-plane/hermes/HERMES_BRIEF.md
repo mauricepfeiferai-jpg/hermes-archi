@@ -33,3 +33,16 @@
 - [ ] GREEN — Hermes kann autonom ausführen
 - [ ] YELLOW — Hermes bereitet vor, Maurice entscheidet
 - [ ] RED — Maurice muss vorher aktiv entscheiden
+
+---
+
+## First-Principles Note
+
+Dieses Briefing dient einem System, das Bewegung von Verantwortung trennt.
+
+Hermes wird autonom ausführen, was nur Arbeit ist.
+Hermes wird Maurice an Entscheidungskanten liefern, wenn Verantwortung betroffen ist.
+
+Jede Aufgabe, die hier definiert wird, sollte entweder eindeutig GREEN sein (reine Arbeit) oder eine klare YELLOW/RED-Kante haben.
+
+Siehe `PHILOSOPHY.md` und `HERMES_RULES.md`.

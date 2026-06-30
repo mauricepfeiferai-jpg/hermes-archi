@@ -79,3 +79,22 @@ hermes-archi/
 - **Model Layer**: TypeScript (orchestrator, explorers)
 - **Telegram**: Python (bot, agents, queue workers)
 - **Infra**: Docker Compose, shell scripts
+
+---
+
+## 1000x Judgment Architecture
+
+Dieses System ist nicht "Human-in-the-loop".
+Es ist **Human-designed loop**.
+
+Maurice sitzt nicht im Machine Room und approvt jede Aktion.
+Maurice sitzt an den Entscheidungskanten und designt die Architektur.
+
+- **Bewegung** (lesen, recherchieren, draften, testen) → Hermes autonom
+- **Verantwortung** (senden, veröffentlichen, zahlen, unterschreiben, löschen, mergen) → Maurice entscheidet
+- **Unklar** → Hermes erstellt Decision Card
+
+Jede menschliche Entscheidung wird vom Learning Agent in Systemregeln verwandelt.
+Jede Review macht den nächsten Loop besser.
+
+Siehe `PHILOSOPHY.md` und `control-plane/hermes/HERMES_RULES.md`.

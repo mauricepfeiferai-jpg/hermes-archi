@@ -213,3 +213,147 @@ Hermes darf **niemals** autonom:
 4. Review-Layer in alle aktiven Loops einbauen
 5. Baseline für Zielkriterien messen
 
+
+---
+
+# 1000x-Appendix: Vom Human-in-the-Loop zum Human-Designed Loop
+
+> **Nordstern:** Hermes wird kein System, das Aufgaben für Maurice erledigt.
+> Hermes wird ein lernendes Betriebssystem, das Maurices Ziele, Standards, Grenzen und Entscheidungslogik operationalisiert.
+
+## A. Die 1000x-Formel
+
+```
+Maurice definiert Ziel
+↓
+Hermes baut Plan
+↓
+Hermes führt aus
+↓
+Hermes prüft gegen Kriterien
+↓
+Hermes eskaliert echte Entscheidungskanten
+↓
+Maurice entscheidet
+↓
+Hermes schreibt die Regel zurück ins System
+↓
+Nächster Loop ist besser
+```
+
+Der entscheidende Hebel: **Jede menschliche Entscheidung muss das System verbessern**, nicht nur die aktuelle Aufgabe.
+
+## B. Nicht Approval — Urteil
+
+Hermes stellt Maurice keine dummen Ja/Nein-Fragen. Eine Decision Card liefert:
+- Was ist die Entscheidung?
+- Warum ist sie relevant?
+- Welche Optionen gibt es?
+- Was passiert bei Ja/Nein?
+- Was ist reversibel, was irreversibel?
+- Was ist meine Empfehlung?
+- Was ist das größte Risiko?
+- Was ist der kleinste sichere nächste Schritt?
+
+## C. Agenten-Rollen im Judgment Transfer System
+
+| Agent | Aufgabe |
+|-------|---------|
+| **Scout** | Findet Chancen, Risiken, neue Informationen |
+| **Analyst** | Strukturiert Lage und Optionen |
+| **Planner** | Baut Vorgehensplan |
+| **Executor** | Führt sichere Arbeit aus |
+| **Critic** | Prüft gegen Kriterien |
+| **Risk Officer** | Erkennt Red Flags |
+| **Decision Card Writer** | Formuliert menschliche Entscheidung |
+| **Learning Agent** | Schreibt neue Regeln ins System |
+| **Controller** | Misst, ob Loops besser werden |
+
+Der wichtigste Agent ist der **Learning Agent**, weil er aus jeder Entscheidung Systemkapital macht.
+
+## D. Die sechs Machtstellen des Menschen
+
+Maurice sitzt an diesen Stellen, nirgends sonst:
+
+1. **Zielsetzung** — Was ist wichtig? Was zählt auf Freiheit, Familie, Geld, Gesundheit, Recht?
+2. **Priorisierung** — Was zuerst, was später, was gar nicht?
+3. **Grenzziehung** — Was darf Hermes allein, nur mit Plan, niemals?
+4. **Qualitätsurteil** — Gut genug? Klingt nach Maurice? Rechtlich sauber?
+5. **Verantwortungsentscheidung** — Senden, veröffentlichen, bezahlen, unterschreiben, löschen, mergen?
+6. **Regel-Update** — Was lernen wir daraus? Welche Regel ändert sich?
+
+## E. Aktion vs. Verantwortung
+
+| Bewegung (autonom) | Verantwortung (menschlich) |
+|--------------------|---------------------------|
+| Datei lesen | Etwas absenden |
+| Zusammenfassung erstellen | Etwas veröffentlichen |
+| Test-Suite ausführen | Geld ausgeben |
+| Entwurf vorbereiten | Rechtsposition ändern |
+| Recherche machen | Vertrag schließen |
+| Code vorschlagen | Account/Production löschen |
+| Plan skizzieren | Schuld anerkennen |
+
+Hermes unterscheidet nicht nach Aktionstyp, sondern nach Verantwortungstyp.
+
+## F. Feedback → Regel
+
+Jede Review muss zu einer neuen oder geschärften Regel führen:
+
+**Maurice lehnt ab:** "Zu aggressiv für Anwaltsschreiben."
+→ Neue Regel: Bei juristischen Schreiben keine eskalierende Sprache, keine emotionalen Wertungen, keine unnötigen Vorwürfe. Sachlich, belegbasiert, unter Vorbehalt.
+
+**Maurice sagt:** "Der Post ist zu generisch, klingt nach LinkedIn-AI."
+→ Neue Content-Regel: Keine abstrakten AI-Floskeln. Jeder Post braucht konkrete Systemlogik, einen klaren Konflikt und einen eigenen Maurice-Gedanken.
+
+**Maurice sagt:** "Nicht schon wieder neues Tool bauen, erst Bestehendes stabilisieren."
+→ Neue Engineering-Regel: Vor neuen Features immer prüfen: bestehender Loop stabil, dokumentiert, getestet, produktiv nutzbar?
+
+## G. Der 1000x-Manifest
+
+Ich baube kein System, das mich bei jeder Aktion um Erlaubnis bittet.
+Ich baue ein System, das versteht, welche Entscheidungen überhaupt meine Erlaubnis brauchen.
+
+Die Arbeit gehört der Maschine.
+Die Verantwortung bleibt beim Menschen.
+Die Architektur verbindet beides.
+
+Hermes soll nicht lernen, mich öfter zu fragen.
+Hermes soll lernen, mich seltener, besser und nur an echten Entscheidungskanten zu fragen.
+
+Jede Aufgabe soll nicht nur ein Ergebnis erzeugen, sondern das System verbessern, das zukünftige Ergebnisse erzeugt.
+
+Jede Freigabe, jede Ablehnung, jede Korrektur und jede Review wird zu Trainingsmaterial für meine persönliche Entscheidungsarchitektur.
+
+Das Ziel ist nicht Automatisierung um jeden Preis.
+Das Ziel ist zunehmende Autonomie innerhalb klarer Verantwortung.
+
+Nicht Human-in-the-loop.
+Human-designed loop.
+
+Nicht Approval.
+Judgment architecture.
+
+Nicht Aufgaben erledigen.
+Entscheidungsfähigkeit skalieren.
+
+## H. Messbare 1000x-Ziele
+
+| Bereich | 100x-Ziel | 1000x-Ziel |
+|---------|-----------|------------|
+| Micro-Approvals | −90 % | −95 % |
+| Decision Cards/Tag | 3–7 | 1–3 echte |
+| Autonome Vorarbeit | 80–90 % | 95 % |
+| Harte Freigaben | nur bei Risiko | nur bei Verantwortung |
+| Regel-Updates/Woche | 1 | 3+ |
+| Maurice-Rolle | Richtung geben | Entscheidungsarchitektur designen |
+
+
+
+---
+
+## Dynamisch gelernte Regeln (Learning Agent)
+
+Dieser Abschnitt wird automatisch vom Learning Agent aus Decision Cards ergänzt.
+
+- **RED** — Jegliche öffentliche Veröffentlichung (Post/Tweet/Artikel) ist RED-Gate: Maurice muss vorher entscheiden. *(gelernt aus DC_20260630_b939dd83)*

@@ -1,23 +1,28 @@
-# Maurice AI Empire — Silver Loops Crontab
+# Maurice AI Empire — Silver Loops Crontab (HIL-protected)
 SHELL=/bin/bash
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/maurice/.local/bin
 HOME=/Users/maurice
+REPO=/Users/maurice/ai-empire/projects/hermes-archi
+HIL="python3 $REPO/control-plane/hermes/hil_apply.py"
 
 # Morning: queue, health, ship
-0 6 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/06-ceo-daily-goals.sh
-15 6 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/07-cto-tech-health.sh
-0 7 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/08-engineer-ship.sh
+0 6 * * * cd $REPO && $HIL "06-ceo-daily-goals" "Generiere lokale Morgen-Queue aus Memory-Dateien" -- bash ops/cron/06-ceo-daily-goals.sh
+15 6 * * * cd $REPO && $HIL "07-cto-tech-health" "Prüfe lokalen Systemzustand und speichere Health-Report" -- bash ops/cron/07-cto-tech-health.sh
+0 7 * * * cd $REPO && $HIL "08-engineer-ship" "Identifiziere versandfertige Aufgaben aus der Queue (nur Report)" -- bash ops/cron/08-engineer-ship.sh
 
 # Knowledge ingestion
-0 8 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/22-research-ingestion.sh
-30 8 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/23-library-sync.sh
-0 9 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/24-dopamine-score.sh
-15 9 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/25-neural-broadcast.sh
+0 8 * * * cd $REPO && $HIL "22-research-ingestion" "Sammle öffentliche AI-Signale (GitHub/HN/arXiv) lokal ein" -- bash ops/cron/22-research-ingestion.sh
+30 8 * * * cd $REPO && $HIL "23-library-sync" "Synchronisiere lokale Library-Indizes" -- bash ops/cron/23-library-sync.sh
+0 9 * * * cd $REPO && $HIL "24-dopamine-score" "Berechne täglichen Dopamine-Score aus lokalen Events" -- bash ops/cron/24-dopamine-score.sh
+15 9 * * * cd $REPO && $HIL "25-neural-broadcast" "Erstelle täglichen Neural-Broadcast-Report" -- bash ops/cron/25-neural-broadcast.sh
 
 # Evening: backup, review, improve
-0 18 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/19-ops-backup-health.sh
-0 20 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/20-loop-review.sh
-30 20 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/21-loop-improve.sh
+0 18 * * * cd $REPO && $HIL "19-ops-backup-health" "Prüfe Backup-Status und speichere Health-Report" -- bash ops/cron/19-ops-backup-health.sh
+0 20 * * * cd $REPO && $HIL "20-loop-review" "Reviewe tägliche Loop-Ausführungen (read-only)" -- bash ops/cron/20-loop-review.sh
+30 20 * * * cd $REPO && $HIL "21-loop-improve" "Schlage Verbesserungen für Loops vor (read-only)" -- bash ops/cron/21-loop-improve.sh
+
 # Adaptive Loop Engine
-30 9 * * * cd ~/ai-empire/projects/hermes-archi && python3 agents/agent-os-harness/adaptive_loop_engine.py
-# X Trends Ingest\n30 8 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/26-x-trends.sh\n
+30 9 * * * cd $REPO && $HIL "adaptive-loop-engine" "Analysiere Systemmetriken und schlage neue Loops vor (read-only)" -- python3 agents/agent-os-harness/adaptive_loop_engine.py
+
+# X Trends Ingest
+30 8 * * * cd $REPO && $HIL "26-x-trends" "Lese X/Twitter Trends zu AI-Agent-Themen ein und speichere sie lokal als JSON" -- bash ops/cron/26-x-trends.sh

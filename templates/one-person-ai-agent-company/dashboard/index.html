@@ -372,6 +372,11 @@
             <div class="value" id="x-trends-count" style="color: var(--accent);">0</div>
             <div class="delta" id="x-trends-source">Mock demo mode</div>
           </div>
+          <div class="metric-card">
+            <div class="label">🛡️ HIL Gate Checks</div>
+            <div class="value" id="hil-gate-checks" style="color: var(--ok);">0</div>
+            <div class="delta" id="hil-gate-summary">GREEN: 0 · YELLOW: 0 · RED: 0</div>
+          </div>
         </div>
         <div class="card" style="margin-top: 20px;">
           <h3 style="font-size: 16px; margin-bottom: 12px;">Latest Neural Bus Events</h3>
@@ -613,6 +618,14 @@
       if (data?.x_trends_24h !== undefined) {
         document.getElementById('x-trends-count').textContent = data.x_trends_24h;
         document.getElementById('x-trends-source').textContent = data.x_trends_24h > 0 ? 'Live pipeline' : 'Mock demo mode';
+      }
+      // HIL
+      if (data?.hil_gate_checks !== undefined) {
+        document.getElementById('hil-gate-checks').textContent = data.hil_gate_checks;
+        const red = data.hil_red_blocks || 0;
+        const yellow = data.hil_yellow || 0;
+        const green = data.hil_green || 0;
+        document.getElementById('hil-gate-summary').textContent = `GREEN: ${green} · YELLOW: ${yellow} · RED: ${red}`;
       }
       const trendsList = document.getElementById('x-trends-list');
       const titles = data?.x_latest_titles || [];

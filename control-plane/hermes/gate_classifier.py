@@ -3,14 +3,14 @@
 import re, sys, json
 
 RED_PATTERNS = [
-    r"\b(überweis|zahlen|bezahlen|payment|transfer|send money)\b",
-    r"\b(unterschreib|vertrag|rechtlich bindend|legal agreement)\b",
-    r"\b(löschen|delete|rm -rf|drop table)\b",
-    r"\b(deploy.*production|merge.*main|push.*main)\b",
-    r"\b(post|tweet|veröffentlich|publish|live schalten)\b",
-    r"\b(passwort|secret|api key|credential)\b",
+    r"\b(überweis|zahlen|bezahlen|payment|transfer|send money)\w*\b",
+    r"\b(unterschreib|vertrag|rechtlich bindend|legal agreement)\w*\b",
+    r"\b(lösch|delet|rm -rf|drop table)\w*\b",
+    r"\b(deploy\w*\s+(?:nach\s+)?produktion|merge\w*\s+main|push\w*\s+main)\b",
+    r"\b(post|tweet|veröffentlich|publish|live\s*schalten)\w*\b",
+    r"\b(passwort|secret|api key|credential)\w*\b",
     r"\b(kundendaten|customer data).*senden\b",
-    r"\b(geld|money|euro|dollar).{0,30}(\b\d{3,}\b|viel|groß|hoch)\b",
+    r"\b(geld|money|euro|dollar).{0,30}\b(\d{3,}|viel|groß|hoch)\b",
 ]
 
 YELLOW_PATTERNS = [

@@ -31,3 +31,46 @@
 Runs continuously: analyzes dopamine score, neural bus patterns, and lessons. Proposes new Silverloops. Currently L1 report-only; emperor approves implementations.
 
 Command: `python3 agents/agent-os-harness/adaptive_loop_engine.py`
+
+---
+
+## First-Principles Loop Logic
+
+Nicht:
+```
+KI macht Schritt
+↓
+Maurice genehmigt
+↓
+KI macht nächsten Schritt
+```
+Das ist ein langsamer Loop. Das ist Human-as-Brake-Pedal.
+
+Sondern:
+```
+Maurice definiert Ziel
+↓
+Hermes versteht Constraints
+↓
+Hermes baut Plan
+↓
+Maurice prüft Entscheidungspunkte
+↓
+Hermes führt operative Arbeit aus
+↓
+Hermes prüft Ergebnis
+↓
+Maurice entscheidet echte Verantwortungskanten
+↓
+Hermes schreibt neue Regeln zurück
+↓
+Nächster Loop ist besser
+```
+
+**Kernfrage pro Aktion:** Ist das nur Arbeit oder Verantwortung?
+
+- Arbeit → Hermes macht.
+- Verantwortung → Maurice entscheidet.
+- Unklar → Decision Card.
+
+Siehe `PHILOSOPHY.md` für vollständige First-Principles-Ausführung.

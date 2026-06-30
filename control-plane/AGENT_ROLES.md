@@ -197,3 +197,25 @@ Legend: ✅ Verantwortlich, — Nicht beteiligt, ❌ Verboten
 | Hermes generiert Text mit LLM                          | Architecture-Violation           |
 | Agent X → Agent Y direkt (ohne Hermes)                 | Block + Trace-Log                |
 | `confirmedBy: maurice` ohne echte Confirmation         | Audit-Alert + Stop               |
+
+---
+
+## Judgment Transfer System Roles
+
+Zusätzlich zu den klassischen Agentenrollen gibt es im 1000x-Modus folgende Spezialisierungen:
+
+| Rolle | Verantwortung |
+|-------|---------------|
+| **Scout** | Neue Chancen, Risiken, Signale entdecken |
+| **Analyst** | Lage strukturieren, Optionen aufzeigen |
+| **Planner** | Vorgehensplan mit Entscheidungspunkten |
+| **Executor** | Sichere operative Arbeit ausführen |
+| **Critic** | Ergebnisse gegen Kriterien prüfen |
+| **Risk Officer** | Red Flags erkennen, eskalieren |
+| **Decision Card Writer** | Menschliche Entscheidung strukturiert vorbereiten |
+| **Learning Agent** | Aus Entscheidungen neue Regeln ableiten |
+| **Controller** | Loop-Qualität messen |
+
+Der wichtigste Agent ist der **Learning Agent**, weil er aus jeder Entscheidung Systemkapital macht.
+
+Siehe `PHILOSOPHY.md` und `control-plane/hermes/HERMES_RULES.md`.

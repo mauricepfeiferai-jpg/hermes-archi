@@ -207,3 +207,25 @@ control-plane/
 | Telegram Bot (Harvey)  | 🟢 Keep    | Wird Harvey-Persona           |
 | CORE Memory Engine     | 🟢 Keep    | Wird Jarvis Memory-Backend    |
 | Telegram 7 Topics      | 🔴 Reduce  | → 4 Topics                    |
+
+---
+
+## First-Principles-Update: Human-Designed Loop
+
+Die Architektur wurde um eine grundlegende Unterscheidung erweitert:
+
+**Nicht Human-in-the-loop. Human-designed loop.**
+
+Der Mensch gehört nicht in den Loop, weil jede KI-Aktion gefährlich ist.
+Der Mensch gehört an die Stellen, wo Verantwortung, Urteil und Richtung entstehen.
+
+### Architektur-Implikationen
+
+- **Jarvis** bleibt Orchestrator, entscheidet aber Routing, nicht Freigaben.
+- **Hermes** führt operative Arbeit aus und prüft Ergebnisse.
+- **Risk Officer** erkennt Verantwortungskanten.
+- **Decision Card Writer** formuliert Entscheidungen für Maurice.
+- **Learning Agent** schreibt Regeln zurück.
+- **Maurice** definiert Ziele, Grenzen, Standards und entscheidet echte Verantwortung.
+
+Siehe `PHILOSOPHY.md` für vollständige First-Principles-Ausführung.

@@ -42,6 +42,16 @@ if x_trend_files:
     except Exception:
         pass
 
+
+# HIL status
+hil = {"total_gate_checks": 0, "red_blocks": 0, "yellow_preparations": 0, "green_executions": 0}
+hil_file = repo / "state" / "hil" / "status.json"
+if hil_file.exists():
+    try:
+        hil = json.loads(hil_file.read_text())
+    except Exception:
+        pass
+
 data = {
     "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     "agents": [a["id"] for a in agents],
@@ -60,6 +70,10 @@ data = {
             cwd=repo, capture_output=True, text=True
         ).stdout.strip() or "unknown",
     "proposals": proposals,
+                "hil_gate_checks": hil.get("total_gate_checks", 0),
+        "hil_red_blocks": hil.get("red_blocks", 0),
+        "hil_yellow": hil.get("yellow_preparations", 0),
+        "hil_green": hil.get("green_executions", 0),
                 "x_trends_24h": x_trends_count,
         "x_latest_titles": x_latest_titles,
 }
