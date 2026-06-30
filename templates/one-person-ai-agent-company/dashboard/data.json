@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T19:09:14.247314Z",
+  "generated_at": "2026-06-30T20:53:22.310582Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
@@ -22,13 +22,13 @@
   "skills": 382,
   "github_repos": 17,
   "knowledge_nuggets": 272,
-  "dopamine_score": 273.45,
+  "dopamine_score": 280.75,
   "dopamine_streak": 4,
   "dopamine_threshold": 26.77,
-  "neural_events": 107,
+  "neural_events": 108,
   "lessons": 6,
   "status": "LIVE",
-  "last_commit": "46ddc1c",
+  "last_commit": "65478be",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",
