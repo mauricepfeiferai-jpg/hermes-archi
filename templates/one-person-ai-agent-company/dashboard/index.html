@@ -316,7 +316,7 @@
       <div class="header">
         <div>
           <h1>Dashboard</h1>
-          <p>7 AI agents. 10 cron jobs. 0 employees.</p>
+          <p>16 AI agents. 19 silver loops. 0 employees.</p>
         </div>
         <div class="status-pill"><span></span> System Online</div>
       </div>
@@ -325,11 +325,11 @@
         <div class="metric-card">
           <div class="label">Agents Active</div>
           <div class="value" style="color: var(--accent);">7</div>
-          <div class="delta">8 roles incl. Loop</div>
+          <div class="delta">16 agents incl. Loop + x_mcp</div>
         </div>
         <div class="metric-card">
           <div class="label">Cron Jobs</div>
-          <div class="value" style="color: var(--ok);">10</div>
+          <div class="value" style="color: var(--ok);">19</div>
           <div class="delta">Daily schedule</div>
         </div>
         <div class="metric-card">
@@ -367,11 +367,22 @@
             <div class="value" style="font-size: 22px; padding-top: 10px; color: var(--warn);">Local</div>
             <div class="delta">Mobile pairing pending</div>
           </div>
+          <div class="metric-card">
+            <div class="label">𝕏 X Trends 24h</div>
+            <div class="value" id="x-trends-count" style="color: var(--accent);">0</div>
+            <div class="delta" id="x-trends-source">Mock demo mode</div>
+          </div>
         </div>
         <div class="card" style="margin-top: 20px;">
           <h3 style="font-size: 16px; margin-bottom: 12px;">Latest Neural Bus Events</h3>
           <div id="neural-bus-list" style="font-size: 13px; color: var(--muted);">
             <p>No events yet — run silver loops.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 20px;">
+          <h3 style="font-size: 16px; margin-bottom: 12px;">🔥 Latest X Trends</h3>
+          <div id="x-trends-list" style="font-size: 13px; color: var(--muted);">
+            <p>No X trends yet — run 26-x-trends.sh.</p>
           </div>
         </div>
       </div>
@@ -588,19 +599,33 @@
     }
 
     function updateStats(data) {
-      if (data?.lessons) document.getElementById('lessons-count').textContent = data.lessons;
-      if (data?.backup) document.getElementById('backup-age').textContent = data.backup;
+      if (data?.lessons !== undefined) document.getElementById('lessons-count').textContent = data.lessons;
+      if (data?.dopamine_score !== undefined) {
+        document.getElementById('dopamine-score').textContent = Math.round(data.dopamine_score);
+        document.getElementById('dopamine-streak').textContent = `Streak: ${data.dopamine_streak || 0} days`;
+      }
+      if (data?.neural_events !== undefined) document.getElementById('neural-events').textContent = data.neural_events;
 
-      const aos = data?.agent_os || {};
-      if (aos.dopamine_score !== undefined) document.getElementById('dopamine-score').textContent = Math.round(aos.dopamine_score);
-      if (aos.dopamine_streak !== undefined) document.getElementById('dopamine-streak').textContent = `Streak: ${aos.dopamine_streak} days`;
-      if (aos.neural_events_24h !== undefined) document.getElementById('neural-events').textContent = aos.neural_events_24h;
-
-      const libCount = (aos.library_repos || 0) + (aos.library_skills || 0) + (aos.library_nuggets || 0);
+      const libCount = (data.github_repos || 0) + (data.skills || 0) + (data.knowledge_nuggets || 0);
       document.getElementById('library-count').textContent = libCount;
 
+      // X Trends
+      if (data?.x_trends_24h !== undefined) {
+        document.getElementById('x-trends-count').textContent = data.x_trends_24h;
+        document.getElementById('x-trends-source').textContent = data.x_trends_24h > 0 ? 'Live pipeline' : 'Mock demo mode';
+      }
+      const trendsList = document.getElementById('x-trends-list');
+      const titles = data?.x_latest_titles || [];
+      if (titles.length > 0) {
+        trendsList.innerHTML = titles.map(t => `
+          <div style="padding: 6px 0; border-bottom: 1px solid var(--border);">
+            <span style="color: var(--accent);">•</span> ${t}
+          </div>
+        `).join('');
+      }
+
       const busList = document.getElementById('neural-bus-list');
-      const events = aos.latest_events || [];
+      const events = data?.latest_events || [];
       if (events.length > 0) {
         busList.innerHTML = events.slice(0, 8).map(e => `
           <div style="padding: 6px 0; border-bottom: 1px solid var(--border);">
