@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T09:08:24.186248",
+  "generated_at": "2026-06-30T09:15:00.593166",
   "agents": [
     "ceo",
     "cto",
@@ -17,8 +17,13 @@
     "dopamine_score": 14.8,
     "dopamine_streak": 0,
     "dopamine_last_delta": 14.8,
-    "neural_events_24h": 31,
+    "neural_events_24h": 32,
     "latest_events": [
+      {
+        "ts": "2026-06-30T07:08:24.189542Z",
+        "type": "neural.broadcast.completed",
+        "source": "25-neural-broadcast.sh"
+      },
       {
         "ts": "2026-06-30T07:08:24.141301Z",
         "type": "code.completed",
@@ -61,11 +66,6 @@
       },
       {
         "ts": "2026-06-30T07:07:01.273060Z",
-        "type": "library.entry",
-        "source": "22-research-ingestion.sh"
-      },
-      {
-        "ts": "2026-06-30T07:06:07.556540Z",
         "type": "library.entry",
         "source": "22-research-ingestion.sh"
       }
