@@ -144,3 +144,20 @@ Zunehmende Autonomie innerhalb klarer Verantwortung.
 - `control-plane/hermes/decision_card.py` — Decision Card Generator
 - `control-plane/hermes/learning_agent.py` — Regeln aus Decision Cards extrahieren
 - `~/.openclaw/workspace/SOUL.md` — persönliche 1000x-Philosophie
+
+---
+
+## First-Principles-Modus
+
+Für komplexe Aufgaben gibt es einen kanonischen Modus:
+`control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md`
+
+Der Modus zwingt Hermes, Annahmen zu zerstören und vom unvermeidbaren Kern aus neu zu bauen.
+
+Kurzform:
+1. Was ist das eigentliche Problem?
+2. Welche Annahmen sind nur Gewohnheit/Trend/Angst?
+3. Welche Grundwahrheiten bleiben übrig?
+4. Was würde man bei null bauen?
+5. Welche Entscheidungen gehören zu Maurice?
+6. Welche Regel lernt Hermes?

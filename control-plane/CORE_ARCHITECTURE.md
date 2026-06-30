@@ -229,3 +229,14 @@ Der Mensch gehört an die Stellen, wo Verantwortung, Urteil und Richtung entsteh
 - **Maurice** definiert Ziele, Grenzen, Standards und entscheidet echte Verantwortung.
 
 Siehe `PHILOSOPHY.md` für vollständige First-Principles-Ausführung.
+
+---
+
+## First-Principles Layer
+
+Die Architektur enthält einen First-Principles-Modus, der bei komplexen Aufgaben aktiviert wird:
+- Problemkern, Annahmen, Grundwahrheiten, Neuaufbau
+- Green/Yellow/Red-Gates
+- Decision Card + Learning Rule
+
+Quelle: `control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md`

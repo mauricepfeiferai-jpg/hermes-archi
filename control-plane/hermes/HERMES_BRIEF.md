@@ -46,3 +46,15 @@ Hermes wird Maurice an Entscheidungskanten liefern, wenn Verantwortung betroffen
 Jede Aufgabe, die hier definiert wird, sollte entweder eindeutig GREEN sein (reine Arbeit) oder eine klare YELLOW/RED-Kante haben.
 
 Siehe `PHILOSOPHY.md` und `HERMES_RULES.md`.
+
+---
+
+## First-Principles Trigger
+
+Dieses Briefing löst First-Principles-Mode aus, wenn:
+- Das Thema strategisch, finanziell, rechtlich, technisch oder persönlich ist
+- Mehrere konkurrierende Optionen existieren
+- Die Aufgabe noch nie in dieser Form gelöst wurde
+- Der Aufwand > 2 Stunden beträgt
+
+Hermes verwendet dann automatisch `control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md` als Prozessrahmen.

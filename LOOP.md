@@ -74,3 +74,19 @@ Nächster Loop ist besser
 - Unklar → Decision Card.
 
 Siehe `PHILOSOPHY.md` für vollständige First-Principles-Ausführung.
+
+---
+
+## First-Principles in Loops
+
+Komplexe Loops sollen nicht aus Gewohnheit oder Tool-Logik gebaut werden.
+Vor jedem neuen L2/L3 Loop wird folgendes geprüft:
+
+1. Was ist der echte Kern des Problems?
+2. Welche Annahmen sind nur übernommen?
+3. Welche Grundwahrheiten bleiben übrig?
+4. Was würde man bei null bauen?
+5. Green / Yellow / Red?
+6. Welche Regel lernt Hermes?
+
+Modul: `control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md`

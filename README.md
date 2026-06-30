@@ -98,3 +98,14 @@ Jede menschliche Entscheidung wird vom Learning Agent in Systemregeln verwandelt
 Jede Review macht den nächsten Loop besser.
 
 Siehe `PHILOSOPHY.md` und `control-plane/hermes/HERMES_RULES.md`.
+
+---
+
+## First-Principles Modus
+
+Für komplexe strategische, finanzielle, rechtliche oder persönliche Fragen bietet Hermes einen kanonischen First-Principles-Modus:
+`control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md`
+
+Ziel: Annahmen zerstören, Grundwahrheiten extrahieren, aus null neu bauen.
+
+Siehe `PHILOSOPHY.md` für den architektonischen Kontext.
