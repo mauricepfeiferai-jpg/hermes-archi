@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Company — Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --panel: #151619;
+      --panel-hover: #1c1d22;
+      --text: #f5f5f5;
+      --muted: #8b9199;
+      --accent: #00d4ff;
+      --accent-soft: rgba(0, 212, 255, 0.12);
+      --ok: #10b981;
+      --warn: #f59e0b;
+      --off: #ef4444;
+      --border: #23252a;
+      --radius: 14px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 240px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.3px;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      color: #000;
+      font-weight: 900;
+      font-size: 16px;
+    }
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.15s;
+    }
+    .nav a.active, .nav a:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .main {
+      flex: 1;
+      padding: 32px 36px;
+      overflow-y: auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .header p {
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--ok);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .status-pill span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ok);
+      box-shadow: 0 0 8px var(--ok);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .metric-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+    .metric-card .label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .metric-card .value {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .metric-card .delta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card h2 .muted { color: var(--muted); font-weight: 500; font-size: 13px; }
+    .agent-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .agent-row:last-child { border-bottom: none; }
+    .agent-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .agent-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .agent-meta .name { font-weight: 700; font-size: 14px; }
+    .agent-meta .task { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .agent-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.10);
+      color: var(--ok);
+    }
+    .agent-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .agent-status.idle {
+      background: rgba(139, 145, 153, 0.10);
+      color: var(--muted);
+    }
+    .agent-status.run {
+      background: rgba(0, 212, 255, 0.12);
+      color: var(--accent);
+    }
+    .agent-status.error {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--off);
+    }
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+    .schedule-item .time { color: var(--accent); font-weight: 700; font-size: 13px; }
+    .schedule-item .job { font-size: 13px; color: var(--text); }
+    .schedule-item .agent { font-size: 12px; color: var(--muted); }
+    .output-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .output-item {
+      padding: 14px;
+      border-radius: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-item .title { font-size: 13px; font-weight: 600; }
+    .output-item .date { font-size: 12px; color: var(--muted); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    @media (max-width: 1024px) {
+      .app { flex-direction: column; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">AI</div>
+        <div>Agent Company</div>
+      </div>
+      <nav class="nav">
+        <a href="#" class="active">📊 Dashboard</a>
+        <a href="#agents">🤖 Agents</a>
+        <a href="#schedule">🕐 Schedule</a>
+        <a href="#outputs">📁 Outputs</a>
+        <a href="#agent-os">🧠 Agent OS</a>
+        <a href="#loop">🔄 Loop</a>
+        <a href="../README.md">📖 Docs</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <div>
+          <h1>Dashboard</h1>
+          <p>7 AI agents. 10 cron jobs. 0 employees.</p>
+        </div>
+        <div class="status-pill"><span></span> System Online</div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric-card">
+          <div class="label">Agents Active</div>
+          <div class="value" style="color: var(--accent);">7</div>
+          <div class="delta">8 roles incl. Loop</div>
+        </div>
+        <div class="metric-card">
+          <div class="label">Cron Jobs</div>
+          <div class="value" style="color: var(--ok);">10</div>
+          <div class="delta">Daily schedule</div>
+        </div>
+        <div class="metric-card">
+          <div class="label">Lessons Logged</div>
+          <div class="value" id="lessons-count">0</div>
+          <div class="delta">Self-improvement loop</div>
+        </div>
+        <div class="metric-card">
+          <div class="label">Last Backup</div>
+          <div class="value" id="backup-age" style="font-size: 22px; padding-top: 10px;">Today</div>
+          <div class="delta">Ops agent 18:00</div>
+        </div>
+      </div>
+
+      <div class="section" id="agent-os">
+        <h2>Agent OS <span style="color: var(--muted); font-size: 18px; font-weight: 500;">Neural Network + Dopamine</span></h2>
+        <div class="metrics" style="margin-top: 16px;">
+          <div class="metric-card">
+            <div class="label">🧠 Dopamine Score</div>
+            <div class="value" id="dopamine-score" style="color: var(--accent);">0</div>
+            <div class="delta" id="dopamine-streak">Streak: 0 days</div>
+          </div>
+          <div class="metric-card">
+            <div class="label">🔗 Neural Events 24h</div>
+            <div class="value" id="neural-events">0</div>
+            <div class="delta">All agents connected</div>
+          </div>
+          <div class="metric-card">
+            <div class="label">📚 Libraries</div>
+            <div class="value" id="library-count" style="font-size: 22px; padding-top: 10px;">0</div>
+            <div class="delta">Repos + Skills + Nuggets</div>
+          </div>
+          <div class="metric-card">
+            <div class="label">🦞 OpenClaw</div>
+            <div class="value" style="font-size: 22px; padding-top: 10px; color: var(--warn);">Local</div>
+            <div class="delta">Mobile pairing pending</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 20px;">
+          <h3 style="font-size: 16px; margin-bottom: 12px;">Latest Neural Bus Events</h3>
+          <div id="neural-bus-list" style="font-size: 13px; color: var(--muted);">
+            <p>No events yet — run silver loops.</p>
+          </div>
+        </div>
+      </div>
+
+      
+    <div class="section">
+      <h2>Morning Action Queue</h2>
+      <div class="loop-box">
+        <p style="color: #8b9199; font-size: 14px; margin-bottom: 16px;">
+          The CEO Agent ranks what matters today and routes each agent to the right skill at the right time. You don't browse the skill library — you work the queue.
+        </p>
+        <div class="schedule-list" id="morning-queue">
+          <div class="schedule-item">
+            <div><div class="time">06:00</div><div class="job">CTO — Tech health check</div></div>
+          </div>
+          <div class="schedule-item">
+            <div><div class="time">06:15</div><div class="job">CEO — Set daily goals + queue</div></div>
+          </div>
+          <div class="schedule-item">
+            <div><div class="time">07:00</div><div class="job">Engineer — Ship backlog item</div></div>
+          </div>
+          <div class="schedule-item">
+            <div><div class="time">10:00</div><div class="job">Sales — Lead inbox triage</div></div>
+          </div>
+          <div class="schedule-item">
+            <div><div class="time">20:00</div><div class="job">Loop — Daily review</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card" id="agents">
+          <h2>Agents <span class="muted">Status</span></h2>
+          <div class="agent-row">
+            <div class="agent-info">
+              <div class="agent-avatar">CEO</div>
+              <div class="agent-meta">
+                <div class="name">CEO Agent</div>
+                <div class="task">Sets daily top 3 priorities</div>
+              </div>
+            </div>
+            <div class="agent-status idle">Idle</div>
+          </div>
+          <div class="agent-row">
+            <div class="agent-info">
+              <div class="agent-avatar">CTO</div>
+              <div class="agent-meta">
+                <div class="name">CTO Agent</div>
+                <div class="task">Tech health checks</div>
+              </div>
+            </div>
+            <div class="agent-status idle">Idle</div>
+          </div>
+          <div class="agent-row">
+            <div class="agent-info">
+              <div class="agent-avatar">ENG</div>
+              <div class="agent-meta">
+                <div class="name">Engineer Agent</div>
+                <div class="task">Ships backlog items</div>
+              </div>
+            </div>
+            <div class="agent-status idle">Idle</div>
+          </div>
+          <div class="agent-row">
+            <div class="agent-info">
+              <div class="agent-avatar">RES</div>
+              <div class="agent-meta">
+                <div class="name">Researcher Agent</div>
+                <div class="task">Market scan + daily brief</div>
+              </div>
+            </div>
+            <div class="agent-status idle">Idle</div>
+          </div>
+          <div class="agent-row">
+            <div class="agent-info">
+              <div class="agent-avatar">WRI</div>
+              <div class="agent-meta">
+                <div class="name">Writer Agent</div>
+                <div class="task">Content engine</div>
+              </div>
+            </div>
+            <div class="agent-status idle">Idle</div>
+          </div>
+          <div class="agent-row">
+            <div class="agent-info">
+              <div class="agent-avatar">SAL</div>
+              <div class="agent-meta">
+                <div class="name">Sales Agent</div>
+                <div class="task">Pipeline + outbound</div>
+              </div>
+            </div>
+            <div class="agent-status idle">Idle</div>
+          </div>
+          <div class="agent-row">
+            <div class="agent-info">
+              <div class="agent-avatar">OPS</div>
+              <div class="agent-meta">
+                <div class="name">Ops Agent</div>
+                <div class="task">Backup + system health</div>
+              </div>
+            </div>
+            <div class="agent-status idle">Idle</div>
+          </div>
+        </div>
+
+        <div class="card" id="schedule">
+          <h2>Schedule <span class="muted">Today</span></h2>
+          <div class="schedule-list">
+            <div class="schedule-item">
+              <div>
+                <div class="time">06:00</div>
+                <div class="job">Daily goals — CEO</div>
+              </div>
+              <div class="agent">Pending</div>
+            </div>
+            <div class="schedule-item">
+              <div>
+                <div class="time">06:15</div>
+                <div class="job">Tech health — CTO</div>
+              </div>
+              <div class="agent">Pending</div>
+            </div>
+            <div class="schedule-item">
+              <div>
+                <div class="time">07:00</div>
+                <div class="job">Ship backlog — Engineer</div>
+              </div>
+              <div class="agent">Pending</div>
+            </div>
+            <div class="schedule-item">
+              <div>
+                <div class="time">18:00</div>
+                <div class="job">Backup + health — Ops</div>
+              </div>
+              <div class="agent">Pending</div>
+            </div>
+            <div class="schedule-item">
+              <div>
+                <div class="time">20:00</div>
+                <div class="job">Review + improve — Loop</div>
+              </div>
+              <div class="agent">Pending</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" id="outputs">
+          <h2>Morning Queue Recent Outputs Outputs <span class="muted">From */outputs/</span></h2>
+          <div class="output-list" id="output-list">
+            <div class="output-item">
+              <div class="title">No outputs yet</div>
+              <div class="date">Run the cron scripts to populate</div>
+            </div>
+          </div>
+          <a class="btn" href="#" onclick="window.location.reload(); return false;">🔄 Refresh</a>
+        </div>
+
+        <div class="card" id="loop">
+          <h2>Loop <span class="muted">Self-improve</span></h2>
+          <p style="color: var(--muted); font-size: 14px; margin-bottom: 16px;">
+            Every failure becomes a system upgrade. Execute → Review → Retro → Patch → Repeat.
+          </p>
+          <div class="schedule-list">
+            <div class="schedule-item">
+              <div>
+                <div class="time">Review</div>
+                <div class="job">Daily failure classification</div>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div>
+                <div class="time">Retro</div>
+                <div class="job">Weekly system upgrade</div>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div>
+                <div class="time">Patch</div>
+                <div class="job">Smallest durable fix</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>One-Person AI Agent Company Template</span>
+        <span id="last-updated">Last updated: —</span>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function loadData() {
+      try {
+        const res = await fetch('data.json');
+        return res.ok ? await res.json() : null;
+      } catch (e) { return null; }
+    }
+
+    function renderOutputs(data) {
+      const list = document.getElementById('output-list');
+      const outputs = (data?.outputs || []);
+      if (outputs.length === 0) return;
+      list.innerHTML = outputs.slice(0, 8).map(o => `
+        <div class="output-item">
+          <div class="title">${o.agent.toUpperCase()} — ${o.file}</div>
+          <div class="date">${o.date}</div>
+        </div>
+      `).join('');
+    }
+
+    function updateStats(data) {
+      if (data?.lessons) document.getElementById('lessons-count').textContent = data.lessons;
+      if (data?.backup) document.getElementById('backup-age').textContent = data.backup;
+
+      const aos = data?.agent_os || {};
+      if (aos.dopamine_score !== undefined) document.getElementById('dopamine-score').textContent = Math.round(aos.dopamine_score);
+      if (aos.dopamine_streak !== undefined) document.getElementById('dopamine-streak').textContent = `Streak: ${aos.dopamine_streak} days`;
+      if (aos.neural_events_24h !== undefined) document.getElementById('neural-events').textContent = aos.neural_events_24h;
+
+      const libCount = (aos.library_repos || 0) + (aos.library_skills || 0) + (aos.library_nuggets || 0);
+      document.getElementById('library-count').textContent = libCount;
+
+      const busList = document.getElementById('neural-bus-list');
+      const events = aos.latest_events || [];
+      if (events.length > 0) {
+        busList.innerHTML = events.slice(0, 8).map(e => `
+          <div style="padding: 6px 0; border-bottom: 1px solid var(--border);">
+            <span style="color: var(--accent);">${e.ts?.split('T')[1]?.slice(0,5) || '--:--'}</span> <strong>${e.type}</strong> · ${e.source}
+          </div>
+        `).join('');
+      }
+    }
+
+    async function init() {
+      const data = await loadData();
+      if (data) {
+        renderOutputs(data);
+        updateStats(data);
+      }
+      document.getElementById('last-updated').textContent = 'Last updated: ' + new Date().toLocaleString();
+    }
+
+    init();
+  </script>
+</body>
+</html>

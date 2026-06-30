@@ -1,9 +1,6 @@
 #!/bin/bash
-# Silver Loop: Library Sync
-# Rebuilds indices for skills, GitHub repos, and knowledge libraries.
-
+# Silver Loop: Library Sync (dynamic)
 set -euo pipefail
-
 REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 INDEX_DIR="$REPO/state/libraries/.indices"
@@ -11,11 +8,18 @@ SKILL_DIR="$REPO/state/skills"
 
 mkdir -p "$INDEX_DIR" "$SKILL_DIR"
 
+# Rank latest discovered repos
+echo "🧠 Ranking discovered repos..."
+python3 "$REPO/agents/research/rank_discovered_repos.py"
+
+# Auto-clone top repos
+echo "📦 Auto-cloning top repos..."
+python3 "$REPO/agents/research/auto_clone_top_repos.py"
+
 echo "📚 Syncing GitHub library index..."
 python3 - "$REPO" "$INDEX_DIR" <<PY
 import json, sys
 from pathlib import Path
-
 repo, idx_dir = Path(sys.argv[1]), Path(sys.argv[2])
 lib_dir = repo / "09_LIBRARY"
 manifest = lib_dir / "MANIFEST.md"
@@ -25,7 +29,7 @@ if manifest.exists():
     for line in manifest.read_text().splitlines():
         if line.startswith("|") and "https://github.com" in line:
             parts = [p.strip() for p in line.split("|")]
-            if len(parts) >= 5:
+            if len(parts) >= 5 and parts[2] not in ["#", "Name", "---"]:
                 repos.append({
                     "name": parts[2],
                     "source": parts[3],
@@ -43,7 +47,6 @@ echo "🧠 Syncing skill registry..."
 python3 - "$REPO" "$HOME" "$SKILL_DIR" <<PY
 import json, sys
 from pathlib import Path
-
 repo, home, skill_state = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
 skill_roots = [
     home / ".codex" / "skills",
@@ -75,7 +78,6 @@ echo "🔗 Syncing knowledge library index..."
 python3 - "$REPO" "$HOME" "$INDEX_DIR" <<PY
 import json, sys
 from pathlib import Path
-
 repo, home, idx_dir = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
 roots = [
     home / ".openclaw" / "workspace" / "ai-empire" / "04_OUTPUT" / "GOLD_NUGGETS",
@@ -99,18 +101,21 @@ python3 - "$REPO" <<PY
 import json, sys
 from pathlib import Path
 from datetime import datetime, timezone
-
 repo = Path(sys.argv[1])
 bus_dir = repo / "state" / "neural-bus"
 bus_dir.mkdir(parents=True, exist_ok=True)
+now = datetime.now(timezone.utc)
+q = chr(39)
+z = chr(90)
 event = {
-    "ts": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+    "ts": now.isoformat().replace(q + q + q + q + q + q + q + q, z),
     "type": "library.sync.completed",
     "source": "23-library-sync.sh",
     "payload": {"indices_rebuilt": True},
     "recipients": ["emperor", "openclaw_main", "dashboard"]
 }
-(bus_dir / f"{datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z').replace(':', '-').replace('.', '-')}_library.sync.completed.json").write_text(json.dumps(event, indent=2))
+ts = now.isoformat().replace(q + q + q + q + q + q + q + q, z).replace(chr(58), chr(45)).replace(chr(46), chr(45))
+(bus_dir / f"{ts}_library.sync.completed.json").write_text(json.dumps(event, indent=2))
 print("🧠 Neural bus: library.sync.completed")
 PY
 
