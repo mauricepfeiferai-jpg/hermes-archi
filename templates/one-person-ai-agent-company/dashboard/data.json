@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T22:06:10.298724Z",
+  "generated_at": "2026-06-30T22:06:11.922280Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
@@ -28,7 +28,7 @@
   "neural_events": 171,
   "lessons": 8,
   "status": "LIVE",
-  "last_commit": "b317325",
+  "last_commit": "f0c8666",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",
