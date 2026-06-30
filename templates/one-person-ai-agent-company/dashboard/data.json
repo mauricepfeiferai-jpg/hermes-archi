@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T08:16:38.556596",
+  "generated_at": "2026-06-30T09:07:50.373901",
   "agents": [
     "ceo",
     "cto",
@@ -17,56 +17,61 @@
     "dopamine_score": 0.0,
     "dopamine_streak": 0,
     "dopamine_last_delta": 0.0,
-    "neural_events_24h": 9,
+    "neural_events_24h": 26,
     "latest_events": [
       {
-        "ts": "2026-06-30T06:16:38.510837Z",
+        "ts": "2026-06-30T07:07:50.327688Z",
         "type": "dopamine.score.updated",
         "source": "24-dopamine-score.sh"
       },
       {
-        "ts": "2026-06-30T06:16:24.319471Z",
-        "type": "neural.broadcast.completed",
-        "source": "25-neural-broadcast.sh"
-      },
-      {
-        "ts": "2026-06-30T06:16:24.269985Z",
+        "ts": "2026-06-30T07:07:50.291635Z",
         "type": "library.sync.completed",
         "source": "23-library-sync.sh"
       },
       {
-        "ts": "2026-06-30T06:16:24.131588Z",
-        "type": "dopamine.score.updated",
-        "source": "24-dopamine-score.sh"
+        "ts": "2026-06-30T07:07:44.560818Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
       },
       {
-        "ts": "2026-06-30T06:15:36.883943Z",
-        "type": "library.sync.completed",
-        "source": "23-library-sync.sh"
+        "ts": "2026-06-30T07:07:01.273060Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
       },
       {
-        "ts": "2026-06-30T06:15:19.281515Z",
-        "type": "neural.broadcast.completed",
-        "source": "25-neural-broadcast.sh"
+        "ts": "2026-06-30T07:06:07.556540Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
       },
       {
-        "ts": "2026-06-30T06:14:53.682735Z",
-        "type": "neural.broadcast.completed",
-        "source": "25-neural-broadcast.sh"
+        "ts": "2026-06-30T07:05:36.513424Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
       },
       {
-        "ts": "2026-06-30T06:14:50.103328Z",
-        "type": "dopamine.score.updated",
-        "source": "24-dopamine-score.sh"
+        "ts": "2026-06-30T07:04:52.627393Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
       },
       {
-        "ts": "2026-06-30T06:14:47.022977Z",
-        "type": "library.sync.completed",
-        "source": "23-library-sync.sh"
+        "ts": "2026-06-30T07:03:15.451200Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
+      },
+      {
+        "ts": "2026-06-30T07:01:55.502809Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
+      },
+      {
+        "ts": "2026-06-30T07:00:59.923045Z",
+        "type": "library.entry",
+        "source": "22-research-ingestion.sh"
       }
     ],
     "library_repos": 17,
     "library_skills": 382,
-    "library_nuggets": 252
+    "library_nuggets": 254
   }
 }
