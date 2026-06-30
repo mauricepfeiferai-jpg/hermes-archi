@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T22:06:11.922280Z",
+  "generated_at": "2026-06-30T22:46:53.100585Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
@@ -25,10 +25,10 @@
   "dopamine_score": 480.67,
   "dopamine_streak": 5,
   "dopamine_threshold": 44.15,
-  "neural_events": 171,
+  "neural_events": 175,
   "lessons": 8,
   "status": "LIVE",
-  "last_commit": "f0c8666",
+  "last_commit": "39f0a8f",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",
