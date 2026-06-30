@@ -60,16 +60,15 @@ def load_agent_os_state():
         state["neural_events_24h"] = len(events)
         state["latest_events"] = events[:10]
 
-    idx_dir = REPO / "09_LIBRARY" / ".indices"
-    for idx in ["github_library_index.json", "knowledge_index.json"]:
-        p = idx_dir / idx
+    for idx_dir, idx_name, key in [
+        (REPO / "09_LIBRARY" / ".indices", "github_library_index.json", "library_repos"),
+        (REPO / "state" / "libraries" / ".indices", "knowledge_index.json", "library_nuggets"),
+    ]:
+        p = idx_dir / idx_name
         if p.exists():
             try:
                 d = json.loads(p.read_text())
-                if "github" in idx:
-                    state["library_repos"] = d.get("count", 0)
-                else:
-                    state["library_nuggets"] = d.get("count", 0)
+                state[key] = d.get("count", 0)
             except Exception:
                 pass
 

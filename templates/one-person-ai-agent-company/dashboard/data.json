@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T22:38:04.268111",
+  "generated_at": "2026-06-30T08:16:38.556596",
   "agents": [
     "ceo",
     "cto",
@@ -10,68 +10,63 @@
     "ops",
     "loop"
   ],
-  "outputs": [
-    {
-      "agent": "ceo",
-      "file": "daily_goals_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "ceo/outputs/daily_goals_2026-06-29.md"
-    },
-    {
-      "agent": "cto",
-      "file": "tech_health_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "cto/outputs/tech_health_2026-06-29.md"
-    },
-    {
-      "agent": "engineer",
-      "file": "daily_ship_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "engineer/outputs/daily_ship_2026-06-29.md"
-    },
-    {
-      "agent": "researcher",
-      "file": "daily_brief_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "researcher/outputs/daily_brief_2026-06-29.md"
-    },
-    {
-      "agent": "writer",
-      "file": "daily_content_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "writer/outputs/daily_content_2026-06-29.md"
-    },
-    {
-      "agent": "sales",
-      "file": "pipeline_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "sales/outputs/pipeline_2026-06-29.md"
-    },
-    {
-      "agent": "sales",
-      "file": "outbound_draft_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "sales/outputs/outbound_draft_2026-06-29.md"
-    },
-    {
-      "agent": "ops",
-      "file": "health_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "ops/outputs/health_2026-06-29.md"
-    },
-    {
-      "agent": "loop",
-      "file": "patch_proposal_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "loop/outputs/patch_proposal_2026-06-29.md"
-    },
-    {
-      "agent": "loop",
-      "file": "daily_review_2026-06-29.md",
-      "date": "2026-06-29",
-      "path": "loop/outputs/daily_review_2026-06-29.md"
-    }
-  ],
+  "outputs": [],
   "lessons": 0,
-  "backup": "2026-06-29"
+  "backup": "Unknown",
+  "agent_os": {
+    "dopamine_score": 0.0,
+    "dopamine_streak": 0,
+    "dopamine_last_delta": 0.0,
+    "neural_events_24h": 9,
+    "latest_events": [
+      {
+        "ts": "2026-06-30T06:16:38.510837Z",
+        "type": "dopamine.score.updated",
+        "source": "24-dopamine-score.sh"
+      },
+      {
+        "ts": "2026-06-30T06:16:24.319471Z",
+        "type": "neural.broadcast.completed",
+        "source": "25-neural-broadcast.sh"
+      },
+      {
+        "ts": "2026-06-30T06:16:24.269985Z",
+        "type": "library.sync.completed",
+        "source": "23-library-sync.sh"
+      },
+      {
+        "ts": "2026-06-30T06:16:24.131588Z",
+        "type": "dopamine.score.updated",
+        "source": "24-dopamine-score.sh"
+      },
+      {
+        "ts": "2026-06-30T06:15:36.883943Z",
+        "type": "library.sync.completed",
+        "source": "23-library-sync.sh"
+      },
+      {
+        "ts": "2026-06-30T06:15:19.281515Z",
+        "type": "neural.broadcast.completed",
+        "source": "25-neural-broadcast.sh"
+      },
+      {
+        "ts": "2026-06-30T06:14:53.682735Z",
+        "type": "neural.broadcast.completed",
+        "source": "25-neural-broadcast.sh"
+      },
+      {
+        "ts": "2026-06-30T06:14:50.103328Z",
+        "type": "dopamine.score.updated",
+        "source": "24-dopamine-score.sh"
+      },
+      {
+        "ts": "2026-06-30T06:14:47.022977Z",
+        "type": "library.sync.completed",
+        "source": "23-library-sync.sh"
+      }
+    ],
+    "library_repos": 17,
+    "library_skills": 382,
+    "library_nuggets": 252
+  }
 }

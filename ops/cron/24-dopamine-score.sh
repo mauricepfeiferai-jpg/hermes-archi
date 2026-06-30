@@ -11,7 +11,7 @@ YESTERDAY=$(date -v-1d +%Y-%m-%d 2>/dev/null || date -d "yesterday" +%Y-%m-%d)
 python3 - "$REPO" "$YESTERDAY" "$DATE" <<PY
 import json, sys, subprocess
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 repo, yesterday, today = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
 bus_dir = repo / "state" / "neural-bus"
@@ -21,7 +21,7 @@ dopamine_dir.mkdir(parents=True, exist_ok=True)
 score_file = dopamine_dir / "score.json"
 history_file = dopamine_dir / "history.json"
 
-score_state = {"score": 0.0, "streak": 0, "last_updated": datetime.utcnow().isoformat() + "Z"}
+score_state = {"score": 0.0, "streak": 0, "last_updated": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}
 if score_file.exists():
     score_state = json.loads(score_file.read_text())
 
@@ -64,7 +64,7 @@ for ev in events:
 score_state["score"] = round(score_state["score"] + delta, 2)
 score_state["last_delta"] = round(delta, 2)
 score_state["last_event"] = "dopamine.daily_score"
-score_state["last_updated"] = datetime.utcnow().isoformat() + "Z"
+score_state["last_updated"] = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
 
 if delta >= 5:
     score_state["streak"] = score_state.get("streak", 0) + 1
@@ -89,13 +89,13 @@ history_file.write_text(json.dumps(history[-365:], indent=2))
 # Reward signal on neural bus
 bus_dir.mkdir(parents=True, exist_ok=True)
 event = {
-    "ts": datetime.utcnow().isoformat() + "Z",
+    "ts": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
     "type": "dopamine.score.updated",
     "source": "24-dopamine-score.sh",
     "payload": score_state,
     "recipients": ["emperor", "openclaw_main", "dashboard", "loop_agent"]
 }
-(bus_dir / f"{datetime.utcnow().isoformat().replace(':', '-').replace('.', '-')}_dopamine.score.updated.json").write_text(json.dumps(event, indent=2))
+(bus_dir / f"{datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z').replace(':', '-').replace('.', '-')}_dopamine.score.updated.json").write_text(json.dumps(event, indent=2))
 
 print(f"🧠 Dopamine score: {score_state['score']} (+{round(delta, 2)}), streak: {score_state['streak']}")
 PY

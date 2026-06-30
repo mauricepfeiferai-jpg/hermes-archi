@@ -10,7 +10,7 @@ import os
 import sys
 import subprocess
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 REPO = Path.home() / "ai-empire" / "projects" / "hermes-archi"
 LOOPS_DIR = REPO / "templates" / "agent-os-silver-loops"
@@ -109,7 +109,7 @@ def load_events():
 def run_action(loop, event=None):
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     log = {
-        "ts": datetime.utcnow().isoformat() + "Z",
+        "ts": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
         "loop_id": loop["id"],
         "trigger": loop["trigger"],
         "event": event,
@@ -129,7 +129,7 @@ def run_action(loop, event=None):
     except Exception as e:
         log["error"] = str(e)
 
-    log_file = STATE_DIR / f"{loop['id']}_{datetime.utcnow().isoformat().replace(':', '-').replace('.', '-')}.json"
+    log_file = STATE_DIR / f"{loop['id']}_{datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z').replace(':', '-').replace('.', '-')}.json"
     with open(log_file, "w") as f:
         json.dump(log, f, indent=2)
     return log

@@ -10,3 +10,4 @@ build/
 .venv/
 09_LIBRARY/*/
 09_LIBRARY/*/.git/
+state/

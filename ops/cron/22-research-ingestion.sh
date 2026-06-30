@@ -129,7 +129,7 @@ rm -f "$OUTFILE.tmp"
 python3 - "$REPO" <<PY
 import json, sys
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 repo = Path(sys.argv[1])
 outfile = repo / "state" / "libraries" / f"daily_ingest_{datetime.now().strftime('%Y-%m-%d')}.json"
@@ -139,13 +139,13 @@ items = sum(len(d.get("items", [])) for d in content.get("discovered", []))
 bus_dir = repo / "state" / "neural-bus"
 bus_dir.mkdir(parents=True, exist_ok=True)
 event = {
-    "ts": datetime.utcnow().isoformat() + "Z",
+    "ts": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
     "type": "library.entry",
     "source": "22-research-ingestion.sh",
     "payload": {"file": str(outfile), "items": items, "sources": [d.get("source") for d in content.get("discovered", [])]},
     "recipients": ["emperor", "openclaw_main", "dashboard"]
 }
-(bus_dir / f"{datetime.utcnow().isoformat().replace(':', '-').replace('.', '-')}_library.entry.json").write_text(json.dumps(event, indent=2))
+(bus_dir / f"{datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z').replace(':', '-').replace('.', '-')}_library.entry.json").write_text(json.dumps(event, indent=2))
 print(f"🧠 Neural bus event emitted: library.entry ({items} items)")
 PY
 

@@ -10,7 +10,7 @@ import os
 import sys
 import subprocess
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 REPO = Path.home() / "ai-empire" / "projects" / "hermes-archi"
 REGISTRY = REPO / "agents" / "agent-os-harness" / "agent_registry.json"
@@ -25,7 +25,7 @@ def load_registry():
 
 def emit_event(event_type, source, payload, recipients=None):
     BUS_DIR.mkdir(parents=True, exist_ok=True)
-    ts = datetime.utcnow().isoformat() + "Z"
+    ts = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     event = {
         "ts": ts,
         "type": event_type,
@@ -194,7 +194,7 @@ def score_dopamine(event_type, payload):
 def update_dopamine(event_type, payload):
     DOPAMINE_DIR.mkdir(parents=True, exist_ok=True)
     score_file = DOPAMINE_DIR / "score.json"
-    current = {"score": 0.0, "last_updated": datetime.utcnow().isoformat() + "Z"}
+    current = {"score": 0.0, "last_updated": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}
     if score_file.exists():
         with open(score_file) as f:
             current = json.load(f)
@@ -203,7 +203,7 @@ def update_dopamine(event_type, payload):
     current["score"] = round(current.get("score", 0.0) + delta, 2)
     current["last_delta"] = delta
     current["last_event"] = event_type
-    current["last_updated"] = datetime.utcnow().isoformat() + "Z"
+    current["last_updated"] = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
 
     with open(score_file, "w") as f:
         json.dump(current, f, indent=2)

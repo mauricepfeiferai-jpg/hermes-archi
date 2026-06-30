@@ -98,19 +98,19 @@ PY
 python3 - "$REPO" <<PY
 import json, sys
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 repo = Path(sys.argv[1])
 bus_dir = repo / "state" / "neural-bus"
 bus_dir.mkdir(parents=True, exist_ok=True)
 event = {
-    "ts": datetime.utcnow().isoformat() + "Z",
+    "ts": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
     "type": "library.sync.completed",
     "source": "23-library-sync.sh",
     "payload": {"indices_rebuilt": True},
     "recipients": ["emperor", "openclaw_main", "dashboard"]
 }
-(bus_dir / f"{datetime.utcnow().isoformat().replace(':', '-').replace('.', '-')}_library.sync.completed.json").write_text(json.dumps(event, indent=2))
+(bus_dir / f"{datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z').replace(':', '-').replace('.', '-')}_library.sync.completed.json").write_text(json.dumps(event, indent=2))
 print("🧠 Neural bus: library.sync.completed")
 PY
 
