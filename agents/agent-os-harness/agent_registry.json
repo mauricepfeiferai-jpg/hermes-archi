@@ -6,7 +6,13 @@
     "role": "orchestrator",
     "runtime": "claude-code",
     "endpoint": "local",
-    "tools": ["dispatch", "read_memory", "write_memory", "score_dopamine"],
+    "tools": [
+      "dispatch",
+      "read_memory",
+      "write_memory",
+      "score_dopamine",
+      "ship"
+    ],
     "priority": 0
   },
   "agents": [
@@ -15,11 +21,18 @@
       "name": "OpenClaw Main Agent",
       "role": "local_tool_orchestrator",
       "runtime": "openclaw",
-      "endpoint": "ws://127.0.0.1:18789",
-      "tools": ["mcp", "exec", "browser", "file", "cron"],
+      "endpoint": "openclaw agent --agent main --message <task>",
+      "tools": [
+        "mcp",
+        "exec",
+        "browser",
+        "file",
+        "cron"
+      ],
       "dispatch_format": "openclaw_agent",
       "priority": 1,
-      "enabled": true
+      "enabled": true,
+      "model": "ollama/glm-5.2:cloud"
     },
     {
       "id": "hermes_orchestrator",
@@ -27,7 +40,12 @@
       "role": "skill_runtime",
       "runtime": "hermes-cli",
       "endpoint": "~/.hermes/hermes-agent",
-      "tools": ["skills", "telegram", "memory", "subagents"],
+      "tools": [
+        "skills",
+        "telegram",
+        "memory",
+        "subagents"
+      ],
       "dispatch_format": "hermes_skill",
       "priority": 2,
       "enabled": true
@@ -38,7 +56,12 @@
       "role": "deep_engineering",
       "runtime": "claude-code",
       "endpoint": "local",
-      "tools": ["edit", "test", "git", "skills"],
+      "tools": [
+        "edit",
+        "test",
+        "git",
+        "skills"
+      ],
       "dispatch_format": "claude_prompt",
       "priority": 3,
       "enabled": true
@@ -49,7 +72,12 @@
       "role": "batch_engineering",
       "runtime": "codex-cli",
       "endpoint": "local",
-      "tools": ["edit", "test", "git", "skills"],
+      "tools": [
+        "edit",
+        "test",
+        "git",
+        "skills"
+      ],
       "dispatch_format": "codex_prompt",
       "priority": 4,
       "enabled": true
@@ -61,7 +89,10 @@
       "runtime": "openai-api",
       "endpoint": "https://api.moonshot.ai/v1",
       "model": "kimi-k2.7-code",
-      "tools": ["completion", "json"],
+      "tools": [
+        "completion",
+        "json"
+      ],
       "dispatch_format": "api_call",
       "priority": 5,
       "enabled": true
@@ -72,8 +103,14 @@
       "role": "local_fallback",
       "runtime": "ollama",
       "endpoint": "http://127.0.0.1:11434",
-      "models": ["glm-5.2:cloud", "kimi-k2.7-code:cloud", "deepseek-v4-flash:cloud"],
-      "tools": ["completion"],
+      "models": [
+        "glm-5.2:cloud",
+        "kimi-k2.7-code:cloud",
+        "deepseek-v4-flash:cloud"
+      ],
+      "tools": [
+        "completion"
+      ],
       "dispatch_format": "ollama_chat",
       "priority": 6,
       "enabled": true,
@@ -85,7 +122,12 @@
       "role": "discovery",
       "runtime": "python",
       "endpoint": "local",
-      "tools": ["github_api", "web_scrape", "rss", "search"],
+      "tools": [
+        "github_api",
+        "web_scrape",
+        "rss",
+        "search"
+      ],
       "dispatch_format": "python_script",
       "priority": 7,
       "enabled": true
@@ -96,7 +138,11 @@
       "role": "strategy",
       "runtime": "claude-code",
       "endpoint": "local",
-      "tools": ["morning_queue", "prioritize", "decision"],
+      "tools": [
+        "morning_queue",
+        "prioritize",
+        "decision"
+      ],
       "dispatch_format": "skill_file",
       "priority": 8,
       "enabled": true
@@ -107,7 +153,12 @@
       "role": "tech_health",
       "runtime": "claude-code",
       "endpoint": "local",
-      "tools": ["audit", "test", "lint", "secrets_scan"],
+      "tools": [
+        "audit",
+        "test",
+        "lint",
+        "secrets_scan"
+      ],
       "dispatch_format": "skill_file",
       "priority": 9,
       "enabled": true
@@ -118,7 +169,12 @@
       "role": "implementation",
       "runtime": "claude-code",
       "endpoint": "local",
-      "tools": ["edit", "test", "git", "deploy"],
+      "tools": [
+        "edit",
+        "test",
+        "git",
+        "deploy"
+      ],
       "dispatch_format": "skill_file",
       "priority": 10,
       "enabled": true
@@ -129,7 +185,12 @@
       "role": "content",
       "runtime": "claude-code",
       "endpoint": "local",
-      "tools": ["write", "post_x", "linkedin", "gumroad"],
+      "tools": [
+        "write",
+        "post_x",
+        "linkedin",
+        "gumroad"
+      ],
       "dispatch_format": "skill_file",
       "priority": 11,
       "enabled": true
@@ -140,7 +201,11 @@
       "role": "outreach",
       "runtime": "claude-code",
       "endpoint": "local",
-      "tools": ["crm", "cold_dm", "pipeline"],
+      "tools": [
+        "crm",
+        "cold_dm",
+        "pipeline"
+      ],
       "dispatch_format": "skill_file",
       "priority": 12,
       "enabled": true
@@ -151,7 +216,12 @@
       "role": "video_content",
       "runtime": "python",
       "endpoint": "local",
-      "tools": ["script", "thumbnail", "title", "publish"],
+      "tools": [
+        "script",
+        "thumbnail",
+        "title",
+        "publish"
+      ],
       "dispatch_format": "skill_file",
       "priority": 13,
       "enabled": true
@@ -162,7 +232,11 @@
       "role": "self_improvement",
       "runtime": "python",
       "endpoint": "local",
-      "tools": ["retro", "patch", "lesson"],
+      "tools": [
+        "retro",
+        "patch",
+        "lesson"
+      ],
       "dispatch_format": "skill_file",
       "priority": 14,
       "enabled": true

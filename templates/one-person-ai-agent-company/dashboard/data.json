@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T13:33:34.045236",
+  "generated_at": "2026-06-30T13:42:00.302278",
   "agents": [
     "ceo",
     "cto",
@@ -14,64 +14,64 @@
   "lessons": 0,
   "backup": "Unknown",
   "agent_os": {
-    "dopamine_score": 14.06,
-    "dopamine_streak": 0,
-    "dopamine_last_delta": 0.0,
-    "neural_events_24h": 45,
+    "dopamine_score": 267.65,
+    "dopamine_streak": 4,
+    "dopamine_last_delta": 83.35,
+    "neural_events_24h": 80,
     "latest_events": [
       {
-        "ts": "2026-06-30T11:33:33.999705Z",
+        "ts": "2026-06-30T11:42:00.251401Z",
         "type": "dopamine.score.updated",
         "source": "24-dopamine-score.sh"
       },
       {
-        "ts": "2026-06-30T11:33:33.964405Z",
+        "ts": "2026-06-30T11:42:00.197977Z",
         "type": "library.sync.completed",
         "source": "23-library-sync.sh"
       },
       {
-        "ts": "2026-06-30T11:33:33.817603Z",
+        "ts": "2026-06-30T11:42:00.073320Z",
         "type": "library.entry",
         "source": "22-research-ingestion.sh"
       },
       {
-        "ts": "2026-06-30T11:33:22.032903Z",
+        "ts": "2026-06-30T11:41:49.503137Z",
         "type": "engineer.ship.ready",
         "source": "08-engineer-ship.sh"
       },
       {
-        "ts": "2026-06-30T11:33:22.004718Z",
+        "ts": "2026-06-30T11:41:49.475372Z",
         "type": "cto.tech_health",
         "source": "07-cto-tech-health.sh"
       },
       {
-        "ts": "2026-06-30T11:33:21.742678Z",
+        "ts": "2026-06-30T11:41:49.249838Z",
         "type": "ceo.morning_queue",
         "source": "06-ceo-daily-goals.sh"
       },
       {
-        "ts": "2026-06-30T11:29:37.660919Z",
+        "ts": "2026-06-30T11:41:44.950413Z",
+        "type": "agent.dispatch.completed",
+        "source": "dispatch.py"
+      },
+      {
+        "ts": "2026-06-30T11:41:41.033872Z",
+        "type": "agent.dispatch.completed",
+        "source": "dispatch.py"
+      },
+      {
+        "ts": "2026-06-30T11:41:40.385617Z",
         "type": "loop.improvement.suggested",
         "source": "21-loop-improve.sh"
       },
       {
-        "ts": "2026-06-30T11:29:37.634265Z",
+        "ts": "2026-06-30T11:41:40.358220Z",
         "type": "loop.review.completed",
         "source": "20-loop-review.sh"
-      },
-      {
-        "ts": "2026-06-30T11:29:37.605719Z",
-        "type": "ops.backup.completed",
-        "source": "19-ops-backup-health.sh"
-      },
-      {
-        "ts": "2026-06-30T11:29:37.560648Z",
-        "type": "engineer.ship.ready",
-        "source": "08-engineer-ship.sh"
       }
     ],
     "library_repos": 17,
     "library_skills": 382,
-    "library_nuggets": 268
+    "library_nuggets": 272
   }
 }

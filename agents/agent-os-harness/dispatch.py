@@ -40,15 +40,16 @@ def emit_event(event_type, source, payload, recipients=None):
 
 
 def dispatch_to_openclaw(agent_id, task, payload):
-    """Send task to OpenClaw via CLI agent turn."""
-    # OpenClaw agent turn: openclaw agent --task "..."
-    task_text = json.dumps({"agent": agent_id, "task": task, "payload": payload})
-    cmd = ["openclaw", "agent", "--task", task_text]
+    """Send task to OpenClaw main agent via CLI."""
+    message = json.dumps({"source": "dispatch", "agent": agent_id, "task": task, "payload": payload}, ensure_ascii=False)
+    cmd = ["openclaw", "agent", "--agent", "main", "--message", message]
+    if payload.get("local", False):
+        cmd.append("--local")
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
         return {
-            "stdout": result.stdout[-2000:],
-            "stderr": result.stderr[-500:],
+            "stdout": result.stdout[-4000:],
+            "stderr": result.stderr[-1000:],
             "rc": result.returncode,
         }
     except Exception as e:

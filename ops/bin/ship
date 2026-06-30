@@ -1,0 +1,18 @@
+#!/bin/bash
+# ship: commit + emit dopamine
+set -euo pipefail
+REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+
+# Count changed files
+FILES=$(git diff --cached --numstat | wc -l | tr -d " ")
+# Count tests passed (placeholder: run if Makefile has test)
+TESTS=0
+if grep -q "test:" Makefile 2>/dev/null; then
+    make test >/dev/null 2>&1 && TESTS=1 || true
+fi
+
+COMMITS=1
+MSG="${1:-ship: auto commit}"
+git commit -m "$MSG" && git push
+python3 "$REPO/agents/agent-os-harness/live_dopamine.py" code.completed "{\"files\": $FILES, \"tests_passed\": $TESTS, \"commits\": $COMMITS}"

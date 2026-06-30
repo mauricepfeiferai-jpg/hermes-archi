@@ -1,8 +1,5 @@
 #!/bin/bash
-# Silver Loop: Research Ingestion
-# Daily discovery of new AI repos, tools, papers, and signals.
-# Writes to state/libraries/daily_ingest_YYYY-MM-DD.json
-
+# Silver Loop: Research Ingestion (dynamic)
 set -euo pipefail
 
 REPO="$HOME/ai-empire/projects/hermes-archi"
@@ -11,97 +8,108 @@ GOLD="$HOME/.openclaw/workspace/ai-empire/04_OUTPUT/GOLD_NUGGETS"
 EXPORT="$HOME/.openclaw/workspace/ai-empire/04_OUTPUT/CLAUDE_EXPORT"
 DATE=$(date +%Y-%m-%d)
 TIME=$(date +%H-%M)
-OUTFILE="$STATE/daily_ingest_${DATE}.json"
+OUTFILE="$STATE/daily_ingest_${DATE}_${TIME}.json"
 RESEARCH_DIR="$REPO/agents/research"
 
 mkdir -p "$STATE" "$GOLD" "$EXPORT"
 
-cat > "$OUTFILE.tmp" <<JSON
-{"date": "${DATE}", "source": "research_ingest", "discovered": []}
-JSON
-
-# --- GitHub AI repos via search API ---
-echo "🔍 Fetching GitHub AI repos via search API..."
-python3 "$RESEARCH_DIR/github_ai_search.py" >> "$OUTFILE.tmp" 2>/dev/null || true
-
-# --- arXiv AI papers ---
-echo "🔍 Fetching arXiv AI papers..."
-python3 "$RESEARCH_DIR/arxiv_ai_papers.py" >> "$OUTFILE.tmp" 2>/dev/null || true
-
-# --- Hacker News AI stories ---
-echo "🔍 Fetching Hacker News AI stories..."
-python3 "$RESEARCH_DIR/hackernews_ai.py" >> "$OUTFILE.tmp" 2>/dev/null || true
-
-# --- Assemble final ingest file ---
-python3 - "$OUTFILE.tmp" "$OUTFILE" <<PY
-import json, sys
-from pathlib import Path
-
-infile, outfile = sys.argv[1], sys.argv[2]
-raw = Path(infile).read_text().strip().splitlines()
-entries = []
-for line in raw:
-    line = line.strip()
-    if not line:
-        continue
-    try:
-        entries.append(json.loads(line))
-    except Exception:
-        pass
-
-header = entries[0] if entries else {}
-discovered = [e for e in entries[1:] if isinstance(e, dict)]
-
-result = {
-    "date": header.get("date", "") if isinstance(header, dict) else "",
-    "source": "research_ingest",
-    "discovered": discovered
-}
-Path(outfile).write_text(json.dumps(result, indent=2))
-print(json.dumps(result, indent=2))
-PY
-
-rm -f "$OUTFILE.tmp"
-
-# --- Emit neural bus event ---
-python3 - "$REPO" <<PY
-import json, sys
+python3 - "$REPO" "$OUTFILE" "$DATE" "$TIME" "$RESEARCH_DIR" "$GOLD" "$EXPORT" <<PYTHON
+import json, sys, subprocess, os
 from pathlib import Path
 from datetime import datetime, timezone
 
-repo = Path(sys.argv[1])
-outfile = repo / "state" / "libraries" / f"daily_ingest_{datetime.now().strftime('%Y-%m-%d')}.json"
-content = json.loads(outfile.read_text())
-items = sum(len(d.get("items", [])) for d in content.get("discovered", []))
+repo, outfile, date, time, research_dir, gold_dir, export_dir = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], sys.argv[4], Path(sys.argv[5]), Path(sys.argv[6]), Path(sys.argv[7])
+
+discovered = []
+
+print("🔍 GitHub search...")
+try:
+    result = subprocess.run(["python3", str(research_dir / "github_ai_search.py")], capture_output=True, text=True, timeout=30)
+    if result.returncode == 0:
+        data = json.loads(result.stdout.splitlines()[-1])
+        discovered.append(data)
+    else:
+        discovered.append({"source": "github_search", "count": 0, "error": result.stderr[-200:]})
+except Exception as e:
+    discovered.append({"source": "github_search", "count": 0, "error": str(e)})
+
+print("🔍 arXiv papers...")
+try:
+    result = subprocess.run(["python3", str(research_dir / "arxiv_ai_papers.py")], capture_output=True, text=True, timeout=30)
+    if result.returncode == 0:
+        data = json.loads(result.stdout.splitlines()[-1])
+        discovered.append(data)
+    else:
+        discovered.append({"source": "arxiv", "count": 0, "error": result.stderr[-200:]})
+except Exception as e:
+    discovered.append({"source": "arxiv", "count": 0, "error": str(e)})
+
+print("🔍 Hacker News AI...")
+try:
+    result = subprocess.run(["python3", str(research_dir / "hackernews_ai.py")], capture_output=True, text=True, timeout=30)
+    if result.returncode == 0:
+        data = json.loads(result.stdout.splitlines()[-1])
+        discovered.append(data)
+    else:
+        discovered.append({"source": "hackernews", "count": 0, "error": result.stderr[-200:]})
+except Exception as e:
+    discovered.append({"source": "hackernews", "count": 0, "error": str(e)})
+
+# Kimi fallback if GitHub gave no results
+if not any(d.get("count", 0) > 0 and d.get("source") == "github_search" for d in discovered):
+    print("🤖 Kimi fallback...")
+    try:
+        api_key = os.environ.get("MOONSHOT_API_KEY")
+        if api_key:
+            import openai
+            client = openai.OpenAI(api_key=api_key, base_url="https://api.moonshot.ai/v1")
+            resp = client.chat.completions.create(
+                model="kimi-k2.7-code",
+                messages=[{"role": "user", "content": "List 10 trending open-source AI agent / LLM / MCP repos launched in the last 7 days. Return JSON array with keys: owner, repo, hint, stars, url."}],
+                max_tokens=2000,
+            )
+            content = resp.choices[0].message.content
+            start = content.find("[")
+            end = content.rfind("]")
+            if start >= 0 and end > start:
+                items = json.loads(content[start:end+1])
+                discovered.append({"source": "kimi_fallback", "count": len(items), "items": items})
+            else:
+                discovered.append({"source": "kimi_fallback", "count": 0, "note": "no JSON array found"})
+        else:
+            discovered.append({"source": "kimi_fallback", "count": 0, "note": "MOONSHOT_API_KEY not set"})
+    except Exception as e:
+        discovered.append({"source": "kimi_fallback", "count": 0, "error": str(e)})
+
+total = sum(d.get("count", 0) for d in discovered)
+result = {"date": date, "time": time, "source": "22-research-ingestion.sh", "total": total, "discovered": discovered}
+outfile.parent.mkdir(parents=True, exist_ok=True)
+outfile.write_text(json.dumps(result, indent=2))
+print(json.dumps(result, indent=2))
 
 bus_dir = repo / "state" / "neural-bus"
 bus_dir.mkdir(parents=True, exist_ok=True)
+now = datetime.now(timezone.utc)
 event = {
-    "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+    "ts": now.isoformat().replace("+00:00", "Z"),
     "type": "library.entry",
     "source": "22-research-ingestion.sh",
-    "payload": {"file": str(outfile), "items": items, "sources": [d.get("source") for d in content.get("discovered", [])]},
+    "payload": {"file": str(outfile), "items": total, "sources": [d.get("source") for d in discovered]},
     "recipients": ["emperor", "openclaw_main", "dashboard"]
 }
-(bus_dir / f"{datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z').replace(':', '-').replace('.', '-')}_library.entry.json").write_text(json.dumps(event, indent=2))
-print(f"🧠 Neural bus event emitted: library.entry ({items} items)")
-PY
+ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
+(bus_dir / f"{ts}_library.entry.json").write_text(json.dumps(event, indent=2))
+print(f"🧠 Neural bus: library.entry ({total} items)")
 
-# --- Gold Nugget candidate ---
-cat > "$GOLD/GOLD_RESEARCH_INGEST_${DATE}.md" <<MD
-# 💰 GOLD NUGGET — Research Ingest $DATE
-
-**Datum:** $DATE
-**Source:** GitHub Search + arXiv AI + Hacker News
-**File:** $OUTFILE
-
-## Kurzfassung
-Tägliche Entdeckungsphase für Agent OS Library. Daten landen in \`state/libraries/\` und Neural Bus.
-
-## Nächster Schritt
-CTO Agent prüft Einträge; Emperor Agent priorisiert vielversprechende Repos für 09_LIBRARY.
-MD
-
-cp "$GOLD/GOLD_RESEARCH_INGEST_${DATE}.md" "$EXPORT/" 2>/dev/null || true
-
-echo "✅ Research ingest complete: $OUTFILE"
+nugget = ("# GOLD NUGGET — Research Ingest " + date + " " + time + "\n\n" +
+          "Datum: " + date + " " + time + "\n" +
+          "Source: GitHub Search / arXiv / HackerNews / Kimi Fallback\n" +
+          "File: " + str(outfile) + "\n\n" +
+          "Zusammenfassung\n- " + str(total) + " Eintraege entdeckt\n" +
+          "- Sources: " + ", ".join(d.get("source") for d in discovered) + "\n\n" +
+          "Naechster Schritt\nCTO prueft Eintraege; Emperor priorisiert vielversprechende Repos.\n")
+ng = gold_dir / ("GOLD_RESEARCH_INGEST_" + date + "_" + time + ".md")
+ng.write_text(nugget)
+(export_dir / ng.name).write_text(nugget)
+print(f"✅ Research ingest complete: {outfile}")
+PYTHON
