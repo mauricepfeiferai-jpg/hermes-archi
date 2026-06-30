@@ -19,3 +19,5 @@
 | 15 | last30days-skill | https://github.com/mvanhorn/last30days-skill.git | TBD | cloned |  37M |
 | 16 | Stirling-PDF | https://github.com/Stirling-Tools/Stirling-PDF.git | PDF toolbox for ops/legal | cloned | 304M |
 | 17 | awesome-mac | https://github.com/jaywcjlove/awesome-mac.git | Curated Mac software list / distribution research | cloned | 1.8M |
+| gamedev-skills-awesome-gamedev-agent-skills | https://github.com/gamedev-skills/awesome-gamedev-agent-skills | Auto-ranked AI agent repo | cloned | - |
+| pakgik01-ask-expert-consult-mcp | https://github.com/pakgik01/ask-expert-consult-mcp | Auto-ranked AI agent repo | cloned | - |

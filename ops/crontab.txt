@@ -13,16 +13,24 @@ HIL="python3 $REPO/control-plane/hermes/hil_apply.py"
 # Knowledge ingestion
 0 8 * * * cd $REPO && $HIL "22-research-ingestion" "Sammle öffentliche AI-Signale (GitHub/HN/arXiv) lokal ein" -- bash ops/cron/22-research-ingestion.sh
 30 8 * * * cd $REPO && $HIL "23-library-sync" "Synchronisiere lokale Library-Indizes" -- bash ops/cron/23-library-sync.sh
+30 8 * * * cd $REPO && $HIL "26-x-trends" "Lese X/Twitter Trends zu AI-Agent-Themen ein und speichere sie lokal als JSON" -- bash ops/cron/26-x-trends.sh
+
+# Adaptive + Dopamine + Broadcast
 0 9 * * * cd $REPO && $HIL "24-dopamine-score" "Berechne täglichen Dopamine-Score aus lokalen Events" -- bash ops/cron/24-dopamine-score.sh
+30 9 * * * cd $REPO && $HIL "adaptive-loop-engine" "Analysiere Systemmetriken und schlage neue Loops vor (read-only)" -- python3 agents/agent-os-harness/adaptive_loop_engine.py
 15 9 * * * cd $REPO && $HIL "25-neural-broadcast" "Erstelle täglichen Neural-Broadcast-Report" -- bash ops/cron/25-neural-broadcast.sh
+
+# Agent role loops (report-only L1)
+0 10 * * * cd $REPO && $HIL "09-researcher-scan" "Scanne öffentliche Quellen und erstelle Research-Brief (read-only)" -- bash ops/cron/09-researcher-scan.sh
+0 11 * * * cd $REPO && $HIL "10-writer-content" "Bereite Content-Vorschläge vor (read-only)" -- bash ops/cron/10-writer-content.sh
+0 12 * * * cd $REPO && $HIL "11-sales-inbox" "Prüfe Sales-Inbox und erstelle Triage (read-only)" -- bash ops/cron/11-sales-inbox.sh
+0 13 * * * cd $REPO && $HIL "12-sales-outbound" "Bereite Outbound-Vorschläge vor (read-only)" -- bash ops/cron/12-sales-outbound.sh
+0 14 * * * cd $REPO && $HIL "13-spec-agent" "Erstelle Spec-Vorschläge für wartende Aufgaben (read-only)" -- bash ops/cron/13-spec-agent.sh
+30 14 * * * cd $REPO && $HIL "14-triage-agent" "Triage eingehende Issues/Tasks (read-only)" -- bash ops/cron/14-triage-agent.sh
+0 15 * * * cd $REPO && $HIL "15-implement-agent" "Bereite Implementierungsvorschläge vor (read-only)" -- bash ops/cron/15-implement-agent.sh
+0 16 * * * cd $REPO && $HIL "16-youtube-operator" "Bereite YouTube-Operationen vor (read-only)" -- bash ops/cron/16-youtube-operator.sh
 
 # Evening: backup, review, improve
 0 18 * * * cd $REPO && $HIL "19-ops-backup-health" "Prüfe Backup-Status und speichere Health-Report" -- bash ops/cron/19-ops-backup-health.sh
 0 20 * * * cd $REPO && $HIL "20-loop-review" "Reviewe tägliche Loop-Ausführungen (read-only)" -- bash ops/cron/20-loop-review.sh
 30 20 * * * cd $REPO && $HIL "21-loop-improve" "Schlage Verbesserungen für Loops vor (read-only)" -- bash ops/cron/21-loop-improve.sh
-
-# Adaptive Loop Engine
-30 9 * * * cd $REPO && $HIL "adaptive-loop-engine" "Analysiere Systemmetriken und schlage neue Loops vor (read-only)" -- python3 agents/agent-os-harness/adaptive_loop_engine.py
-
-# X Trends Ingest
-30 8 * * * cd $REPO && $HIL "26-x-trends" "Lese X/Twitter Trends zu AI-Agent-Themen ein und speichere sie lokal als JSON" -- bash ops/cron/26-x-trends.sh
