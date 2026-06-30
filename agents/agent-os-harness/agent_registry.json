@@ -240,6 +240,21 @@
       "dispatch_format": "skill_file",
       "priority": 14,
       "enabled": true
+    },
+    {
+      "id": "adaptive_loop_engine",
+      "name": "Adaptive Loop Engine",
+      "role": "self_improvement",
+      "runtime": "python",
+      "endpoint": "agents/agent-os-harness/adaptive_loop_engine.py",
+      "tools": [
+        "analyze",
+        "propose",
+        "learn"
+      ],
+      "dispatch_format": "python_script",
+      "priority": 15,
+      "enabled": true
     }
   ]
 }

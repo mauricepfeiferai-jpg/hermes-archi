@@ -18,3 +18,5 @@ HOME=/Users/maurice
 0 18 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/19-ops-backup-health.sh
 0 20 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/20-loop-review.sh
 30 20 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/21-loop-improve.sh
+# Adaptive Loop Engine
+30 9 * * * cd ~/ai-empire/projects/hermes-archi && python3 agents/agent-os-harness/adaptive_loop_engine.py

@@ -25,3 +25,9 @@
 
 - Pattern library: library/loop-engineering-cobusgreyling/patterns/
 - Launch playbook: products/one-person-ai-agent-company/go-to-market/LAUNCH_PLAYBOOK.md\n
+
+## Adaptive Loop Engine
+
+Runs continuously: analyzes dopamine score, neural bus patterns, and lessons. Proposes new Silverloops. Currently L1 report-only; emperor approves implementations.
+
+Command: `python3 agents/agent-os-harness/adaptive_loop_engine.py`
