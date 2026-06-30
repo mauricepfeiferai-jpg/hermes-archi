@@ -1,0 +1,171 @@
+{
+  "version": "2026-06-30",
+  "emperor": {
+    "id": "emperor",
+    "name": "Emperor Agent",
+    "role": "orchestrator",
+    "runtime": "claude-code",
+    "endpoint": "local",
+    "tools": ["dispatch", "read_memory", "write_memory", "score_dopamine"],
+    "priority": 0
+  },
+  "agents": [
+    {
+      "id": "openclaw_main",
+      "name": "OpenClaw Main Agent",
+      "role": "local_tool_orchestrator",
+      "runtime": "openclaw",
+      "endpoint": "ws://127.0.0.1:18789",
+      "tools": ["mcp", "exec", "browser", "file", "cron"],
+      "dispatch_format": "openclaw_agent",
+      "priority": 1,
+      "enabled": true
+    },
+    {
+      "id": "hermes_orchestrator",
+      "name": "Hermes Agent",
+      "role": "skill_runtime",
+      "runtime": "hermes-cli",
+      "endpoint": "~/.hermes/hermes-agent",
+      "tools": ["skills", "telegram", "memory", "subagents"],
+      "dispatch_format": "hermes_skill",
+      "priority": 2,
+      "enabled": true
+    },
+    {
+      "id": "claude_code",
+      "name": "Claude Code",
+      "role": "deep_engineering",
+      "runtime": "claude-code",
+      "endpoint": "local",
+      "tools": ["edit", "test", "git", "skills"],
+      "dispatch_format": "claude_prompt",
+      "priority": 3,
+      "enabled": true
+    },
+    {
+      "id": "codex",
+      "name": "Codex Agent",
+      "role": "batch_engineering",
+      "runtime": "codex-cli",
+      "endpoint": "local",
+      "tools": ["edit", "test", "git", "skills"],
+      "dispatch_format": "codex_prompt",
+      "priority": 4,
+      "enabled": true
+    },
+    {
+      "id": "kimi_api",
+      "name": "Kimi / Moonshot API",
+      "role": "fast_reasoning",
+      "runtime": "openai-api",
+      "endpoint": "https://api.moonshot.ai/v1",
+      "model": "kimi-k2.7-code",
+      "tools": ["completion", "json"],
+      "dispatch_format": "api_call",
+      "priority": 5,
+      "enabled": true
+    },
+    {
+      "id": "ollama_cloud",
+      "name": "Ollama Cloud Models",
+      "role": "local_fallback",
+      "runtime": "ollama",
+      "endpoint": "http://127.0.0.1:11434",
+      "models": ["glm-5.2:cloud", "kimi-k2.7-code:cloud", "deepseek-v4-flash:cloud"],
+      "tools": ["completion"],
+      "dispatch_format": "ollama_chat",
+      "priority": 6,
+      "enabled": true,
+      "note": "cloud aliases only, no auto-fallback per memory decision 2026-06-26"
+    },
+    {
+      "id": "researcher",
+      "name": "Research Agent",
+      "role": "discovery",
+      "runtime": "python",
+      "endpoint": "local",
+      "tools": ["github_api", "web_scrape", "rss", "search"],
+      "dispatch_format": "python_script",
+      "priority": 7,
+      "enabled": true
+    },
+    {
+      "id": "ceo",
+      "name": "CEO Agent",
+      "role": "strategy",
+      "runtime": "claude-code",
+      "endpoint": "local",
+      "tools": ["morning_queue", "prioritize", "decision"],
+      "dispatch_format": "skill_file",
+      "priority": 8,
+      "enabled": true
+    },
+    {
+      "id": "cto",
+      "name": "CTO Agent",
+      "role": "tech_health",
+      "runtime": "claude-code",
+      "endpoint": "local",
+      "tools": ["audit", "test", "lint", "secrets_scan"],
+      "dispatch_format": "skill_file",
+      "priority": 9,
+      "enabled": true
+    },
+    {
+      "id": "engineer",
+      "name": "Engineer Agent",
+      "role": "implementation",
+      "runtime": "claude-code",
+      "endpoint": "local",
+      "tools": ["edit", "test", "git", "deploy"],
+      "dispatch_format": "skill_file",
+      "priority": 10,
+      "enabled": true
+    },
+    {
+      "id": "writer",
+      "name": "Writer Agent",
+      "role": "content",
+      "runtime": "claude-code",
+      "endpoint": "local",
+      "tools": ["write", "post_x", "linkedin", "gumroad"],
+      "dispatch_format": "skill_file",
+      "priority": 11,
+      "enabled": true
+    },
+    {
+      "id": "sales",
+      "name": "Sales Agent",
+      "role": "outreach",
+      "runtime": "claude-code",
+      "endpoint": "local",
+      "tools": ["crm", "cold_dm", "pipeline"],
+      "dispatch_format": "skill_file",
+      "priority": 12,
+      "enabled": true
+    },
+    {
+      "id": "youtube_operator",
+      "name": "YouTube Operator",
+      "role": "video_content",
+      "runtime": "python",
+      "endpoint": "local",
+      "tools": ["script", "thumbnail", "title", "publish"],
+      "dispatch_format": "skill_file",
+      "priority": 13,
+      "enabled": true
+    },
+    {
+      "id": "loop_agent",
+      "name": "Loop Agent",
+      "role": "self_improvement",
+      "runtime": "python",
+      "endpoint": "local",
+      "tools": ["retro", "patch", "lesson"],
+      "dispatch_format": "skill_file",
+      "priority": 14,
+      "enabled": true
+    }
+  ]
+}

@@ -1,34 +1,58 @@
-# One-Person AI Agent Company — daily cron schedule
+# Agent OS — Silver Loops Cron Schedule
+
 SHELL=/bin/zsh
-PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:$HOME/.local/bin:$HOME/.openclaw/bin
-HOME=/Users/maurice
+PATH=/Users/maurice/.local/bin:/Users/maurice/.npm-global/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/Users/maurice/.hermes/node/bin
 
-# CEO — daily goals
-0 6 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/06-ceo-daily-goals.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ceo/outputs/cron.log 2>&1
+# Morning Queue
+0 6 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/06-ceo-daily-goals.sh
 
-# CTO — tech health
-15 6 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/07-cto-tech-health.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/cto/outputs/cron.log 2>&1
+# Tech Health
+15 6 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/07-cto-tech-health.sh
 
-# Engineer — ship backlog
-0 7 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/08-engineer-ship.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/engineer/outputs/cron.log 2>&1
+# Ship Loop
+0 7 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/08-engineer-ship.sh
 
-# Researcher — trend scan
-0 8 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/09-researcher-scan.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/researcher/outputs/cron.log 2>&1
+# Research Ingest
+0 8 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/22-research-ingestion.sh
 
-# Writer — content draft
-0 9 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/10-writer-content.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/writer/outputs/cron.log 2>&1
+# Library Sync
+30 8 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/23-library-sync.sh
 
-# Sales — inbox
-0 10 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/11-sales-inbox.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/sales/outputs/cron.log 2>&1
+# Dopamine Score
+0 9 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/24-dopamine-score.sh
 
-# Sales — outbound
-0 11 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/12-sales-outbound.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/sales/outputs/cron.log 2>&1
+# Neural Broadcast
+15 9 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/25-neural-broadcast.sh
 
-# Ops — backup + health
-0 18 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/19-ops-backup-health.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/outputs/cron.log 2>&1
+# Researcher Scan (existing)
+0 9 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/09-researcher-scan.sh
 
-# Loop — daily review
-0 20 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/20-loop-review.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/loop/outputs/cron.log 2>&1
+# Writer Content
+0 10 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/10-writer-content.sh
 
-# Loop — self-improve
-30 20 * * * $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/ops/cron/21-loop-improve.sh >> $HOME/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/loop/outputs/cron.log 2>&1
+# Sales Inbox
+0 11 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/11-sales-inbox.sh
+
+# Sales Outbound
+0 12 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/12-sales-outbound.sh
+
+# Spec Agent
+0 13 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/13-spec-agent.sh
+
+# Triage Agent
+30 13 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/14-triage-agent.sh
+
+# Implement Agent
+0 14 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/15-implement-agent.sh
+
+# YouTube Operator
+0 16 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/16-youtube-operator.sh
+
+# Backup + Health
+0 18 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/19-ops-backup-health.sh
+
+# Daily Review
+0 20 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/20-loop-review.sh
+
+# Self-Improve
+30 20 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/21-loop-improve.sh

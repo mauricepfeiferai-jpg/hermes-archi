@@ -18,3 +18,4 @@
 | 14 | MoneyPrinterTurbo | https://github.com/harry0703/MoneyPrinterTurbo.git | TBD | cloned | 346M |
 | 15 | last30days-skill | https://github.com/mvanhorn/last30days-skill.git | TBD | cloned |  37M |
 | 16 | Stirling-PDF | https://github.com/Stirling-Tools/Stirling-PDF.git | PDF toolbox for ops/legal | cloned | 304M |
+| 17 | awesome-mac | https://github.com/jaywcjlove/awesome-mac.git | Curated Mac software list / distribution research | cloned | 1.8M |

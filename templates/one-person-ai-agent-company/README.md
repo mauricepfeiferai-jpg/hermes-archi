@@ -121,3 +121,33 @@ This template implements the four loops that senior Claude Code users run:
 4. **Memory Loop** — daily review + retro writes lessons into `loop/lessons.json` and updates rules
 
 Running all four is what separates hobbyists from operators.
+
+## Agent OS Mode (NEW)
+
+This template now includes an **Agent OS Harness** that connects every agent like neurons:
+
+- **Neural Bus**: `state/neural-bus/` — all events flow as JSON
+- **Dopamine Scoring**: `state/dopamine/score.json` — completed code releases reward
+- **Silver Loops**: fixed reflex loops in `ops/cron/22-25*.sh`
+- **Agent Registry**: `agents/agent-os-harness/agent_registry.json` — Hermes, OpenClaw, Claude, Codex, Kimi, Ollama
+- **Dispatch Router**: `agents/agent-os-harness/dispatch.py` — route task to the right runtime
+- **OpenClaw Bridge**: `integrations/openclaw/MCP_BRIDGE.md`
+
+### Silver Loops Added
+
+| Time | Loop | Purpose |
+|---|---|---|
+| 08:00 | Research Ingest | Discover AI repos/papers/tools daily |
+| 08:30 | Library Sync | Rebuild skill/repo/knowledge indices |
+| 09:00 | Dopamine Score | Score yesterday's completed work |
+| 09:15 | Neural Broadcast | Push state to OpenClaw, dashboard, memory |
+
+### Dopamine Rule
+
+When an agent completes code:
+
+```bash
+python3 -c "from agents.agent_os_harness.dispatch import update_dopamine; update_dopamine('code.completed', {'files':3, 'tests_passed':5, 'commits':1})"
+```
+
+The score decays daily by 5% (forgetting curve). Shipping streaks increase the multiplier.
