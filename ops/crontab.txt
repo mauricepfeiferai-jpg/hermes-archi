@@ -20,3 +20,4 @@ HOME=/Users/maurice
 30 20 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/21-loop-improve.sh
 # Adaptive Loop Engine
 30 9 * * * cd ~/ai-empire/projects/hermes-archi && python3 agents/agent-os-harness/adaptive_loop_engine.py
+# X Trends Ingest\n30 8 * * * cd ~/ai-empire/projects/hermes-archi && bash ops/cron/26-x-trends.sh\n

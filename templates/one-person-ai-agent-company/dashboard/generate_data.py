@@ -22,6 +22,25 @@ if prop_dir.exists():
     if files:
         proposals = json.loads(files[-1].read_text()).get("proposals", [])
 
+
+# X Trends summary
+x_trends_count = 0
+x_latest_titles = []
+x_trend_files = sorted((repo / "state" / "x").glob("trends_*.json"), reverse=True)
+if x_trend_files:
+    try:
+        x_data = json.loads(x_trend_files[0].read_text())
+        x_trends_count = x_data.get("total_items", 0)
+        titles = []
+        for r in x_data.get("results", []):
+            for item in r.get("items", []):
+                t = item.get("title")
+                if t and t not in titles:
+                    titles.append(t)
+        x_latest_titles = titles[:5]
+    except Exception:
+        pass
+
 data = {
     "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     "agents": [a["id"] for a in agents],
@@ -36,7 +55,9 @@ data = {
     "lessons": len(lessons),
     "status": "LIVE",
     "last_commit": "ea3de3e",
-    "proposals": proposals
+    "proposals": proposals,
+                "x_trends_24h": x_trends_count,
+        "x_latest_titles": x_latest_titles,
 }
 out.write_text(json.dumps(data, indent=2))
 print(json.dumps(data, indent=2))

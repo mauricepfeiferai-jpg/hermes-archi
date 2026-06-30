@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T11:50:54.080007Z",
+  "generated_at": "2026-06-30T19:06:50.465806Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
@@ -14,17 +14,19 @@
     "writer",
     "sales",
     "youtube_operator",
-    "loop_agent"
+    "loop_agent",
+    "adaptive_loop_engine",
+    "x_mcp"
   ],
-  "loops": 18,
+  "loops": 19,
   "skills": 382,
   "github_repos": 17,
   "knowledge_nuggets": 272,
-  "dopamine_score": 267.65,
+  "dopamine_score": 269.45,
   "dopamine_streak": 4,
   "dopamine_threshold": 26.77,
-  "neural_events": 98,
-  "lessons": 5,
+  "neural_events": 106,
+  "lessons": 6,
   "status": "LIVE",
   "last_commit": "ea3de3e",
   "proposals": [
@@ -36,5 +38,13 @@
       "confidence": "medium",
       "ratio": 4.25
     }
+  ],
+  "x_trends_24h": 24,
+  "x_latest_titles": [
+    "Autonomous Coding Agents",
+    "Multi-Agent Orchestration",
+    "Computer-Use Agents",
+    "One-Person AI Companies",
+    "AI Content Systems"
   ]
 }

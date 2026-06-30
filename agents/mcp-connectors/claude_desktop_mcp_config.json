@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "x": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@x/mcp-server"
+      ],
+      "env": {
+        "X_API_KEY": "YOUR_X_API_KEY_HERE"
+      }
+    }
+  }
+}

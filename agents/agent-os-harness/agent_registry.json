@@ -255,6 +255,23 @@
       "dispatch_format": "python_script",
       "priority": 15,
       "enabled": true
+    },
+    {
+      "id": "x_mcp",
+      "name": "X MCP Server",
+      "role": "realtime_research",
+      "runtime": "mcp",
+      "endpoint": "https://docs.x.com/tools/mcp",
+      "tools": [
+        "search_recent",
+        "get_trends",
+        "get_user_posts",
+        "get_replies"
+      ],
+      "dispatch_format": "mcp_tool",
+      "priority": 16,
+      "enabled": true,
+      "note": "Requires X_API_KEY or OAuth setup"
     }
   ]
 }
