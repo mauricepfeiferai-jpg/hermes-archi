@@ -363,3 +363,7 @@ Dieser Abschnitt wird automatisch vom Learning Agent aus Decision Cards ergänzt
 - **YELLOW** — Bei Monetarisierungsfragen priorisiere den Pfad, der Maurice' echte Domain-Expertise und höchsten Kundenschmerz nutzt (Richterakte/BMA-Premium), bevor generische digitale Produkte ohne Publikum bevorzugt werden. Templates sind sekundärer/Lead-Pfad. *(gelernt aus DC_20260630_44c0df13)*
 
 - **YELLOW** — Neue Regel für Hermes: *(gelernt aus FP_20260630_10K_2027.md)*
+
+- **YELLOW** — Bei Monetarisierungsfragen priorisiere den Pfad, der Maurice' echte Domain-Expertise und höchsten Kundenschmerz nutzt, bevor generische digitale Produkte ohne Publikum bevorzugt werden. *(gelernt aus DC_20260630_7f9de9fd)*
+
+- **YELLOW** — Neue Regel für Hermes: *(gelernt aus FP_20260630_SELBSTVERTRETER.md)*
