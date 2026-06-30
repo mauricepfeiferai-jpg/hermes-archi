@@ -41,6 +41,37 @@ dopamine_delta = (lines_of_code * 0.1) + (tests_passed * 2) + (commits * 1) + (m
 
 Daily decay: `current_score *= 0.95` (forgetting curve)
 
+
+
+### Biochemical → Digital Translation Table
+
+| Biochemical Term | Digital Equivalent | File / Mechanism |
+|---|---|---|
+| Neuron | Agent, Skill, Tool | `agent_registry.json` entries |
+| Axon | Message bus event | `state/neural-bus/*.json` |
+| Synapse | MCP / API / CLI call | `dispatch.py` runtime adapters |
+| Neurotransmitter | Reward signal | `state/dopamine/score.json` |
+| Dopamine release | `live_dopamine.py` event scoring | called on code/skill/library/revenue |
+| Reuptake / decay | Daily 5% score decay | `24-dopamine-score.sh` |
+| Long-term potentiation | Skill learned + loop faster | `loop/lessons.json` |
+| Reflex arc | Silver loop | `silver_loop_harness.py` |
+| Plasticity | Self-improvement loop | `21-loop-improve.sh` |
+| Homeostasis | Budget caps + kill switch | `loop-budget.md`, `STATE.md` |
+| Sensory input | Research ingest | `22-research-ingestion.sh` |
+| Motor output | Ship / post / sell | `08-engineer-ship.sh`, writer agent |
+
+### How Code Completion Raises Dopamine
+
+1. Engineer agent finishes edit → emits `code.completed` event to neural bus.
+2. `live_dopamine.py` scores it: +0.1 per file, +2 per passing test, +1 per commit, +5 per merged PR.
+3. Score written to `state/dopamine/score.json`.
+4. `24-dopamine-score.sh` adds decay (95% retention per day) and streak bonus.
+5. If delta >= 5, streak increments; system "learns" that shipping is rewarding.
+6. `20-loop-review.sh` records the lesson in `loop/lessons.json`.
+7. `21-loop-improve.sh` suggests lowering the human gate for similar tasks.
+
+This is the digital version of a reward circuit getting stronger every time it fires successfully.
+
 ## 3. Agent Hierarchy
 
 ```

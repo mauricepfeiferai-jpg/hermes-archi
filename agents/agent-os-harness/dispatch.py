@@ -221,8 +221,22 @@ def update_dopamine(event_type, payload):
 
 
 def main():
+    if len(sys.argv) < 2:
+        print("Usage: dispatch.py [list | <agent_id> <task> [--payload JSON]]")
+        sys.exit(1)
+
+    if sys.argv[1] == "list":
+        registry = load_registry()
+        print("=== Emperor ===")
+        print(json.dumps(registry.get("emperor"), indent=2))
+        print("\n=== Agents ===")
+        for a in registry.get("agents", []):
+            status = "enabled" if a.get("enabled", True) else "disabled"
+            print(a.get("id", "?") + " (" + a.get("runtime", "?") + ") [" + status + "] -- " + a.get("role", "?"))
+        return
+
     if len(sys.argv) < 3:
-        print("Usage: dispatch.py <agent_id> <task> [--payload JSON]")
+        print("Usage: dispatch.py [list | <agent_id> <task> [--payload JSON]]")
         sys.exit(1)
 
     agent_id = sys.argv[1]
@@ -234,7 +248,6 @@ def main():
 
     result = dispatch(agent_id, task, payload)
     print(json.dumps(result, indent=2))
-
 
 if __name__ == "__main__":
     main()

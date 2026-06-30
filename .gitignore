@@ -11,3 +11,6 @@ build/
 09_LIBRARY/*/
 09_LIBRARY/*/.git/
 state/
+screenshots/
+03_ARCHIVE/
+library/

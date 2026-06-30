@@ -1,0 +1,20 @@
+# Maurice AI Empire — Silver Loops Crontab
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/maurice/.local/bin
+HOME=/Users/maurice
+
+# Morning: queue, health, ship
+0 6 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/06-ceo-daily-goals.sh
+15 6 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/07-cto-tech-health.sh
+0 7 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/08-engineer-ship.sh
+
+# Knowledge ingestion
+0 8 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/22-research-ingestion.sh
+30 8 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/23-library-sync.sh
+0 9 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/24-dopamine-score.sh
+15 9 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/25-neural-broadcast.sh
+
+# Evening: backup, review, improve
+0 18 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/19-ops-backup-health.sh
+0 20 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/20-loop-review.sh
+30 20 * * * cd /Users/maurice/ai-empire/projects/hermes-archi && bash ops/cron/21-loop-improve.sh
