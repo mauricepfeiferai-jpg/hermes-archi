@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import subprocess
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -54,7 +55,10 @@ data = {
     "neural_events": neural_count,
     "lessons": len(lessons),
     "status": "LIVE",
-    "last_commit": "ea3de3e",
+    "last_commit": subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=repo, capture_output=True, text=True
+        ).stdout.strip() or "unknown",
     "proposals": proposals,
                 "x_trends_24h": x_trends_count,
         "x_latest_titles": x_latest_titles,
