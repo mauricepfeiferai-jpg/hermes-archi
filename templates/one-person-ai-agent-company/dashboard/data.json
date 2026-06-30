@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T21:46:16.054877Z",
+  "generated_at": "2026-06-30T21:46:45.233718Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
@@ -28,7 +28,7 @@
   "neural_events": 147,
   "lessons": 7,
   "status": "LIVE",
-  "last_commit": "cd955fd",
+  "last_commit": "e179cfa",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",
@@ -38,6 +38,17 @@
       "confidence": "medium",
       "ratio": 4.25
     }
+  ],
+  "sales_leads": 15,
+  "sales_contacted": 0,
+  "sales_replied": 0,
+  "sales_call_booked": 0,
+  "sales_paid": 0,
+  "sales_deals_value_usd": 0.0,
+  "sales_latest_actions": [
+    "2026-06-30: 15 target customers seeded",
+    "2026-06-30: 5 outreach drafts prepared",
+    "2026-06-30: awaiting Maurice approval to send"
   ],
   "hil_gate_checks": 6,
   "hil_red_blocks": 1,

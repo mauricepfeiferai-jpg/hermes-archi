@@ -390,6 +390,12 @@
             <p>No X trends yet — run 26-x-trends.sh.</p>
           </div>
         </div>
+        <div class="card" style="margin-top: 20px;">
+          <h3 style="font-size: 16px; margin-bottom: 12px;">💰 Sales Pipeline</h3>
+          <div id="sales-latest-actions" style="font-size: 13px; color: var(--muted);">
+            <p>No sales activity yet — approve outreach drafts.</p>
+          </div>
+        </div>
       </div>
 
       
@@ -619,6 +625,13 @@
         document.getElementById('x-trends-count').textContent = data.x_trends_24h;
         document.getElementById('x-trends-source').textContent = data.x_trends_24h > 0 ? 'Live pipeline' : 'Mock demo mode';
       }
+      // Sales Pipeline
+      if (data?.sales_leads !== undefined) {
+        document.getElementById('sales-leads').textContent = data.sales_leads;
+        document.getElementById('sales-contacted').textContent = data.sales_contacted;
+        document.getElementById('sales-replied').textContent = data.sales_replied;
+        document.getElementById('sales-revenue').textContent = '$' + Math.round(data.sales_deals_value_usd || 0).toLocaleString();
+      }
       // HIL
       if (data?.hil_gate_checks !== undefined) {
         document.getElementById('hil-gate-checks').textContent = data.hil_gate_checks;
@@ -633,6 +646,16 @@
         trendsList.innerHTML = titles.map(t => `
           <div style="padding: 6px 0; border-bottom: 1px solid var(--border);">
             <span style="color: var(--accent);">•</span> ${t}
+          </div>
+        `).join('');
+      }
+
+      const salesActions = document.getElementById('sales-latest-actions');
+      const actions = data?.sales_latest_actions || [];
+      if (actions.length > 0) {
+        salesActions.innerHTML = actions.slice(-5).map(a => `
+          <div style="padding: 6px 0; border-bottom: 1px solid var(--border);">
+            <span style="color: var(--accent);">→</span> ${a}
           </div>
         `).join('');
       }

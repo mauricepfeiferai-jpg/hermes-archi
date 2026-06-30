@@ -52,6 +52,45 @@ if hil_file.exists():
     except Exception:
         pass
 
+
+# Sales pipeline
+sales = {
+    "leads": 0,
+    "contacted": 0,
+    "replied": 0,
+    "call_booked": 0,
+    "paid": 0,
+    "deals_value_usd": 0.0,
+    "latest_actions": []
+}
+customers_file = repo / "state" / "sales" / "target_customers_2026-06-30.json"
+if customers_file.exists():
+    try:
+        cdata = json.loads(customers_file.read_text())
+        sales["leads"] = len(cdata.get("customers", []))
+    except Exception:
+        pass
+
+# Count outreach sent by scanning neural bus for outreach events
+for f in (repo / "state" / "neural-bus").glob("*outreach*"):
+    try:
+        e = json.loads(f.read_text())
+        if e.get("type") == "sales.outreach.sent":
+            sales["contacted"] += 1
+    except Exception:
+        pass
+
+# Read manual pipeline state if exists
+pipeline_file = repo / "state" / "sales" / "pipeline.json"
+if pipeline_file.exists():
+    try:
+        pdata = json.loads(pipeline_file.read_text())
+        for k in ["contacted", "replied", "call_booked", "paid", "deals_value_usd"]:
+            sales[k] = max(sales[k], pdata.get(k, 0))
+        sales["latest_actions"] = pdata.get("latest_actions", [])
+    except Exception:
+        pass
+
 data = {
     "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     "agents": [a["id"] for a in agents],
@@ -70,6 +109,13 @@ data = {
             cwd=repo, capture_output=True, text=True
         ).stdout.strip() or "unknown",
     "proposals": proposals,
+                "sales_leads": sales["leads"],
+        "sales_contacted": sales["contacted"],
+        "sales_replied": sales["replied"],
+        "sales_call_booked": sales["call_booked"],
+        "sales_paid": sales["paid"],
+        "sales_deals_value_usd": sales["deals_value_usd"],
+        "sales_latest_actions": sales["latest_actions"],
                 "hil_gate_checks": hil.get("total_gate_checks", 0),
         "hil_red_blocks": hil.get("red_blocks", 0),
         "hil_yellow": hil.get("yellow_preparations", 0),
