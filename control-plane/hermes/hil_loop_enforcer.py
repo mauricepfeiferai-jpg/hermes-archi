@@ -58,22 +58,34 @@ def main():
 
     if gate["gate"] == "RED":
         emit("hil.loop.red.blocked", {"loop": loop_name, "action": action_desc, "reason": gate["reason"]})
-        print(f"[HIL] ⛔ RED gate blocked {loop_name}. Human decision required.")
-        sys.exit(77)
-
-    if gate["gate"] == "YELLOW":
-        emit("hil.loop.yellow.prepared", {"loop": loop_name, "action": action_desc})
-        print(f"[HIL] 🟡 YELLOW gate: {loop_name} prepared, awaiting human approval (cron skips auto-execution)")
-        # In cron context, YELLOW loops do NOT auto-execute; they prepare only.
-        # For now, we still run but log clearly. Later: create Decision Card and exit.
-        # Decision card generation:
-        dc = subprocess.run(
-            [sys.executable, str(REPO / "control-plane" / "hermes" / "decision_card.py"), "--sample"],
+        # Generate a Decision Card for human review
+        dc_result = subprocess.run(
+            [sys.executable, str(REPO / "control-plane" / "hermes" / "decision_card_pydantic.py"), "--sample"],
             capture_output=True, text=True
         )
-        print(dc.stdout)
-        # For L1/L2 cron loops we auto-execute YELLOW if it's a safe prepare-only action
-        # TODO: make this configurable per loop
+        print(dc_result.stdout)
+        if dc_result.returncode != 0:
+            print(dc_result.stderr)
+        print(f"[HIL] ⛔ RED gate blocked {loop_name}. Human decision required. Decision Card created.")
+        sys.exit(77)
+
+    dry_run = "--dry-run" in sys.argv
+    if gate["gate"] == "YELLOW":
+        emit("hil.loop.yellow.prepared", {"loop": loop_name, "action": action_desc})
+        print(f"[HIL] 🟡 YELLOW gate: {loop_name} prepared, awaiting human approval")
+        # Generate a proper Decision Card using Pydantic-validated schema
+        dc_result = subprocess.run(
+            [sys.executable, str(REPO / "control-plane" / "hermes" / "decision_card_pydantic.py"), "--sample"],
+            capture_output=True, text=True
+        )
+        print(dc_result.stdout)
+        if dc_result.returncode != 0:
+            print(dc_result.stderr)
+        if dry_run:
+            print(f"[HIL] 🟡 Dry-run mode: {loop_name} stopped after Decision Card creation")
+            sys.exit(0)
+        # Without --dry-run, YELLOW still executes (for backwards compatibility in cron context)
+        print(f"[HIL] ⚠️  Auto-executing YELLOW {loop_name} (use --dry-run to stop)")
 
     print(f"[HIL] 🟢 Executing {loop_name}: {' '.join(command)}")
     result = subprocess.run(command)

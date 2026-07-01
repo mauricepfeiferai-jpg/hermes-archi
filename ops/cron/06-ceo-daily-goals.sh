@@ -2,6 +2,9 @@
 # Silver Loop: CEO Morning Queue
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 MEMORY="$HOME/.openclaw/workspace/ai-empire/memory"
 DATE=$(date +%Y-%m-%d)
 TIME=$(date +%H:%M)

@@ -5,4 +5,9 @@ REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 YESTERDAY=$(date -v-1d +%Y-%m-%d 2>/dev/null || date -d "yesterday" +%Y-%m-%d)
 cd "$REPO"
+source .venv/bin/activate
 python3 agents/agent-os-harness/dopamine_scorer.py "$REPO" "$YESTERDAY" "$DATE"
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+24-dopamine-score.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

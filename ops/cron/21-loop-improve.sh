@@ -2,6 +2,9 @@
 # Silver Loop: Self-Improvement
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 mkdir -p "$REPO/state/loop"
 python3 - "$REPO" "$DATE" <<PYTHON
@@ -46,3 +49,7 @@ ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
 (bus_dir / f"{ts}_loop.improvement.suggested.json").write_text(json.dumps(event, indent=2))
 print(f"Loop improvement: {len(suggestions)} suggestions")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+21-loop-improve.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

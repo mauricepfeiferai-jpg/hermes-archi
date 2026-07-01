@@ -2,6 +2,9 @@
 # Silver Loop: Library Sync (dynamic)
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 INDEX_DIR="$REPO/state/libraries/.indices"
 SKILL_DIR="$REPO/state/skills"
@@ -120,3 +123,7 @@ print("🧠 Neural bus: library.sync.completed")
 PY
 
 echo "✅ Library sync complete"
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+23-library-sync.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

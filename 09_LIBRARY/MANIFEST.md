@@ -21,3 +21,4 @@
 | 17 | awesome-mac | https://github.com/jaywcjlove/awesome-mac.git | Curated Mac software list / distribution research | cloned | 1.8M |
 | gamedev-skills-awesome-gamedev-agent-skills | https://github.com/gamedev-skills/awesome-gamedev-agent-skills | Auto-ranked AI agent repo | cloned | - |
 | pakgik01-ask-expert-consult-mcp | https://github.com/pakgik01/ask-expert-consult-mcp | Auto-ranked AI agent repo | cloned | - |
+| Kulaxyz-self-learning-skills | https://github.com/Kulaxyz/self-learning-skills | Auto-ranked AI agent repo | cloned | - |

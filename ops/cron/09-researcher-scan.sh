@@ -3,6 +3,9 @@
 # L1 report-only. Surfaces work for human approval.
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 TIME=$(date +%H:%M)
 OUT="$REPO/state/09/09-researcher-scan_$DATE.json"
@@ -40,3 +43,7 @@ ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
 (bus_dir / f"{ts}_agent.09-researcher-scan.ready.json").write_text(json.dumps(event, indent=2))
 print(f"Researcher Scan: {outfile}")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+09-researcher-scan.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

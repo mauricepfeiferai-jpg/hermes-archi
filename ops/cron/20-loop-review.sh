@@ -2,6 +2,9 @@
 # Silver Loop: Daily Review
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 mkdir -p "$REPO/loop"
 python3 - "$REPO" "$DATE" <<PYTHON
@@ -50,3 +53,7 @@ ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
 (bus_dir / f"{ts}_loop.review.completed.json").write_text(json.dumps(event, indent=2))
 print(f"Loop review: {len(events)} events, {len(lessons)} lessons")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+20-loop-review.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

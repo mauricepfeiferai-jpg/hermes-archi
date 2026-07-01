@@ -1,6 +1,9 @@
 #!/bin/bash
 # Silver Loop: Research Ingestion (dynamic)
 set -euo pipefail
+REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
 
 REPO="$HOME/ai-empire/projects/hermes-archi"
 STATE="$REPO/state/libraries"

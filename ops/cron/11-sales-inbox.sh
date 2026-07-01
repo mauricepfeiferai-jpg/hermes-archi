@@ -3,6 +3,9 @@
 # L1 report-only. Surfaces work for human approval.
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 TIME=$(date +%H:%M)
 OUT="$REPO/state/11/11-sales-inbox_$DATE.json"
@@ -40,3 +43,7 @@ ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
 (bus_dir / f"{ts}_agent.11-sales-inbox.ready.json").write_text(json.dumps(event, indent=2))
 print(f"Sales Inbox: {outfile}")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+11-sales-inbox.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

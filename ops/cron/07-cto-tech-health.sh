@@ -2,6 +2,9 @@
 # Silver Loop: CTO Tech Health
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 TIME=$(date +%H:%M)
 OUT="$REPO/state/cto/tech_health_${DATE}.json"

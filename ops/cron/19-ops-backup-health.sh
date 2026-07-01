@@ -2,6 +2,9 @@
 # Silver Loop: Backup Health
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 ARCHIVE="$REPO/03_ARCHIVE/backup/$(date +%Y-%m-%d)"
 mkdir -p "$ARCHIVE"
 python3 - "$REPO" "$ARCHIVE" <<PYTHON
@@ -47,3 +50,7 @@ ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
 (bus_dir / f"{ts}_ops.backup.completed.json").write_text(json.dumps(event, indent=2))
 print(f"Backup health: {copied} files archived")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+19-ops-backup-health.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

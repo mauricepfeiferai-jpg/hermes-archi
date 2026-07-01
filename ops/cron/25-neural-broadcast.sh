@@ -3,6 +3,9 @@
 # Pushes recent neural bus events to connected systems (OpenClaw, dashboard, memory).
 
 set -euo pipefail
+REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
 
 REPO="$HOME/ai-empire/projects/hermes-archi"
 STATE="$REPO/state"
@@ -89,3 +92,7 @@ print("🧠 Neural broadcast completed")
 PY
 
 echo "✅ Neural broadcast complete"
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+25-neural-broadcast.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

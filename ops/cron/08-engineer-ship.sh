@@ -2,6 +2,9 @@
 # Silver Loop: Engineer Ship
 set -euo pipefail
 REPO="$HOME/ai-empire/projects/hermes-archi"
+cd "$REPO"
+source .venv/bin/activate
+REPO="$HOME/ai-empire/projects/hermes-archi"
 DATE=$(date +%Y-%m-%d)
 OUT="$REPO/state/engineer/ship_${DATE}.json"
 mkdir -p "$REPO/state/engineer"
