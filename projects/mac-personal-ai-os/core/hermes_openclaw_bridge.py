@@ -11,11 +11,13 @@ import mqc_skill_runner
 
 HOME = Path.home()
 DISPATCH = HOME / "ai-empire" / "projects" / "hermes-archi" / "agents" / "agent-os-harness" / "dispatch.py"
+MQC = HOME / "ai-empire" / "projects" / "hermes-archi" / "projects" / "mac-personal-ai-os"
 
 
 def classify_intent(text: str) -> dict:
     t = text.lower()
     intents = [
+        ("learn", ["zeig mir wie", "zeige mir wie", "vormachen", "aufzeichnen", "capture routine", "lerne wie", "lern wie", "demonstration von", "demonstration: "]),
         ("morning_routine", ["morgen", "morning", "tagesplan", "daily", "routine", "starte meinen tag", "starte den tag", "tag starten", "executive briefing", "briefing"]),
         ("web_search", ["suche nach", "suche im web", "web suche", "google nach", "duckduckgo", "recherchiere", "recherche im internet", "look up online", "search the web"]),
         ("research", ["recherch", "finde", "suche", "research", "look up", "summarize"]),
@@ -36,10 +38,20 @@ def classify_intent(text: str) -> dict:
 
 
 def route_to_hermes(intent: dict, text: str) -> dict:
+    if intent["intent"] == "learn":
+        return trigger_learning(text)
+    # Direct learned-skill match: if user names a learned skill, run it
+    from mqc_skill_runner import SKILL_MAP
+    lower_text = text.lower()
+    for skill_name in SKILL_MAP.keys():
+        if skill_name in lower_text and SKILL_MAP[skill_name].get("learned"):
+            skill_result = mqc_skill_runner.run_skill(skill_name, {"text": text})
+            return {"agent": "personal_assistant", "action": skill_name, "runtime": "mqc_skill_runner", "skill_result": skill_result, "text": text}
     mapping = {
         "morning_routine": ("executive_assistant", "executive_morning_routine"),
         "web_search": ("research_assistant", "web_search"),
         "research": ("researcher", "research_scan"),
+        "learn": ("mqc_learner", "learn_from_demonstration"),
         "engineering": ("engineer", "engineer_ship"),
         "business": ("sales", "sales_inbox"),
         "legal": ("legal_assistant", "scan"),
@@ -81,13 +93,60 @@ def route_to_hermes(intent: dict, text: str) -> dict:
         return {"agent": agent, "action": action, "note": "dispatch.py not found", "text": text}
 
 
+def trigger_learning(text: str) -> dict:
+    """Capture a demonstration request and generate a learned skill placeholder."""
+    import re
+    # Strip leading learn prefixes
+    clean = re.sub(r"^(lern|zeig|zeige mir wie|demonstration|vormachen|aufzeichnen|capture|lerne)[^\w]*", "", text, flags=re.IGNORECASE).strip()
+    if not clean:
+        clean = "Neue Routine"
+    demo_path = MQC / "core" / "demonstration_capture.py"
+    skill_gen = MQC / "core" / "skill_generator.py"
+    result = subprocess.run(
+        ["python3", str(demo_path), clean, "--steps", "Schritt 1,Schritt 2,Schritt 3", "--json"],
+        capture_output=True, text=True, timeout=30
+    )
+    parsed = None
+    try:
+        parsed = json.loads(result.stdout)
+    except Exception:
+        pass
+    return {
+        "agent": "mqc_learner",
+        "action": "learn_from_demonstration",
+        "runtime": "mqc_skill_runner",
+        "skill_result": {
+            "status": "ok" if result.returncode == 0 else "error",
+            "stdout": result.stdout,
+            "stderr": result.stderr[:500] if result.stderr else None,
+            "parsed": parsed,
+        },
+        "text": text,
+        "note": "Open the captured demonstration file and refine steps, then run skill_generator.py to create the skill.",
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("text")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
-    intent = classify_intent(args.text)
-    result = route_to_hermes(intent, args.text)
+
+    # Highest priority: if user names a learned skill, run it directly
+    from mqc_skill_runner import SKILL_MAP
+    lower_text = args.text.lower()
+    learned_match = None
+    for skill_name in SKILL_MAP.keys():
+        if SKILL_MAP[skill_name].get("learned") and skill_name.replace("_", " ") in lower_text:
+            learned_match = skill_name
+            break
+    if learned_match:
+        skill_result = mqc_skill_runner.run_skill(learned_match, {"text": args.text})
+        intent = {"intent": "learned_skill", "confidence": "exact_match"}
+        result = {"agent": "personal_assistant", "action": learned_match, "runtime": "mqc_skill_runner", "skill_result": skill_result, "text": args.text}
+    else:
+        intent = classify_intent(args.text)
+        result = route_to_hermes(intent, args.text)
     out = {"intent": intent, "result": result}
     if args.json:
         print(json.dumps(out, ensure_ascii=False, indent=2))

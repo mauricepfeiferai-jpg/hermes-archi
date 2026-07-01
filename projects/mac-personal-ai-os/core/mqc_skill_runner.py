@@ -11,6 +11,26 @@ TEMPLATE = REPO / "templates" / "one-person-ai-agent-company"
 MQC = HOME / "ai-empire" / "projects" / "hermes-archi" / "projects" / "mac-personal-ai-os"
 CONNECTORS = MQC / "core" / "connectors"
 
+# Auto-discover learned skills at import time
+LEARNED_SKILLS_DIR = MQC / "learned-skills"
+
+def _discover_learned_skills():
+    discovered = {}
+    if not LEARNED_SKILLS_DIR.exists():
+        return discovered
+    for py_file in sorted(LEARNED_SKILLS_DIR.glob("*.py")):
+        name = py_file.stem
+        if name.startswith("_"):
+            continue
+        discovered[name] = {
+            "cmd": ["python3", str(py_file), "--payload", "{}"],
+            "cwd": str(MQC),
+            "passthrough_payload": True,
+            "learned": True,
+        }
+    return discovered
+
+
 SKILL_MAP = {
     "morning_queue": {
         "cmd": ["bash", str(TEMPLATE / ".skills" / "run-morning-queue" / "driver.sh")],
@@ -78,6 +98,10 @@ SKILL_MAP = {
     },
 }
 
+# Merge discovered learned skills
+SKILL_MAP.update(_discover_learned_skills())
+
+
 
 def run_skill(task_name: str, payload: dict = None) -> dict:
     payload = payload or {}
@@ -92,8 +116,11 @@ def run_skill(task_name: str, payload: dict = None) -> dict:
     if meta.get("passthrough_flags"):
         for flag in meta["passthrough_flags"]:
             value = payload.get(flag.lstrip("-").replace("-", "_"))
-            if value:
+            if value and flag not in cmd:
                 cmd = cmd + [flag, str(value)]
+    if meta.get("passthrough_payload"):
+        payload_str = json.dumps(payload)
+        cmd = [payload_str if c == "{}" else c.replace('"{}"', payload_str) for c in cmd]
 
     if meta.get("needs_queue"):
         date = datetime.now().strftime("%Y-%m-%d")
