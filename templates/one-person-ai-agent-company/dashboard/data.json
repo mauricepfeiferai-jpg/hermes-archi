@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-30T22:47:21.779011Z",
+  "generated_at": "2026-07-01T08:16:42.032853Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
     "claude_code",
     "codex",
-    "ollama_cloud",
+    "kimi_api",
     "ollama_cloud",
     "researcher",
     "ceo",
@@ -19,16 +19,16 @@
     "x_mcp"
   ],
   "loops": 19,
-  "skills": 382,
-  "github_repos": 19,
-  "knowledge_nuggets": 298,
-  "dopamine_score": 485.77,
-  "dopamine_streak": 5,
-  "dopamine_threshold": 44.15,
-  "neural_events": 176,
+  "skills": 383,
+  "github_repos": 20,
+  "knowledge_nuggets": 324,
+  "dopamine_score": 659.78,
+  "dopamine_streak": 6,
+  "dopamine_threshold": 65.98,
+  "neural_events": 196,
   "lessons": 8,
   "status": "LIVE",
-  "last_commit": "182956a",
+  "last_commit": "4c38018",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",
@@ -56,10 +56,10 @@
   "hil_green": 10,
   "x_trends_24h": 24,
   "x_latest_titles": [
-    "Autonomous Coding Agents",
-    "Multi-Agent Orchestration",
-    "Computer-Use Agents",
-    "One-Person AI Companies",
-    "AI Content Systems"
+    "Agentic Frameworks and Methodologies Proliferate",
+    "Explosion of Agent Tools and System Prompts",
+    "Governance and Benchmarking Become Critical for Autonomous Agents",
+    "AI-Powered Solopreneur Skill Sets",
+    "Curated Knowledge Hubs for One-Person Companies"
   ]
 }

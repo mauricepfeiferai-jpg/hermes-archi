@@ -57,6 +57,18 @@ ai-company/
 - 1 weekend setup
 - 87% cheaper AI stack possible
 
+## LIVE DASHBOARD
+
+Every template ships with a live dashboard:
+
+- Dopamine score, streak, and system health
+- Neural bus events and agent activity
+- X/Twitter trends feed
+- Library index (repos, skills, knowledge nuggets)
+- Sales pipeline and HIL gate stats
+
+Open it offline (`index.html`) or serve it locally. Works without a backend.
+
 ## PRICING
 
 | Starter | Professional | Founder |

@@ -16,4 +16,4 @@ This folder contains the productized version of the AI Empire One-Person AI Agen
 
 ## Status
 
-WORK IN PROGRESS — copy and structure ready. Next: build actual landing page HTML, create OG image, set up payment.
+NEARLY READY — landing page HTML works standalone/offline, copy and structure ready. Next: create OG image, set up payment, launch.

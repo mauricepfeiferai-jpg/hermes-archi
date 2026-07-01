@@ -589,12 +589,23 @@
     </main>
   </div>
 
+
+  <script>
+    window.DASHBOARD_DATA = {"generated_at": "2026-07-01T08:16:42.032853Z", "agents": ["openclaw_main", "hermes_orchestrator", "claude_code", "codex", "kimi_api", "ollama_cloud", "researcher", "ceo", "cto", "engineer", "writer", "sales", "youtube_operator", "loop_agent", "adaptive_loop_engine", "x_mcp"], "loops": 19, "skills": 383, "github_repos": 20, "knowledge_nuggets": 324, "dopamine_score": 659.78, "dopamine_streak": 6, "dopamine_threshold": 65.98, "neural_events": 196, "lessons": 8, "status": "LIVE", "last_commit": "4c38018", "proposals": [{"trigger": "library.entry count > ship.ready count * 3", "suggested_loop": "09-researcher-to-spec", "action": "Auto-create PRODUCT.md for top discovered repo", "rationale": "System ingests knowledge faster than it ships. Convert discovery into product specs.", "confidence": "medium", "ratio": 4.25}], "sales_leads": 15, "sales_contacted": 0, "sales_replied": 0, "sales_call_booked": 0, "sales_paid": 0, "sales_deals_value_usd": 0.0, "sales_latest_actions": ["2026-06-30: 15 target customers seeded", "2026-06-30: 5 outreach drafts prepared", "2026-06-30: awaiting Maurice approval to send"], "hil_gate_checks": 6, "hil_red_blocks": 1, "hil_yellow": 0, "hil_green": 10, "x_trends_24h": 24, "x_latest_titles": ["Agentic Frameworks and Methodologies Proliferate", "Explosion of Agent Tools and System Prompts", "Governance and Benchmarking Become Critical for Autonomous Agents", "AI-Powered Solopreneur Skill Sets", "Curated Knowledge Hubs for One-Person Companies"]};
+  </script>
+
   <script>
     async function loadData() {
       try {
+        // Try to fetch fresh data when served over HTTP
         const res = await fetch('data.json');
-        return res.ok ? await res.json() : null;
-      } catch (e) { return null; }
+        if (res.ok) return await res.json();
+      } catch (e) {
+        // file:// protocol or missing file: fall back to inline data
+        console.log('fetch data.json failed, using embedded data:', e.message);
+      }
+      // Embedded at build time so the dashboard works when opened directly
+      return window.DASHBOARD_DATA || null;
     }
 
     function renderOutputs(data) {
