@@ -22,7 +22,7 @@ Dokumentation der in dieser Session extrahierten Gold Nuggets und ihrer Integrat
 Template liegt unter `control-plane/hermes/config/model-policy.env.template`.
 
 ```env
-HERMES_TASK_REASONING_PRIMARY=kimi-k2.7
+HERMES_TASK_REASONING_PRIMARY=glm-5.2:cloud (legacy kimi-k2.7, now Ollama Cloud)
 HERMES_TASK_REASONING_FALLBACK=claude-opus-4-6
 
 HERMES_TASK_CODE_PRIMARY=qwen-3.7-max

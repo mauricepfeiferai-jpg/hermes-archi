@@ -4,7 +4,7 @@ Use this skill when the user wants to:
 - Dispatch a task to a specific agent
 - Run the silver loop harness
 - Check dopamine score or neural bus
-- Connect OpenClaw, Hermes, Claude, Codex, Kimi, Ollama
+- Connect OpenClaw, Hermes, Claude, Codex, Ollama Cloud, local Ollama
 
 ## Available Agents
 
@@ -13,7 +13,7 @@ Use this skill when the user wants to:
 - `hermes_orchestrator` — skill runtime
 - `claude_code` — deep engineering
 - `codex` — batch engineering
-- `kimi_api` — fast reasoning
+- `kimi_api` — fast reasoning (legacy alias, now Ollama Cloud)
 - `ollama_cloud` — local/cloud fallback
 - `researcher` — discovery agent
 - `ceo`, `cto`, `engineer`, `writer`, `sales`, `youtube_operator`, `loop_agent`

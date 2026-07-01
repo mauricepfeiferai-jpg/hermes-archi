@@ -56,3 +56,7 @@ ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
 (bus_dir / f"{ts}_ceo.morning_queue.json").write_text(json.dumps(event, indent=2))
 print(f"CEO morning queue: {outfile}")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+ops/cron/06-ceo-daily-goals.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

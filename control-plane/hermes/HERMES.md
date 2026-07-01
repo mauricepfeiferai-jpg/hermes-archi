@@ -83,3 +83,16 @@ def route(message):
 - `gpe-core/dispatcher/task_router.py` (existing)
 - `gpe-core/meta_supervisor_full.py` (existing — wird Daemon-Manager)
 - `gpe-core/analyzer/knowledge_graph_v2.py` (existing — BlackHole Graph)
+
+
+## Automatisches Handoff
+
+Am Ende jeder Session ruft Hermes `handoff_generator.py` auf.
+Das Tool scannt Neural-Bus Events, aktualisiert `00_SYSTEM/HANDOFF.md` und schreibt den Status in `memory/CURRENT.md`.
+
+
+## LLM Observability
+
+Jeder LLM-Call läuft über `llm_tracer.py`.
+Trace-Daten: agent, workflow, model, input/output tokens, latency_ms, cost_usd, error, metadata.
+Logs landen in `00_SYSTEM/logs/llm_traces.jsonl`.

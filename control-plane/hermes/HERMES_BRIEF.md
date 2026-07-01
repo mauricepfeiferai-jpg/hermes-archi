@@ -58,3 +58,16 @@ Dieses Briefing löst First-Principles-Mode aus, wenn:
 - Der Aufwand > 2 Stunden beträgt
 
 Hermes verwendet dann automatisch `control-plane/hermes/HERMES_FIRST_PRINCIPLES_MODE.md` als Prozessrahmen.
+
+
+## GRILL_ME Mode
+
+Für komplexe Aufgaben (strategisch, finanziell, rechtlich, technisch, persönlich, Aufwand > 2h, YELLOW/RED-Gate) aktiviert Hermes automatisch `HERMES_GRILL_ME.md`.
+
+Maximal 12 Fragen in 4 Phasen:
+1. Ziel (3 Fragen)
+2. Constraints (3 Fragen)
+3. Kontext (3 Fragen)
+4. Risiko + Optionen (3 Fragen)
+
+Output: gegrilltes Briefing + First-Principles-Karte + Gate-Empfehlung + Decision Card (falls nötig).

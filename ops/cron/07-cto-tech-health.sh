@@ -65,3 +65,7 @@ ts = now.isoformat().replace("+00:00", "Z").replace(":", "-").replace(".", "-")
 alerts_count = len(health["alerts"])
 print(f"CTO tech health: {outfile}, alerts={alerts_count}")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+ops/cron/07-cto-tech-health.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

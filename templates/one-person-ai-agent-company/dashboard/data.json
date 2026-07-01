@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-30T22:47:20.399095Z",
+  "generated_at": "2026-06-30T22:47:21.779011Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
     "claude_code",
     "codex",
-    "kimi_api",
+    "ollama_cloud",
     "ollama_cloud",
     "researcher",
     "ceo",
@@ -28,7 +28,7 @@
   "neural_events": 176,
   "lessons": 8,
   "status": "LIVE",
-  "last_commit": "f2c92e7",
+  "last_commit": "182956a",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",

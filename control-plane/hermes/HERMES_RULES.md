@@ -367,3 +367,16 @@ Dieser Abschnitt wird automatisch vom Learning Agent aus Decision Cards ergänzt
 - **YELLOW** — Bei Monetarisierungsfragen priorisiere den Pfad, der Maurice' echte Domain-Expertise und höchsten Kundenschmerz nutzt, bevor generische digitale Produkte ohne Publikum bevorzugt werden. *(gelernt aus DC_20260630_7f9de9fd)*
 
 - **YELLOW** — Neue Regel für Hermes: *(gelernt aus FP_20260630_SELBSTVERTRETER.md)*
+
+
+## Automatisches Handoff
+
+Am Ende jeder Session ruft Hermes `handoff_generator.py` auf.
+Das Tool scannt Neural-Bus Events, aktualisiert `00_SYSTEM/HANDOFF.md` und schreibt den Status in `memory/CURRENT.md`.
+
+
+## LLM Observability
+
+Jeder LLM-Call läuft über `llm_tracer.py`.
+Trace-Daten: agent, workflow, model, input/output tokens, latency_ms, cost_usd, error, metadata.
+Logs landen in `00_SYSTEM/logs/llm_traces.jsonl`.

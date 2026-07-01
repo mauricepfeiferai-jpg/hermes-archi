@@ -18,13 +18,13 @@
 Cut AI costs by 87% without losing revenue.
 
 ### Subheadline
-The exact model routing logic to swap Opus → Kimi, GPT-5.5 → Qwen, Sonnet → GLM, and 3 more. One-time playbook.
+The exact model routing logic to swap Opus → GLM, GPT-5.5 → Qwen, Sonnet → GLM, and 3 more. One-time playbook.
 
 ### CTA
 **Get the Playbook — $129**
 
 ### Visual
-Show the product in action: reasoning: opus → kimi k2.7 (~11x cheaper).
+Show the product in action: reasoning: opus → glm-5.2:cloud (~11x cheaper).
 
 ## Problem We Solve
 
@@ -40,7 +40,7 @@ Dramatically lower AI bills, full data sovereignty, no Ban risk.
 
 ## Use Cases
 
-- Reasoning: Opus → Kimi K2.7 (~11x cheaper)
+- Reasoning: Opus → GLM 5.2:cloud (~11x cheaper)
 - Code: GPT-5.5 → Qwen 3.7 Max (~7x cheaper)
 - Agent loops: Sonnet → GLM 5.2 (~5x cheaper)
 - Bulk: GPT-5.5 mini → MiMo V2.5 (~12x cheaper)

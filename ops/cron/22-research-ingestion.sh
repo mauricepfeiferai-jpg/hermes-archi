@@ -108,3 +108,7 @@ ng.write_text(nugget)
 (export_dir / ng.name).write_text(nugget)
 print(f"✅ Research ingest complete: {outfile}")
 PYTHON
+# Update handoff after loop
+python3 "$REPO/control-plane/hermes/handoff_generator.py" <<EOF_H
+ops/cron/22-research-ingestion.sh: completed $(date +%Y-%m-%d-%H:%M)
+EOF_H

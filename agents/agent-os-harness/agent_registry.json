@@ -89,14 +89,17 @@
       "runtime": "ollama_cloud",
       "endpoint": "http://localhost:11434/api/generate",
       "model": "deepseek-v4-flash:cloud",
-      "tools": [
-        "completion",
-        "json"
-      ],
       "dispatch_format": "api_call",
       "priority": 5,
       "enabled": true,
-      "note": "Kimi API suspended; routed to Ollama Cloud via local Ollama"
+      "note": "Kimi API suspended; routed to Ollama Cloud via local Ollama",
+      "aliases": [
+        "kimi-k2.7-code:cloud"
+      ],
+      "tools": [
+        "completion",
+        "json"
+      ]
     },
     {
       "id": "ollama_cloud",

@@ -7,7 +7,7 @@ Dispatch router + silver loop harness for Maurice's AI Empire.
 | File | Purpose |
 |---|---|
 | `agent_registry.json` | All connected agents and runtimes |
-| `dispatch.py` | Route task to agent (Hermes, OpenClaw, Claude, Codex, Kimi, Ollama) |
+| `dispatch.py` | Route task to agent (Hermes, OpenClaw, Claude, Codex, Ollama Cloud, local Ollama) |
 | `silver_loop_harness.py` | Run fixed reflex loops |
 
 ## Usage
@@ -22,8 +22,8 @@ python3 agents/agent-os-harness/dispatch.py hermes_orchestrator "review code" --
 # Dispatch to OpenClaw
 python3 agents/agent-os-harness/dispatch.py openclaw_main "check disk" --payload '{"tool":"exec","cmd":"df -h"}'
 
-# Dispatch to Kimi
-python3 agents/agent-os-harness/dispatch.py kimi_api "Summarize this: ..."
+# Dispatch to Ollama Cloud (legacy kimi_api alias)
+python3 agents/agent-os-harness/dispatch.py kimi_api "Summarize this: ..." # routes to Ollama Cloud
 
 # Run silver loops
 python3 agents/agent-os-harness/silver_loop_harness.py list
