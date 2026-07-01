@@ -1,0 +1,6 @@
+# Hermes/Hecate core dependencies
+feedparser>=6.0
+requests>=2.28
+openai>=1.0
+pydantic>=2.0
+python-dotenv>=1.0
