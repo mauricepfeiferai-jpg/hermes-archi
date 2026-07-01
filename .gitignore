@@ -14,3 +14,6 @@ state/
 screenshots/
 03_ARCHIVE/
 library/
+
+# Runtime logs
+00_SYSTEM/logs/
