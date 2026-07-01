@@ -75,7 +75,7 @@ SKILL_MAP = {
         "passthrough_flags": ["--limit"],
     },
     "read_calendar": {
-        "cmd": ["python3", str(CONNECTORS / "calendar_connector.py"), "--json", "--days", "1"],
+        "cmd": ["python3", str(CONNECTORS / "calendar_connector.py"), "--json", "--days", "30"],
         "cwd": str(MQC),
         "passthrough_flags": ["--days"],
     },
@@ -115,9 +115,14 @@ def run_skill(task_name: str, payload: dict = None) -> dict:
         cmd = cmd + [query]
     if meta.get("passthrough_flags"):
         for flag in meta["passthrough_flags"]:
-            value = payload.get(flag.lstrip("-").replace("-", "_"))
-            if value and flag not in cmd:
-                cmd = cmd + [flag, str(value)]
+            key = flag.lstrip("-").replace("-", "_")
+            value = payload.get(key)
+            if value:
+                if flag in cmd:
+                    idx = cmd.index(flag)
+                    cmd[idx + 1] = str(value)
+                else:
+                    cmd = cmd + [flag, str(value)]
     if meta.get("passthrough_payload"):
         payload_str = json.dumps(payload)
         cmd = [payload_str if c == "{}" else c.replace('"{}"', payload_str) for c in cmd]

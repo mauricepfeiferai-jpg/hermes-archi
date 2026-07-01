@@ -1,89 +1,74 @@
 #!/usr/bin/env python3
-"""Read-only connector for Apple Messages. Never sends messages."""
+"""Read-only connector for Apple Messages via chat.db.
+
+Never writes. Returns recent message previews per chat, no full content unless needed.
+"""
 import argparse
 import json
-import subprocess
+import sqlite3
+from pathlib import Path
 
+CHAT_DB = Path.home() / "Library/Messages/chat.db"
 
-def messages_running() -> bool:
-    result = subprocess.run(["pgrep", "-x", "Messages"], capture_output=True, text=True)
-    return result.returncode == 0
-
-
-def run_jxa(script: str) -> tuple[int, str, str]:
-    result = subprocess.run(
-        ["osascript", "-l", "JavaScript", "-e", script],
-        capture_output=True, text=True, timeout=10
-    )
-    return result.returncode, result.stdout, result.stderr
+# Apple stores dates as nanoseconds since Cocoa epoch (2001-01-01)
+COCOA_OFFSET = 978307200
 
 
 def read_messages(limit: int = 10) -> dict:
-    """Return recent messages from Apple Messages (chats)."""
-    if not messages_running():
-        return {"success": True, "source": "messages", "running": False, "count": 0, "messages": [], "note": "Messages.app is not running"}
-
-    # Privacy note: returns sender handle and first 120 chars of content only.
-    script = f'''
-function run() {{
-    try {{
-        var Messages = Application("Messages");
-        var chats = Messages.chats();
-        var out = [];
-        for (var ci = 0; ci < chats.length && out.length < {limit}; ci++) {{
-            try {{
-                var chat = chats[ci];
-                var msgs = chat.messages();
-                if (msgs.length === 0) continue;
-                var m = msgs[msgs.length - 1];
-                var text = m.text();
-                if (text && text.length > 120) text = text.substring(0, 120) + "…";
-                out.push({{
-                    chatId: chat.id(),
-                    handle: m.handle() || "me",
-                    date: m.dateSent() ? m.dateSent().toISOString() : null,
-                    preview: text || ""
-                }});
-            }} catch(err) {{
-                // skip unreadable chats
-            }}
-        }}
-        return JSON.stringify({{success: true, source: "messages", running: true, count: out.length, messages: out}});
-    }} catch(err) {{
-        var msg = err.toString();
-        if (/läuft nicht|not running|isn.t running|-600/i.test(msg)) {{
-            return JSON.stringify({{success: true, source: "messages", running: false, count: 0, messages: [], note: msg}});
-        }}
-        return JSON.stringify({{success: false, source: "messages", error: msg}});
-    }}
-}}
-'''
-    rc, out, err = run_jxa(script)
-    if rc != 0:
-        err_msg = err.strip() or "JXA failed"
-        if any(k in err_msg.lower() for k in ["läuft nicht", "not running", "-600"]):
-            return {"success": True, "source": "messages", "running": False, "count": 0, "messages": [], "note": err_msg}
-        return {"success": False, "source": "messages", "error": err_msg}
+    if not CHAT_DB.exists():
+        return {"success": False, "source": "messages", "backend": "sqlite", "error": f"DB not found: {CHAT_DB}"}
     try:
-        data = json.loads(out.strip())
-        if not data.get("success") and any(k in (data.get("error") or "").lower() for k in ["läuft nicht", "not running", "-600"]):
-            return {"success": True, "source": "messages", "running": False, "count": 0, "messages": [], "note": data.get("error")}
-        return data
+        conn = sqlite3.connect(f"file:{CHAT_DB}?mode=ro", uri=True)
+        conn.row_factory = sqlite3.Row
+        # Recent messages with handle/phone/email, grouped by chat, limited
+        cur = conn.execute(
+            """
+            SELECT m.ROWID AS id,
+                   m.text,
+                   m.is_from_me,
+                   m.date / 1000000000 + ? AS date_unix,
+                   h.id AS handle,
+                   c.display_name AS chat_name
+            FROM message m
+            LEFT JOIN handle h ON h.ROWID = m.handle_id
+            LEFT JOIN chat_message_join cmj ON cmj.message_id = m.ROWID
+            LEFT JOIN chat c ON c.ROWID = cmj.chat_id
+            WHERE m.is_from_me = 0
+              AND m.text IS NOT NULL
+              AND m.text != ''
+            ORDER BY m.date DESC
+            LIMIT ?
+            """,
+            (COCOA_OFFSET, limit),
+        )
+        rows = [dict(row) for row in cur.fetchall()]
+        messages = []
+        for r in rows:
+            text = r.get("text") or ""
+            if len(text) > 120:
+                text = text[:120] + "…"
+            messages.append({
+                "chat": r.get("chat_name") or r.get("handle") or "Unknown",
+                "handle": r.get("handle") or "me",
+                "from_me": bool(r.get("is_from_me")),
+                "date": r.get("date_unix"),
+                "preview": text,
+            })
+        return {"success": True, "source": "messages", "backend": "sqlite", "count": len(messages), "messages": messages}
     except Exception as e:
-        return {"success": False, "source": "messages", "error": f"JSON parse error: {e}", "raw": out.strip()}
+        return {"success": False, "source": "messages", "backend": "sqlite", "error": str(e)}
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="MQC Apple Messages read-only connector")
+    parser = argparse.ArgumentParser(description="MQC Apple Messages SQLite read-only connector")
     parser.add_argument("--limit", type=int, default=10)
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
-
     result = read_messages(limit=args.limit)
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
-        print(f"Messages: {result.get('count')} recent chats")
+        print(f"Messages: {result.get('count')} recent")
         for m in result.get("messages", [])[:args.limit]:
             print(f"- [{m.get('date', '?')}] {m.get('handle', '?')}: {m.get('preview', '')}")
 

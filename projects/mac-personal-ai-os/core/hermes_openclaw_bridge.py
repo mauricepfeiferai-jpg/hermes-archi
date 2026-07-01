@@ -37,7 +37,8 @@ def classify_intent(text: str) -> dict:
     return {"intent": "general", "confidence": "fallback"}
 
 
-def route_to_hermes(intent: dict, text: str) -> dict:
+def route_to_hermes(intent: dict, text: str, payload: dict = None) -> dict:
+    payload = payload or {"text": text}
     if intent["intent"] == "learn":
         return trigger_learning(text)
     # Direct learned-skill match: if user names a learned skill, run it
@@ -45,7 +46,7 @@ def route_to_hermes(intent: dict, text: str) -> dict:
     lower_text = text.lower()
     for skill_name in SKILL_MAP.keys():
         if skill_name in lower_text and SKILL_MAP[skill_name].get("learned"):
-            skill_result = mqc_skill_runner.run_skill(skill_name, {"text": text})
+            skill_result = mqc_skill_runner.run_skill(skill_name, payload)
             return {"agent": "personal_assistant", "action": skill_name, "runtime": "mqc_skill_runner", "skill_result": skill_result, "text": text}
     mapping = {
         "morning_routine": ("executive_assistant", "executive_morning_routine"),
@@ -65,13 +66,13 @@ def route_to_hermes(intent: dict, text: str) -> dict:
     agent, action = mapping.get(intent["intent"], ("hermes_orchestrator", "route"))
 
     if action in mqc_skill_runner.SKILL_MAP:
-        skill_result = mqc_skill_runner.run_skill(action, {"text": text})
+        skill_result = mqc_skill_runner.run_skill(action, payload)
         return {"agent": agent, "action": action, "runtime": "mqc_skill_runner", "skill_result": skill_result, "text": text}
 
     if DISPATCH.exists():
         try:
             result = subprocess.run(
-                ["python3", str(DISPATCH), agent, action, "--payload", json.dumps({"text": text})],
+                ["python3", str(DISPATCH), agent, action, "--payload", json.dumps(payload)],
                 capture_output=True, text=True, timeout=15
             )
             result_data = None
@@ -126,6 +127,22 @@ def trigger_learning(text: str) -> dict:
     }
 
 
+def extract_days(text: str) -> int | None:
+    import re
+    m = re.search(r'(\d+)\s*(tage|tagen|wochen|monaten|monate|jahren|jahre)', text.lower())
+    if not m:
+        return None
+    n = int(m.group(1))
+    unit = m.group(2)
+    if "woche" in unit:
+        return n * 7
+    if "monat" in unit:
+        return n * 30
+    if "jahr" in unit:
+        return n * 365
+    return n
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("text")
@@ -146,7 +163,11 @@ def main():
         result = {"agent": "personal_assistant", "action": learned_match, "runtime": "mqc_skill_runner", "skill_result": skill_result, "text": args.text}
     else:
         intent = classify_intent(args.text)
-        result = route_to_hermes(intent, args.text)
+        days = extract_days(args.text)
+        payload = {"text": args.text}
+        if days is not None:
+            payload["days"] = days
+        result = route_to_hermes(intent, args.text, payload)
     out = {"intent": intent, "result": result}
     if args.json:
         print(json.dumps(out, ensure_ascii=False, indent=2))
