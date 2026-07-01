@@ -91,6 +91,44 @@ if pipeline_file.exists():
     except Exception:
         pass
 
+# Latest neural bus events (for dashboard feed)
+latest_events = []
+for f in sorted((repo / "state" / "neural-bus").glob("*.json"), reverse=True)[:10]:
+    try:
+        e = json.loads(f.read_text())
+        latest_events.append({
+            "ts": e.get("ts", ""),
+            "type": e.get("type", ""),
+            "source": e.get("source", ""),
+        })
+    except Exception:
+        pass
+latest_events.reverse()
+
+# Recent outputs (for dashboard outputs list)
+outputs = []
+state_dirs = [
+    repo / "state" / "x",
+    repo / "state" / "libraries",
+    repo / "state" / "09",
+    repo / "state" / "10",
+]
+for d in state_dirs:
+    if d.exists():
+        for f in sorted(d.glob("*.json"), reverse=True)[:3]:
+            try:
+                outputs.append({
+                    "agent": d.name,
+                    "file": f.name,
+                    "date": datetime.fromtimestamp(f.stat().st_mtime, tz=timezone.utc).isoformat().replace("+00:00", "Z"),
+                })
+            except Exception:
+                pass
+
+# Sort outputs by date desc
+outputs.sort(key=lambda x: x["date"], reverse=True)
+outputs = outputs[:8]
+
 data = {
     "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     "agents": [a["id"] for a in agents],
@@ -122,6 +160,8 @@ data = {
         "hil_green": hil.get("green_executions", 0),
                 "x_trends_24h": x_trends_count,
         "x_latest_titles": x_latest_titles,
+        "latest_events": latest_events,
+        "outputs": outputs,
 }
 out.write_text(json.dumps(data, indent=2))
 print(json.dumps(data, indent=2))

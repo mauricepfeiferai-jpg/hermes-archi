@@ -9,11 +9,21 @@ This folder contains the productized version of the AI Empire One-Person AI Agen
 - `sales-page/SALES_PAGE.md` — sales page copy + FAQ
 - `pricing/PRICING.md` — popcorn pricing
 - `checkout/CHECKOUT.md` — checkout flow
-
-- `go-to-market/` — 14-day launch plan, cold outreach templates, lead magnet plan.
+- `go-to-market/` — 14-day launch plan, cold outreach templates, lead magnet plan, OG image + dashboard screenshots
 - `templates/` — link to actual template files (from `hermes-archi/templates/one-person-ai-agent-company/`)
-- `assets/` — OG image, screenshots, demo assets
+
+## Assets
+
+- `go-to-market/og-image.png` — 1200x630 OG/Twitter card image
+- `go-to-market/dashboard-preview.png` — cropped dashboard screenshot for landing page
 
 ## Status
 
-NEARLY READY — landing page HTML works standalone/offline, copy and structure ready. Next: create OG image, set up payment, launch.
+READY TO LAUNCH — dashboard works standalone + via launcher, OG image created, landing page HTML updated, screenshots embedded.
+
+## Quick Links
+
+- Landing Page: `../../website/products/one-person-ai-agent-company.html`
+- OG Image: `go-to-market/og-image.png`
+- Dashboard: `../templates/one-person-ai-agent-company/dashboard/`
+- Buy: https://paypal.me/mauricepfeifer?amount=149&currency=USD

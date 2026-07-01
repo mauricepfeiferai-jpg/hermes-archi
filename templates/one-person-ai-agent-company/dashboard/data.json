@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T08:16:42.032853Z",
+  "generated_at": "2026-07-01T08:22:36.547755Z",
   "agents": [
     "openclaw_main",
     "hermes_orchestrator",
@@ -28,7 +28,7 @@
   "neural_events": 196,
   "lessons": 8,
   "status": "LIVE",
-  "last_commit": "4c38018",
+  "last_commit": "c776199",
   "proposals": [
     {
       "trigger": "library.entry count > ship.ready count * 3",
@@ -61,5 +61,99 @@
     "Governance and Benchmarking Become Critical for Autonomous Agents",
     "AI-Powered Solopreneur Skill Sets",
     "Curated Knowledge Hubs for One-Person Companies"
+  ],
+  "latest_events": [
+    {
+      "ts": "2026-07-01T07:06:14.342614Z",
+      "type": "hil.loop.yellow.success",
+      "source": "hil_loop_enforcer.py"
+    },
+    {
+      "ts": "2026-07-01T07:06:32.594562Z",
+      "type": "hil.loop.gate_check",
+      "source": "hil_loop_enforcer.py"
+    },
+    {
+      "ts": "2026-07-01T07:06:32.594907Z",
+      "type": "hil.loop.yellow.prepared",
+      "source": "hil_loop_enforcer.py"
+    },
+    {
+      "ts": "2026-07-01T07:06:45.537956Z",
+      "type": "agent.09-researcher-scan.ready",
+      "source": "09-researcher-scan.sh"
+    },
+    {
+      "ts": "2026-07-01T07:06:45.568036Z",
+      "type": "agent.10-writer-content.ready",
+      "source": "10-writer-content.sh"
+    },
+    {
+      "ts": "2026-07-01T07:06:49.751279Z",
+      "type": "research.ranking.completed",
+      "source": "rank_discovered_repos.py"
+    },
+    {
+      "ts": "2026-07-01T07:06:50.358958Z",
+      "type": "library.auto_clone.completed",
+      "source": "auto_clone_top_repos.py"
+    },
+    {
+      "ts": "2026-07-01T07:06:50.504093+00:00",
+      "type": "library.sync.completed",
+      "source": "23-library-sync.sh"
+    },
+    {
+      "ts": "2026-07-01T07:06:50.576075Z",
+      "type": "dopamine.score.updated",
+      "source": "24-dopamine-score.sh"
+    },
+    {
+      "ts": "2026-07-01T07:06:50.640005Z",
+      "type": "neural.broadcast.completed",
+      "source": "25-neural-broadcast.sh"
+    }
+  ],
+  "outputs": [
+    {
+      "agent": "libraries",
+      "file": "ranked_repos.json",
+      "date": "2026-07-01T07:06:49.751227Z"
+    },
+    {
+      "agent": "10",
+      "file": "10-writer-content_2026-07-01.json",
+      "date": "2026-07-01T07:06:45.567985Z"
+    },
+    {
+      "agent": "09",
+      "file": "09-researcher-scan_2026-07-01.json",
+      "date": "2026-07-01T07:06:45.537918Z"
+    },
+    {
+      "agent": "libraries",
+      "file": "daily_ingest_2026-07-01_08-47.json",
+      "date": "2026-07-01T06:47:43.906945Z"
+    },
+    {
+      "agent": "x",
+      "file": "trends_2026-07-01.json",
+      "date": "2026-07-01T06:47:29.988404Z"
+    },
+    {
+      "agent": "x",
+      "file": "trends_2026-06-30.json",
+      "date": "2026-06-30T21:57:51.490912Z"
+    },
+    {
+      "agent": "10",
+      "file": "10-writer-content_2026-06-30.json",
+      "date": "2026-06-30T21:55:26.342461Z"
+    },
+    {
+      "agent": "09",
+      "file": "09-researcher-scan_2026-06-30.json",
+      "date": "2026-06-30T21:55:26.313842Z"
+    }
   ]
 }

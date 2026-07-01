@@ -72,7 +72,7 @@ def dispatch_to_hermes(skill_name, task):
 
 def dispatch_to_claude(prompt, workdir=None):
     """Send task to Claude Code non-interactive."""
-    cmd = ["claude", "--no-interactive", "-p", prompt]
+    cmd = ["claude", "-p", prompt]
     try:
         cwd = Path(workdir) if workdir else REPO
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=600, cwd=cwd)
@@ -87,7 +87,7 @@ def dispatch_to_claude(prompt, workdir=None):
 
 def dispatch_to_codex(prompt, workdir=None):
     """Send task to Codex non-interactive."""
-    cmd = ["codex", "--no-interactive", "-q", prompt]
+    cmd = ["codex", "exec", prompt]
     try:
         cwd = Path(workdir) if workdir else REPO
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=600, cwd=cwd)

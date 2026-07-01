@@ -1,0 +1,133 @@
+owner: maurice
+version: 2026-07-01
+
+assistants:
+  executive_assistant:
+    name: Executive Assistant
+    role: Tagesplanung, Priorisierung, Erinnerungen
+    data_sources:
+      - ~/.openclaw/workspace/ai-empire/memory/CURRENT.md
+      - ~/.openclaw/workspace/ai-empire/memory/NEXT.md
+      - ~/.openclaw/workspace/ai-empire/memory/DECISIONS.md
+      - ~/.openclaw/workspace/ai-empire/04_OUTPUT/GOLD_NUGGETS/
+      - ~/.hermes/config.yaml
+    tools:
+      - read_file
+      - write_file
+      - run_command
+      - update_memory
+      - send_notification
+    red_gates:
+      - send_email
+      - send_message
+      - spend_money
+      - delete_file
+    can_learn: true
+    status: active
+
+  research_assistant:
+    name: Research Assistant
+    role: Recherche, Zusammenfassung, Knowledge Cards
+    data_sources:
+      - ~/ai-empire/projects/hermes-archi/09_LIBRARY/
+      - ~/.openclaw/workspace/ai-empire/09_LIBRARY/
+      - ~/Documents/
+      - ~/.openclaw/workspace/ai-empire/07_WIKI/
+    tools:
+      - web_search
+      - read_file
+      - summarize
+      - create_knowledge_card
+      - update_wiki
+    red_gates:
+      - publish_content
+      - post_to_x
+      - send_email
+    can_learn: true
+    status: active
+
+  engineering_assistant:
+    name: Engineering Assistant
+    role: Coding, Code-Review, Deployment, Debugging
+    data_sources:
+      - ~/ai-empire/projects/
+      - ~/.hermes/.skills_prompt_snapshot.json
+      - ~/.codex/config.toml
+    tools:
+      - edit_file
+      - run_tests
+      - git_commit
+      - deploy
+      - run_command
+    red_gates:
+      - push_to_production
+      - delete_repository
+      - spend_money
+    can_learn: true
+    status: active
+
+  business_assistant:
+    name: Business Assistant
+    role: Verkauf, Kunden, Rechnungen, Produkte
+    data_sources:
+      - ~/ai-empire/projects/hermes-archi/products/
+      - ~/.openclaw/workspace/ai-empire/04_OUTPUT/
+      - ~/ai-empire/projects/hermes-archi/templates/
+    tools:
+      - read_file
+      - write_file
+      - generate_content
+      - update_product_page
+      - track_revenue
+    red_gates:
+      - send_outreach
+      - publish_price_change
+      - spend_money
+    can_learn: true
+    status: active
+
+  legal_assistant:
+    name: Legal Assistant
+    role: Fristen, Dokumente, Beweise, Richterakte
+    data_sources:
+      - ~/LEGAL_SCAN_PRODUCT/
+      - ~/Documents/Recht/
+      - ~/ai-empire/projects/richterakte-litigation-support/
+    tools:
+      - read_file
+      - scan_documents
+      - build_chronology
+      - create_bundle
+    red_gates:
+      - send_legal_document
+      - acknowledge_liability
+      - delete_evidence
+      - sign
+    can_learn: true
+    status: active
+
+  bma_assistant:
+    name: BMA Assistant
+    role: Brandmeldeanlagen, Normen, Angebote
+    data_sources:
+      - ~/ai-empire/projects/hermes-archi/templates/one-person-ai-agent-company/bma-engineer/
+      - ~/Documents/BMA/
+      - ~/ai-empire/projects/richterakte-litigation-support/
+    tools:
+      - read_file
+      - calculate_offer
+      - check_norm
+      - draft_customer_reply
+    red_gates:
+      - send_offer
+      - accept_order
+      - commit_to_deadline
+    can_learn: true
+    status: active
+
+learning_policy:
+  mode: demonstration_first
+  capture_format: DEMONSTRATION_CAPTURE.md
+  rule_output_dir: ~/ai-empire/projects/hermes-archi/projects/mac-personal-ai-os/learned-skills/
+  review_required: true
+  max_auto_rules_before_review: 5

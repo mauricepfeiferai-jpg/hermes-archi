@@ -334,7 +334,7 @@
         </div>
         <div class="metric-card">
           <div class="label">Lessons Logged</div>
-          <div class="value" id="lessons-count">0</div>
+          <div class="value" id="lessons-count">8</div>
           <div class="delta">Self-improvement loop</div>
         </div>
         <div class="metric-card">
@@ -349,17 +349,17 @@
         <div class="metrics" style="margin-top: 16px;">
           <div class="metric-card">
             <div class="label">🧠 Dopamine Score</div>
-            <div class="value" id="dopamine-score" style="color: var(--accent);">0</div>
-            <div class="delta" id="dopamine-streak">Streak: 0 days</div>
+            <div class="value" id="dopamine-score" style="color: var(--accent);">660</div>
+            <div class="delta" id="dopamine-streak">Streak: 6 days</div>
           </div>
           <div class="metric-card">
             <div class="label">🔗 Neural Events 24h</div>
-            <div class="value" id="neural-events">0</div>
+            <div class="value" id="neural-events">196</div>
             <div class="delta">All agents connected</div>
           </div>
           <div class="metric-card">
             <div class="label">📚 Libraries</div>
-            <div class="value" id="library-count" style="font-size: 22px; padding-top: 10px;">0</div>
+            <div class="value" id="library-count" style="font-size: 22px; padding-top: 10px;">727</div>
             <div class="delta">Repos + Skills + Nuggets</div>
           </div>
           <div class="metric-card">
@@ -369,13 +369,13 @@
           </div>
           <div class="metric-card">
             <div class="label">𝕏 X Trends 24h</div>
-            <div class="value" id="x-trends-count" style="color: var(--accent);">0</div>
-            <div class="delta" id="x-trends-source">Mock demo mode</div>
+            <div class="value" id="x-trends-count" style="color: var(--accent);">24</div>
+            <div class="delta" id="x-trends-source">Live pipeline</div>
           </div>
           <div class="metric-card">
             <div class="label">🛡️ HIL Gate Checks</div>
-            <div class="value" id="hil-gate-checks" style="color: var(--ok);">0</div>
-            <div class="delta" id="hil-gate-summary">GREEN: 0 · YELLOW: 0 · RED: 0</div>
+            <div class="value" id="hil-gate-checks" style="color: var(--ok);">6</div>
+            <div class="delta" id="hil-gate-summary">GREEN: 10 · YELLOW: 0 · RED: 1</div>
           </div>
         </div>
         <div class="card" style="margin-top: 20px;">
@@ -591,21 +591,36 @@
 
 
   <script>
-    window.DASHBOARD_DATA = {"generated_at": "2026-07-01T08:16:42.032853Z", "agents": ["openclaw_main", "hermes_orchestrator", "claude_code", "codex", "kimi_api", "ollama_cloud", "researcher", "ceo", "cto", "engineer", "writer", "sales", "youtube_operator", "loop_agent", "adaptive_loop_engine", "x_mcp"], "loops": 19, "skills": 383, "github_repos": 20, "knowledge_nuggets": 324, "dopamine_score": 659.78, "dopamine_streak": 6, "dopamine_threshold": 65.98, "neural_events": 196, "lessons": 8, "status": "LIVE", "last_commit": "4c38018", "proposals": [{"trigger": "library.entry count > ship.ready count * 3", "suggested_loop": "09-researcher-to-spec", "action": "Auto-create PRODUCT.md for top discovered repo", "rationale": "System ingests knowledge faster than it ships. Convert discovery into product specs.", "confidence": "medium", "ratio": 4.25}], "sales_leads": 15, "sales_contacted": 0, "sales_replied": 0, "sales_call_booked": 0, "sales_paid": 0, "sales_deals_value_usd": 0.0, "sales_latest_actions": ["2026-06-30: 15 target customers seeded", "2026-06-30: 5 outreach drafts prepared", "2026-06-30: awaiting Maurice approval to send"], "hil_gate_checks": 6, "hil_red_blocks": 1, "hil_yellow": 0, "hil_green": 10, "x_trends_24h": 24, "x_latest_titles": ["Agentic Frameworks and Methodologies Proliferate", "Explosion of Agent Tools and System Prompts", "Governance and Benchmarking Become Critical for Autonomous Agents", "AI-Powered Solopreneur Skill Sets", "Curated Knowledge Hubs for One-Person Companies"]};
+    window.DASHBOARD_DATA = {"generated_at": "2026-07-01T08:22:36.547755Z", "agents": ["openclaw_main", "hermes_orchestrator", "claude_code", "codex", "kimi_api", "ollama_cloud", "researcher", "ceo", "cto", "engineer", "writer", "sales", "youtube_operator", "loop_agent", "adaptive_loop_engine", "x_mcp"], "loops": 19, "skills": 383, "github_repos": 20, "knowledge_nuggets": 324, "dopamine_score": 659.78, "dopamine_streak": 6, "dopamine_threshold": 65.98, "neural_events": 196, "lessons": 8, "status": "LIVE", "last_commit": "c776199", "proposals": [{"trigger": "library.entry count > ship.ready count * 3", "suggested_loop": "09-researcher-to-spec", "action": "Auto-create PRODUCT.md for top discovered repo", "rationale": "System ingests knowledge faster than it ships. Convert discovery into product specs.", "confidence": "medium", "ratio": 4.25}], "sales_leads": 15, "sales_contacted": 0, "sales_replied": 0, "sales_call_booked": 0, "sales_paid": 0, "sales_deals_value_usd": 0.0, "sales_latest_actions": ["2026-06-30: 15 target customers seeded", "2026-06-30: 5 outreach drafts prepared", "2026-06-30: awaiting Maurice approval to send"], "hil_gate_checks": 6, "hil_red_blocks": 1, "hil_yellow": 0, "hil_green": 10, "x_trends_24h": 24, "x_latest_titles": ["Agentic Frameworks and Methodologies Proliferate", "Explosion of Agent Tools and System Prompts", "Governance and Benchmarking Become Critical for Autonomous Agents", "AI-Powered Solopreneur Skill Sets", "Curated Knowledge Hubs for One-Person Companies"], "latest_events": [{"ts": "2026-07-01T07:06:14.342614Z", "type": "hil.loop.yellow.success", "source": "hil_loop_enforcer.py"}, {"ts": "2026-07-01T07:06:32.594562Z", "type": "hil.loop.gate_check", "source": "hil_loop_enforcer.py"}, {"ts": "2026-07-01T07:06:32.594907Z", "type": "hil.loop.yellow.prepared", "source": "hil_loop_enforcer.py"}, {"ts": "2026-07-01T07:06:45.537956Z", "type": "agent.09-researcher-scan.ready", "source": "09-researcher-scan.sh"}, {"ts": "2026-07-01T07:06:45.568036Z", "type": "agent.10-writer-content.ready", "source": "10-writer-content.sh"}, {"ts": "2026-07-01T07:06:49.751279Z", "type": "research.ranking.completed", "source": "rank_discovered_repos.py"}, {"ts": "2026-07-01T07:06:50.358958Z", "type": "library.auto_clone.completed", "source": "auto_clone_top_repos.py"}, {"ts": "2026-07-01T07:06:50.504093+00:00", "type": "library.sync.completed", "source": "23-library-sync.sh"}, {"ts": "2026-07-01T07:06:50.576075Z", "type": "dopamine.score.updated", "source": "24-dopamine-score.sh"}, {"ts": "2026-07-01T07:06:50.640005Z", "type": "neural.broadcast.completed", "source": "25-neural-broadcast.sh"}], "outputs": [{"agent": "libraries", "file": "ranked_repos.json", "date": "2026-07-01T07:06:49.751227Z"}, {"agent": "10", "file": "10-writer-content_2026-07-01.json", "date": "2026-07-01T07:06:45.567985Z"}, {"agent": "09", "file": "09-researcher-scan_2026-07-01.json", "date": "2026-07-01T07:06:45.537918Z"}, {"agent": "libraries", "file": "daily_ingest_2026-07-01_08-47.json", "date": "2026-07-01T06:47:43.906945Z"}, {"agent": "x", "file": "trends_2026-07-01.json", "date": "2026-07-01T06:47:29.988404Z"}, {"agent": "x", "file": "trends_2026-06-30.json", "date": "2026-06-30T21:57:51.490912Z"}, {"agent": "10", "file": "10-writer-content_2026-06-30.json", "date": "2026-06-30T21:55:26.342461Z"}, {"agent": "09", "file": "09-researcher-scan_2026-06-30.json", "date": "2026-06-30T21:55:26.313842Z"}]};
   </script>
 
   <script>
     async function loadData() {
-      try {
-        // Try to fetch fresh data when served over HTTP
-        const res = await fetch('data.json');
-        if (res.ok) return await res.json();
-      } catch (e) {
-        // file:// protocol or missing file: fall back to inline data
-        console.log('fetch data.json failed, using embedded data:', e.message);
+      // Use embedded data by default. It is built at the same time as the HTML
+      // and guarantees the dashboard works via file://, GitHub Pages, or cache.
+      if (window.DASHBOARD_DATA) {
+        // Optional: try to refresh from data.json in the background, but do not block
+        try {
+          const res = await fetch('data.json?_=' + Date.now());
+          if (res.ok) {
+            const fresh = await res.json();
+            // If fresh data differs, re-render (only useful when served via HTTP)
+            if (fresh && fresh.generated_at !== window.DASHBOARD_DATA.generated_at) {
+              window.DASHBOARD_DATA = fresh;
+              init();
+            }
+          }
+        } catch (e) {
+          // ignore: file://, offline, or cached old data
+        }
+        return window.DASHBOARD_DATA;
       }
-      // Embedded at build time so the dashboard works when opened directly
-      return window.DASHBOARD_DATA || null;
+      // Fallback for unbuilt HTML (should not happen after build_standalone.py)
+      try {
+        const res = await fetch('data.json?_=' + Date.now());
+        if (res.ok) return await res.json();
+      } catch (e) {}
+      return null;
     }
 
     function renderOutputs(data) {
