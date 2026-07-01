@@ -23,6 +23,9 @@ def classify_intent(text: str) -> dict:
         ("business", ["verkauf", "kunde", "produkt", "umsatz", "sales", "launch", "preis"]),
         ("legal", ["recht", "anwalt", "frist", "beweis", "klage", "legal"]),
         ("bma", ["bma", "brandmelde", "angebot", "norm", "vds"]),
+        ("mail", ["mail", "email", "e-mail", "ungelesene mails", "posteingang", "inbox"]),
+        ("calendar", ["kalender", "calendar", "termine", "heute", "besprechung", "meeting"]),
+        ("messages", ["nachrichten", "messages", "sms", "imessage", "chat"]),
         ("system", ["status", "speicher", "disk", "cron", "backup", "health"]),
         ("general", []),
     ]
@@ -41,6 +44,9 @@ def route_to_hermes(intent: dict, text: str) -> dict:
         "business": ("sales", "sales_inbox"),
         "legal": ("legal_assistant", "scan"),
         "bma": ("bma_assistant", "check_norm"),
+        "mail": ("executive_assistant", "read_mail"),
+        "calendar": ("executive_assistant", "read_calendar"),
+        "messages": ("executive_assistant", "read_messages"),
         "system": ("cto", "tech_health"),
         "general": ("hermes_orchestrator", "route"),
     }

@@ -9,6 +9,7 @@ HOME = Path.home()
 REPO = HOME / "ai-empire" / "projects" / "hermes-archi"
 TEMPLATE = REPO / "templates" / "one-person-ai-agent-company"
 MQC = HOME / "ai-empire" / "projects" / "hermes-archi" / "projects" / "mac-personal-ai-os"
+CONNECTORS = MQC / "core" / "connectors"
 
 SKILL_MAP = {
     "morning_queue": {
@@ -48,6 +49,21 @@ SKILL_MAP = {
         "cmd": ["bash", str(REPO / "ops" / "cron" / "20-loop-review.sh")],
         "cwd": str(REPO),
     },
+    "read_mail": {
+        "cmd": ["python3", str(CONNECTORS / "mail_connector.py"), "--json", "--limit", "10"],
+        "cwd": str(MQC),
+        "passthrough_flags": ["--limit"],
+    },
+    "read_calendar": {
+        "cmd": ["python3", str(CONNECTORS / "calendar_connector.py"), "--json", "--days", "1"],
+        "cwd": str(MQC),
+        "passthrough_flags": ["--days"],
+    },
+    "read_messages": {
+        "cmd": ["python3", str(CONNECTORS / "messages_connector.py"), "--json", "--limit", "10"],
+        "cwd": str(MQC),
+        "passthrough_flags": ["--limit"],
+    },
     "update_memory": {
         "cmd": ["python3", str(MQC / "learned-skills" / "memory_update_session_end.py")],
     },
@@ -73,6 +89,11 @@ def run_skill(task_name: str, payload: dict = None) -> dict:
     if meta.get("passthrough_query"):
         query = payload.get("text", "")
         cmd = cmd + [query]
+    if meta.get("passthrough_flags"):
+        for flag in meta["passthrough_flags"]:
+            value = payload.get(flag.lstrip("-").replace("-", "_"))
+            if value:
+                cmd = cmd + [flag, str(value)]
 
     if meta.get("needs_queue"):
         date = datetime.now().strftime("%Y-%m-%d")
