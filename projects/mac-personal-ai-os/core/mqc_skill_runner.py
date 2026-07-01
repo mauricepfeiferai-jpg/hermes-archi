@@ -54,6 +54,12 @@ SKILL_MAP = {
     "executive_morning_routine": {
         "cmd": ["python3", str(MQC / "learned-skills" / "run_executive_morning_routine.py")],
     },
+
+    "web_search": {
+        "cmd": ["python3", str(MQC / "core" / "web_search.py"), "--json"],
+        "cwd": str(MQC),
+        "passthrough_query": True,
+    },
 }
 
 
@@ -64,6 +70,10 @@ def run_skill(task_name: str, payload: dict = None) -> dict:
         return {"status": "unknown_task", "task": task_name, "known_tasks": list(SKILL_MAP.keys())}
     cmd = meta["cmd"]
     cwd = meta.get("cwd")
+    if meta.get("passthrough_query"):
+        query = payload.get("text", "")
+        cmd = cmd + [query]
+
     if meta.get("needs_queue"):
         date = datetime.now().strftime("%Y-%m-%d")
         queue_md = TEMPLATE / "ceo" / "outputs" / f"morning_queue_{date}.md"

@@ -17,6 +17,7 @@ def classify_intent(text: str) -> dict:
     t = text.lower()
     intents = [
         ("morning_routine", ["morgen", "morning", "tagesplan", "daily", "routine", "starte meinen tag", "starte den tag", "tag starten", "executive briefing", "briefing"]),
+        ("web_search", ["suche nach", "suche im web", "web suche", "google nach", "duckduckgo", "recherchiere", "recherche im internet", "look up online", "search the web"]),
         ("research", ["recherch", "finde", "suche", "research", "look up", "summarize"]),
         ("engineering", ["code", "programm", "implement", "deploy", "fix", "bug", "test"]),
         ("business", ["verkauf", "kunde", "produkt", "umsatz", "sales", "launch", "preis"]),
@@ -34,6 +35,7 @@ def classify_intent(text: str) -> dict:
 def route_to_hermes(intent: dict, text: str) -> dict:
     mapping = {
         "morning_routine": ("executive_assistant", "executive_morning_routine"),
+        "web_search": ("research_assistant", "web_search"),
         "research": ("researcher", "research_scan"),
         "engineering": ("engineer", "engineer_ship"),
         "business": ("sales", "sales_inbox"),
