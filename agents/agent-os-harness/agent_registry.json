@@ -84,18 +84,19 @@
     },
     {
       "id": "kimi_api",
-      "name": "Kimi / Moonshot API",
+      "name": "Ollama Cloud (legacy kimi_api alias)",
       "role": "fast_reasoning",
-      "runtime": "openai-api",
-      "endpoint": "https://api.moonshot.ai/v1",
-      "model": "kimi-k2.7-code",
+      "runtime": "ollama_cloud",
+      "endpoint": "http://localhost:11434/api/generate",
+      "model": "deepseek-v4-flash:cloud",
       "tools": [
         "completion",
         "json"
       ],
       "dispatch_format": "api_call",
       "priority": 5,
-      "enabled": true
+      "enabled": true,
+      "note": "Kimi API suspended; routed to Ollama Cloud via local Ollama"
     },
     {
       "id": "ollama_cloud",

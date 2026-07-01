@@ -101,20 +101,32 @@ def dispatch_to_codex(prompt, workdir=None):
 
 
 def dispatch_to_kimi(prompt):
-    """Send task to Kimi / Moonshot API."""
-    api_key = os.environ.get("MOONSHOT_API_KEY")
-    if not api_key:
-        return {"error": "MOONSHOT_API_KEY not set"}
-    base_url = os.environ.get("MOONSHOT_BASE_URL", "https://api.moonshot.ai/v1")
+    """Legacy alias: Kimi API is suspended (insufficient balance).
+    Routes to Ollama Cloud deepseek-v4-flash:cloud via local Ollama HTTP API.
+    """
+    return dispatch_to_ollama_cloud(prompt, model="deepseek-v4-flash:cloud")
+
+
+def dispatch_to_ollama_cloud(prompt, model="deepseek-v4-flash:cloud"):
+    """Send task to Ollama Cloud via local Ollama HTTP API."""
+    import requests
     try:
-        import openai
-        client = openai.OpenAI(api_key=api_key, base_url=base_url)
-        resp = client.chat.completions.create(
-            model="kimi-k2.7-code",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=4000,
-        )
-        return {"content": resp.choices[0].message.content, "usage": str(resp.usage)}
+        url = "http://localhost:11434/api/generate"
+        payload = {
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {"temperature": 0.0},
+        }
+        r = requests.post(url, json=payload, timeout=120)
+        r.raise_for_status()
+        data = r.json()
+        return {
+            "content": data.get("response", ""),
+            "model": model,
+            "eval_count": data.get("eval_count", 0),
+            "prompt_eval_count": data.get("prompt_eval_count", 0),
+        }
     except Exception as e:
         return {"error": str(e)}
 

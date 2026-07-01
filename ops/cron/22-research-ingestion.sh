@@ -55,31 +55,26 @@ try:
 except Exception as e:
     discovered.append({"source": "hackernews", "count": 0, "error": str(e)})
 
-# Kimi fallback if GitHub gave no results
+# Ollama Cloud fallback if GitHub gave no results
 if not any(d.get("count", 0) > 0 and d.get("source") == "github_search" for d in discovered):
-    print("🤖 Kimi fallback...")
+    print("🤖 Ollama Cloud fallback...")
     try:
-        api_key = os.environ.get("MOONSHOT_API_KEY")
-        if api_key:
-            import openai
-            client = openai.OpenAI(api_key=api_key, base_url="https://api.moonshot.ai/v1")
-            resp = client.chat.completions.create(
-                model="kimi-k2.7-code",
-                messages=[{"role": "user", "content": "List 10 trending open-source AI agent / LLM / MCP repos launched in the last 7 days. Return JSON array with keys: owner, repo, hint, stars, url."}],
-                max_tokens=2000,
-            )
-            content = resp.choices[0].message.content
-            start = content.find("[")
-            end = content.rfind("]")
-            if start >= 0 and end > start:
-                items = json.loads(content[start:end+1])
-                discovered.append({"source": "kimi_fallback", "count": len(items), "items": items})
-            else:
-                discovered.append({"source": "kimi_fallback", "count": 0, "note": "no JSON array found"})
+        import requests
+        url = "http://localhost:11434/api/generate"
+        prompt = "List 10 trending open-source AI agent / LLM / MCP repos launched in the last 7 days. Return JSON array with keys: owner, repo, hint, stars, url."
+        payload = {"model": "deepseek-v4-flash:cloud", "prompt": prompt, "stream": False, "options": {"temperature": 0.0}}
+        r = requests.post(url, json=payload, timeout=120)
+        r.raise_for_status()
+        content = r.json().get("response", "")
+        start = content.find("[")
+        end = content.rfind("]")
+        if start >= 0 and end > start:
+            items = json.loads(content[start:end+1])
+            discovered.append({"source": "ollama_cloud_fallback", "count": len(items), "items": items})
         else:
-            discovered.append({"source": "kimi_fallback", "count": 0, "note": "MOONSHOT_API_KEY not set"})
+            discovered.append({"source": "ollama_cloud_fallback", "count": 0, "note": "no JSON array found"})
     except Exception as e:
-        discovered.append({"source": "kimi_fallback", "count": 0, "error": str(e)})
+        discovered.append({"source": "ollama_cloud_fallback", "count": 0, "error": str(e)})
 
 total = sum(d.get("count", 0) for d in discovered)
 result = {"date": date, "time": time, "source": "22-research-ingestion.sh", "total": total, "discovered": discovered}
@@ -103,7 +98,7 @@ print(f"🧠 Neural bus: library.entry ({total} items)")
 
 nugget = ("# GOLD NUGGET — Research Ingest " + date + " " + time + "\n\n" +
           "Datum: " + date + " " + time + "\n" +
-          "Source: GitHub Search / arXiv / HackerNews / Kimi Fallback\n" +
+          "Source: GitHub Search / arXiv / HackerNews / Ollama Cloud Fallback\n" +
           "File: " + str(outfile) + "\n\n" +
           "Zusammenfassung\n- " + str(total) + " Eintraege entdeckt\n" +
           "- Sources: " + ", ".join(d.get("source") for d in discovered) + "\n\n" +

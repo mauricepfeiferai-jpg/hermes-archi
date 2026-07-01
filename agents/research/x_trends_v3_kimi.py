@@ -5,7 +5,7 @@ No X API key, no paid API. Uses free sources:
 - GitHub Search API (AI repos, code trends)
 - Hacker News RSS (tech discussions)
 - arXiv cs.AI RSS (research trends)
-- Ollama Cloud synthesis (generate trend theses from collected data)
+- Kimi / Ollama synthesis (generate trend theses from collected data)
 - Deterministic mock fallback (pipeline always runs)
 
 Optional: Agent Reach twitter-cli with cookie (when available).
@@ -14,11 +14,6 @@ import json, os, re, subprocess
 from pathlib import Path
 from datetime import datetime, timezone
 from urllib.parse import quote
-
-# Ollama Cloud synthesis (replaces Kimi)
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'control-plane' / 'hermes'))
-from ollama_cloud_client import generate_json_array as ollama_generate_json_array
 
 import requests
 
@@ -136,25 +131,39 @@ def agent_reach_twitter_search(keyword):
         return {"source": "agent_reach_twitter", "keyword": keyword, "error": str(e)}
 
 
-def ollama_synthesize(keyword, collected_items):
-    """Use Ollama Cloud to synthesize 3 trend theses from collected free sources."""
-    context = "\n".join(
-        f"- {it.get('title', '')}: {it.get('summary', '')}"
-        for src in collected_items
-        for it in src.get("items", [])
-    )
-    prompt = f"""Keyword: {keyword}
+def kimi_synthesize(keyword, collected_items):
+    """Use Kimi to synthesize 3 trend theses from collected free sources."""
+    api_key = os.environ.get("MOONSHOT_API_KEY")
+    if not api_key:
+        return {"source": "kimi_synthesize", "keyword": keyword, "error": "MOONSHOT_API_KEY not set"}
+    try:
+        import openai
+        client = openai.OpenAI(api_key=api_key, base_url="https://api.moonshot.ai/v1")
+        context = "\n".join(
+            f"- {it.get('title', '')}: {it.get('summary', '')}"
+            for src in collected_items
+            for it in src.get("items", [])
+        )
+        prompt = f"""Keyword: {keyword}
 Based ONLY on the following collected items, return a JSON array of 3 trend theses.
 Each object must have: title, summary, opportunity.
 Collected items:
 {context[:2000]}
 
 Return ONLY a JSON array. No explanation."""
-    try:
-        items = ollama_generate_json_array(prompt, model="deepseek-v4-flash:cloud", timeout=120)
-        return {"source": "ollama_cloud_synthesize", "keyword": keyword, "items": items}
+        resp = client.chat.completions.create(
+            model="kimi-k2.7-code",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=600,
+            timeout=20,
+        )
+        content = resp.choices[0].message.content
+        start = content.find("[")
+        end = content.rfind("]")
+        items = json.loads(content[start:end + 1]) if start >= 0 and end > start else []
+        return {"source": "kimi_synthesize", "keyword": keyword, "items": items}
     except Exception as e:
-        return {"source": "ollama_cloud_synthesize", "keyword": keyword, "error": str(e)}
+        return {"source": "kimi_synthesize", "keyword": keyword, "error": str(e)}
 
 
 
@@ -222,7 +231,7 @@ def query_keyword(keyword):
 
     # Synthesis if we have collected data
     if collected:
-        result = ollama_synthesize(keyword, collected)
+        result = kimi_synthesize(keyword, collected)
         if not result.get("error") and result.get("items"):
             collected.append(result)
             return {
